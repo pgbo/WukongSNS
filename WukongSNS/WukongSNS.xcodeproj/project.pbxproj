@@ -18,6 +18,8 @@
 		59C745EF1B4694B0005A314F /* Unlike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C745EE1B4694B0005A314F /* Unlike.swift */; };
 		59C745F11B469A7C005A314F /* WKUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C745F01B469A7C005A314F /* WKUser.swift */; };
 		686ECBFAFB75FF64CA444329 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9FBB14AB3DC9A0A26B99552 /* libPods.a */; };
+		86451BF91B48314C005096E7 /* WSRoleSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86451BF81B48314C005096E7 /* WSRoleSelectVC.swift */; };
+		86451BFB1B483271005096E7 /* WSSelectRoleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86451BFA1B483271005096E7 /* WSSelectRoleCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +37,8 @@
 		59C745EC1B4694A2005A314F /* Like.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Like.swift; sourceTree = "<group>"; };
 		59C745EE1B4694B0005A314F /* Unlike.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unlike.swift; sourceTree = "<group>"; };
 		59C745F01B469A7C005A314F /* WKUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKUser.swift; sourceTree = "<group>"; };
+		86451BF81B48314C005096E7 /* WSRoleSelectVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSRoleSelectVC.swift; sourceTree = "<group>"; };
+		86451BFA1B483271005096E7 /* WSSelectRoleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSSelectRoleCell.swift; sourceTree = "<group>"; };
 		9F22A88AB0E8E29C59438C27 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		C9FBB14AB3DC9A0A26B99552 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -72,25 +76,18 @@
 		59C745B71B46835B005A314F /* WukongSNS */ = {
 			isa = PBXGroup;
 			children = (
-				59C745D81B4683CA005A314F /* 3part */,
+				86451BF31B483127005096E7 /* 3part */,
+				86451BF41B483127005096E7 /* Network */,
+				86451BF51B483127005096E7 /* Util */,
+				86451BF61B483127005096E7 /* VC */,
+				86451BF71B483127005096E7 /* View */,
 				59C745D91B4683CA005A314F /* Application */,
 				59C745DD1B4683CA005A314F /* Model */,
-				59C745DF1B4683CA005A314F /* Network */,
-				59C745E01B4683CA005A314F /* Util */,
-				59C745E11B4683CA005A314F /* VC */,
-				59C745E31B4683CA005A314F /* View */,
 				59C745BE1B46835C005A314F /* Main.storyboard */,
 				59C745C11B46835C005A314F /* Images.xcassets */,
 				59C745C31B46835C005A314F /* LaunchScreen.xib */,
 			);
 			path = WukongSNS;
-			sourceTree = "<group>";
-		};
-		59C745D81B4683CA005A314F /* 3part */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = 3part;
 			sourceTree = "<group>";
 		};
 		59C745D91B4683CA005A314F /* Application */ = {
@@ -116,30 +113,39 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		59C745DF1B4683CA005A314F /* Network */ = {
+		86451BF31B483127005096E7 /* 3part */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = 3part;
+			sourceTree = "<group>";
+		};
+		86451BF41B483127005096E7 /* Network */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = Network;
 			sourceTree = "<group>";
 		};
-		59C745E01B4683CA005A314F /* Util */ = {
+		86451BF51B483127005096E7 /* Util */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = Util;
 			sourceTree = "<group>";
 		};
-		59C745E11B4683CA005A314F /* VC */ = {
+		86451BF61B483127005096E7 /* VC */ = {
 			isa = PBXGroup;
 			children = (
+				86451BF81B48314C005096E7 /* WSRoleSelectVC.swift */,
 			);
 			path = VC;
 			sourceTree = "<group>";
 		};
-		59C745E31B4683CA005A314F /* View */ = {
+		86451BF71B483127005096E7 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				86451BFA1B483271005096E7 /* WSSelectRoleCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -269,6 +275,8 @@
 				59C745ED1B4694A2005A314F /* Like.swift in Sources */,
 				59C745EB1B468E65005A314F /* ImageInfo.swift in Sources */,
 				59C745E41B4683CA005A314F /* AppDelegate.swift in Sources */,
+				86451BFB1B483271005096E7 /* WSSelectRoleCell.swift in Sources */,
+				86451BF91B48314C005096E7 /* WSRoleSelectVC.swift in Sources */,
 				59C745E61B4683CA005A314F /* DongTai.swift in Sources */,
 				59C745E91B468DC8005A314F /* UserRole.swift in Sources */,
 				59C745EF1B4694B0005A314F /* Unlike.swift in Sources */,
