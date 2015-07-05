@@ -17,13 +17,14 @@
 		59C745ED1B4694A2005A314F /* Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C745EC1B4694A2005A314F /* Like.swift */; };
 		59C745EF1B4694B0005A314F /* Unlike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C745EE1B4694B0005A314F /* Unlike.swift */; };
 		59C745F11B469A7C005A314F /* WKUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C745F01B469A7C005A314F /* WKUser.swift */; };
-		686ECBFAFB75FF64CA444329 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9FBB14AB3DC9A0A26B99552 /* libPods.a */; };
 		86451BF91B48314C005096E7 /* WSRoleSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86451BF81B48314C005096E7 /* WSRoleSelectVC.swift */; };
 		86451BFB1B483271005096E7 /* WSSelectRoleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86451BFA1B483271005096E7 /* WSSelectRoleCell.swift */; };
+		D87D88FBD2589832879EDC7F /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B934AA20158728414170269 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		11FDAE587E783B272DE77859 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		2B934AA20158728414170269 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		59C745B51B46835B005A314F /* WukongSNS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WukongSNS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59C745BF1B46835C005A314F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		59C745C11B46835C005A314F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -40,7 +41,6 @@
 		86451BF81B48314C005096E7 /* WSRoleSelectVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSRoleSelectVC.swift; sourceTree = "<group>"; };
 		86451BFA1B483271005096E7 /* WSSelectRoleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSSelectRoleCell.swift; sourceTree = "<group>"; };
 		9F22A88AB0E8E29C59438C27 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		C9FBB14AB3DC9A0A26B99552 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,7 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				686ECBFAFB75FF64CA444329 /* libPods.a in Frameworks */,
+				D87D88FBD2589832879EDC7F /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,7 +153,7 @@
 		8DC8101B694F3227066AF0D7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C9FBB14AB3DC9A0A26B99552 /* libPods.a */,
+				2B934AA20158728414170269 /* Pods.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -179,6 +179,7 @@
 				59C745B21B46835B005A314F /* Frameworks */,
 				59C745B31B46835B005A314F /* Resources */,
 				3796705CD14A210C0D3A9E6A /* Copy Pods Resources */,
+				A2F7A04F2644C7CE31663F6A /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -262,6 +263,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A2F7A04F2644C7CE31663F6A /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

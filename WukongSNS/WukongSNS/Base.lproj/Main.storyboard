@@ -49,9 +49,12 @@
                                             </constraints>
                                         </imageView>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JDF-Dd-ugn">
-                                            <rect key="frame" x="66" y="8" width="452" height="48"/>
+                                            <rect key="frame" x="68" y="8" width="456" height="48"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="48" id="VwA-Pa-jhA"/>
+                                            </constraints>
+                                            <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
@@ -71,10 +74,9 @@
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="J5K-h8-dxs" secondAttribute="trailing" constant="8" id="GL6-C4-mxN"/>
                                         <constraint firstAttribute="centerY" secondItem="aUn-Gh-UKD" secondAttribute="centerY" id="M07-vF-cJw"/>
-                                        <constraint firstItem="J5K-h8-dxs" firstAttribute="leading" secondItem="JDF-Dd-ugn" secondAttribute="trailing" constant="16" id="PRQ-co-the"/>
+                                        <constraint firstItem="J5K-h8-dxs" firstAttribute="leading" secondItem="JDF-Dd-ugn" secondAttribute="trailing" constant="10" id="PRQ-co-the"/>
                                         <constraint firstAttribute="trailing" secondItem="ksd-0v-qHa" secondAttribute="trailing" id="Xi8-iH-OQJ"/>
-                                        <constraint firstItem="JDF-Dd-ugn" firstAttribute="leading" secondItem="aUn-Gh-UKD" secondAttribute="trailing" constant="8" id="Yvc-nL-e1w"/>
-                                        <constraint firstAttribute="bottom" secondItem="JDF-Dd-ugn" secondAttribute="bottom" constant="8" id="ZmW-I1-Rb4"/>
+                                        <constraint firstItem="JDF-Dd-ugn" firstAttribute="leading" secondItem="aUn-Gh-UKD" secondAttribute="trailing" constant="10" id="Yvc-nL-e1w"/>
                                         <constraint firstItem="JDF-Dd-ugn" firstAttribute="top" secondItem="0oT-6O-Jdz" secondAttribute="top" constant="8" id="b6r-X1-nf6"/>
                                         <constraint firstItem="ksd-0v-qHa" firstAttribute="top" secondItem="0oT-6O-Jdz" secondAttribute="top" id="e0s-8J-UHz"/>
                                         <constraint firstItem="ksd-0v-qHa" firstAttribute="leading" secondItem="0oT-6O-Jdz" secondAttribute="leading" constant="8" id="nVv-sP-tLL"/>
@@ -85,6 +87,7 @@
                                 <connections>
                                     <outlet property="roleAvatarView" destination="aUn-Gh-UKD" id="Pxp-zV-NtQ"/>
                                     <outlet property="roleTextView" destination="JDF-Dd-ugn" id="tNz-ap-9Wt"/>
+                                    <outlet property="roleTextViewHeightConstrait" destination="VwA-Pa-jhA" id="hr7-6a-j0z"/>
                                     <outlet property="selectRoleButton" destination="J5K-h8-dxs" id="JBk-fC-JA4"/>
                                     <outlet property="topSeperator" destination="ksd-0v-qHa" id="vWq-xE-Lv1"/>
                                 </connections>

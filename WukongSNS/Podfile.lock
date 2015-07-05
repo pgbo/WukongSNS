@@ -6,17 +6,20 @@ PODS:
     - AVOSCloud
   - AVOSCloudSNS (3.1.2.6):
     - AVOSCloud
+  - HanekeSwift (0.9.1)
 
 DEPENDENCIES:
   - AVOSCloud
   - AVOSCloudCrashReporting
   - AVOSCloudIM
   - AVOSCloudSNS
+  - HanekeSwift
 
 SPEC CHECKSUMS:
   AVOSCloud: a2fc903a1aee5a346f0fb839f92617378fffd2ed
   AVOSCloudCrashReporting: 6ea22bf56093c9bb2939680fd88989333ef12f0d
   AVOSCloudIM: f8610c1139eb143f8260c984b6de83b93d7cca57
   AVOSCloudSNS: 2310d5a478bfb31e1a2af85a93f5dcbe82d83023
+  HanekeSwift: 50d37bfbc4432edc649167e538c259feccb4a2bb
 
-COCOAPODS: 0.34.2
+COCOAPODS: 0.38.0.beta.1

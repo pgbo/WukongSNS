@@ -2,3 +2,5 @@ pod 'AVOSCloud'
 pod 'AVOSCloudCrashReporting'
 pod 'AVOSCloudIM'
 pod 'AVOSCloudSNS'
+use_frameworks!
+pod 'HanekeSwift'
