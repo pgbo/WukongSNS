@@ -1,6 +1,8 @@
+platform :ios, '8.0'
+use_frameworks!
+
 pod 'AVOSCloud'
 pod 'AVOSCloudCrashReporting'
 pod 'AVOSCloudIM'
 pod 'AVOSCloudSNS'
-use_frameworks!
 pod 'HanekeSwift'
