@@ -16,11 +16,11 @@ let RoleTextViewMarginCellBottom = CGFloat(8.0)
 
 class WSSelectRoleCell: UITableViewCell {
     
-    @IBOutlet private var topSeperator:UIView?
-    @IBOutlet private var roleTextView:UITextView?
-    @IBOutlet private var roleAvatarView:UIImageView?
-    @IBOutlet private var selectRoleButton:UIButton?
-    @IBOutlet private var roleTextViewHeightConstrait:NSLayoutConstraint?
+    @IBOutlet private weak var topSeperator:UIView?
+    @IBOutlet private weak var roleTextView:UITextView?
+    @IBOutlet private weak var roleAvatarView:UIImageView?
+    @IBOutlet private weak var selectRoleButton:UIButton?
+    @IBOutlet private weak var roleTextViewHeightConstrait:NSLayoutConstraint?
 
     var showTopSeperator:Bool {
         get {
