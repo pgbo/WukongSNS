@@ -9,15 +9,5 @@ target 'WukongSNS', :exclusive => true do
     pod 'HanekeSwift'
     pod 'SVProgressHUD', '~> 1.1.2'
     pod "UpRefreshControl", :git => "https://github.com/pgbo/UpRefreshControl.git"
-    pod "UpLoadMoreControl", :git => "https://github.com/pgbo/UpLoadMoreControl.git"
-    
-end
-
-
-target 'Crawler', :exclusive => true do
-    pod 'AVOSCloud'
-    pod 'AVOSCloudCrashReporting'
-    pod 'HanekeSwift'
-    pod 'SVProgressHUD', '~> 1.1.2'
-    
+    pod "UpLoadMoreControl", :git => "https://github.com/pgbo/UpLoadMoreControl.git" 
 end

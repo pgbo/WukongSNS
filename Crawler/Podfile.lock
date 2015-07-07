@@ -1,0 +1,16 @@
+PODS:
+  - Alamofire (1.2.3)
+  - HanekeSwift (0.9.1)
+  - SVProgressHUD (1.1.3)
+
+DEPENDENCIES:
+  - Alamofire (~> 1.2)
+  - HanekeSwift
+  - SVProgressHUD (~> 1.1.2)
+
+SPEC CHECKSUMS:
+  Alamofire: 5550bf0b575ed1a4bf9be572f9463e1015cc169e
+  HanekeSwift: 50d37bfbc4432edc649167e538c259feccb4a2bb
+  SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
+
+COCOAPODS: 0.38.0.beta.2
