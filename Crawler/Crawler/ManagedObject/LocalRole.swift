@@ -11,9 +11,9 @@ import CoreData
 
 class LocalRole: NSManagedObject {
 
-    @NSManaged var name: String
-    @NSManaged var desp: String
-    @NSManaged var gender: NSNumber
-    @NSManaged var avatarUrls: AnyObject
+    @NSManaged var name: String?
+    @NSManaged var desp: String?
+    @NSManaged var gender: NSNumber?
+    @NSManaged var avatarUrls: AnyObject?
 
 }

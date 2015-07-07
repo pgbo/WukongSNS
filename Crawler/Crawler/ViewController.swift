@@ -11,6 +11,7 @@ import Haneke
 import SVProgressHUD
 import AVOSCloud
 import Alamofire
+import CoreData
 
 let RoleGroupClassName = "RoleGroup"
 let RoleClassName = "Role"
@@ -20,6 +21,11 @@ class ViewController: UIViewController {
 
     @IBOutlet private weak var originRoleGroupCountLabel:UILabel?
     @IBOutlet private weak var originRoleCountLabel:UILabel?
+    
+    @IBOutlet private weak var localRoleGroupCountLabel:UILabel?
+    @IBOutlet private weak var localRoleCountLabel:UILabel?
+    
+    @IBOutlet private weak var clearLocalDataButton:UIButton?
     @IBOutlet private weak var startCrawlerButton:UIButton?
     @IBOutlet private weak var uploadDataButton:UIButton?
     
@@ -31,6 +37,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        clearLocalDataButton?.addTarget(self, action:"clearLocalData", forControlEvents: UIControlEvents.TouchUpInside)
+        
         startCrawlerButton?.addTarget(self, action:"startCrawl", forControlEvents: UIControlEvents.TouchUpInside)
         
         uploadDataButton?.addTarget(self, action:"uploadData", forControlEvents: UIControlEvents.TouchUpInside)
@@ -38,9 +46,30 @@ class ViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        UIImageView().hnk_setImage(UIImage(), animated: false) { (image:UIImage!) -> () in
-            
-        }
+        
+        let managedObjCtx = AppDelegate.instanse().managedObjectContext
+        
+        // 获取本地数据
+        let localRoleGroupDescription =
+        NSEntityDescription.entityForName("LocalRoleGroup",
+            inManagedObjectContext: managedObjCtx!)
+        
+        let groupRequest = NSFetchRequest()
+        groupRequest.entity = localRoleGroupDescription
+        groupRequest.resultType = NSFetchRequestResultType.CountResultType
+        var error: NSError?
+        let groupCount = managedObjCtx?.countForFetchRequest(groupRequest, error: &error)
+        localRoleGroupCountLabel?.text = "\(groupCount)"
+        
+        let localRoleDescription =
+        NSEntityDescription.entityForName("LocalRole",
+            inManagedObjectContext: managedObjCtx!)
+        
+        let roleRequest = NSFetchRequest()
+        roleRequest.entity = localRoleDescription
+        roleRequest.resultType = NSFetchRequestResultType.CountResultType
+        let roleCount = managedObjCtx?.countForFetchRequest(roleRequest, error: &error)
+        localRoleCountLabel?.text = "\(roleCount)"
         
         // 获取原数据
         SVProgressHUD.showWithStatus("获取原数据中...", maskType: SVProgressHUDMaskType.Clear)
@@ -70,6 +99,40 @@ class ViewController: UIViewController {
         }
         
     }
+    
+    internal func clearLocalData() {
+        let managedObjCtx = AppDelegate.instanse().managedObjectContext
+        
+        // 获取本地数据
+        let localRoleGroupDescription =
+        NSEntityDescription.entityForName("LocalRoleGroup",
+            inManagedObjectContext: managedObjCtx!)
+        
+        let groupRequest = NSFetchRequest()
+        groupRequest.entity = localRoleGroupDescription
+        var error: NSError?
+        let groupResults = managedObjCtx?.executeFetchRequest(groupRequest, error: &error) as! [NSManagedObject]
+        if groupResults.count > 0 {
+            for obj in groupResults {
+                managedObjCtx?.deleteObject(obj)
+            }
+        }
+        localRoleGroupCountLabel?.text = "\(0)"
+        
+        let localRoleDescription =
+        NSEntityDescription.entityForName("LocalRole",
+            inManagedObjectContext: managedObjCtx!)
+        
+        let roleRequest = NSFetchRequest()
+        roleRequest.entity = localRoleDescription
+        let roleResults = managedObjCtx?.executeFetchRequest(roleRequest, error: &error) as! [NSManagedObject]
+        if roleResults.count > 0 {
+            for obj in groupResults {
+                managedObjCtx?.deleteObject(obj)
+            }
+        }
+        localRoleCountLabel?.text = "\(0)"
+    }
 
     internal func startCrawl() {
         
@@ -79,17 +142,20 @@ class ViewController: UIViewController {
                 dispatch_group_enter(ExtStrongSelf.crawlRoleGroupDataGroup!)
                 
                 // 爬取群组
-                SVProgressHUD.showSuccessWithStatus("爬取群组...", maskType: SVProgressHUDMaskType.Clear)
+                dispatch_async(dispatch_get_main_queue()){
+                    SVProgressHUD.showWithStatus("爬取群组...", maskType: SVProgressHUDMaskType.Clear)
+                }
+                
                 Alamofire.request(.GET, "http://api.mrpyq.com/user/user_groups?access_token=\(CrawlMRPYQ_AccessToken)").responseJSON(options: NSJSONReadingOptions()) { [weak self] (request, response, dictionary, error) -> Void in
                     if let strongSelf = self {
                         if let jsonObj = dictionary as? [String:AnyObject] {
                             let items = jsonObj["items"] as! [[String:AnyObject]]
                             for itemObj in items {
                                 // 保存群组到本地
-                                let localGroup = LocalRoleGroup()
-                                localGroup.name = (itemObj["name"] as? String)!
-                                AppDelegate.instanse().managedObjectContext?.insertObject(localGroup)
-                                println("保存角色组到数据库:\(localGroup)")
+                                let newlocalGroup = NSEntityDescription.insertNewObjectForEntityForName("LocalRoleGroup", inManagedObjectContext: AppDelegate.instanse().managedObjectContext!) as! LocalRoleGroup
+                                
+                                newlocalGroup.name = (itemObj["name"] as? String)!
+                                println("保存角色组到数据库:\(newlocalGroup)")
                             }
                             strongSelf.crawlRoleGroupNumber = items.count
                         } else {
@@ -101,9 +167,10 @@ class ViewController: UIViewController {
                 dispatch_group_wait(ExtStrongSelf.crawlRoleGroupDataGroup!, DISPATCH_TIME_FOREVER)
                 
                 
-                
                 // 爬取角色
-                SVProgressHUD.showSuccessWithStatus("爬取角色...", maskType: SVProgressHUDMaskType.Clear)
+                dispatch_async(dispatch_get_main_queue()){
+                    SVProgressHUD.setStatus("爬取角色...")
+                }
                 
                 var hasMore = true
                 var crawlIndex = 1
@@ -118,19 +185,21 @@ class ViewController: UIViewController {
                                 
                                 let items = jsonObj["items"] as! [[String:AnyObject]]
                                 for itemObj in items {
-                                    let localRole = LocalRole()
-                                    localRole.name = (itemObj["name"] as? String)!
-                                    localRole.desp = (itemObj["description"] as? String)!
+                                    
+                                    // 保存到本地
+                                    let newlocalRole = NSEntityDescription.insertNewObjectForEntityForName("LocalRole", inManagedObjectContext: AppDelegate.instanse().managedObjectContext!) as! LocalRole
+                                    
+                                    newlocalRole.name = (itemObj["name"] as? String)!
+                                    newlocalRole.desp = (itemObj["description"] as? String)!
                                     if let avatars = itemObj["avatars"] as? [[String:AnyObject]] {
                                         var avatarUrls:[String] = []
                                         for avatarObj in avatars {
                                             avatarUrls.append(avatarObj["headimg"] as! String)
                                         }
-                                        localRole.avatarUrls = avatarUrls
+                                        newlocalRole.avatarUrls = avatarUrls
                                     }
-                                    // 保存到本地
-                                    AppDelegate.instanse().managedObjectContext?.insertObject(localRole)
-                                    println("保存角色到数据库:\(localRole)")
+                                    
+                                    println("保存角色到数据库:\(newlocalRole)")
                                 }
                                 
                                 hasMore = jsonObj["pagemore"] as! Bool
@@ -148,13 +217,95 @@ class ViewController: UIViewController {
                 }
                 
                 ExtStrongSelf.crawlRoleNumber = crawlRoleCount
-                SVProgressHUD.showSuccessWithStatus("抓取的角色群组数量:\(ExtStrongSelf.crawlRoleGroupNumber), 抓取的角色数量:\(ExtStrongSelf.crawlRoleNumber)")
+                
+                dispatch_async(dispatch_get_main_queue()){
+                    SVProgressHUD.showSuccessWithStatus("抓取的角色群组数量:\(ExtStrongSelf.crawlRoleGroupNumber), 抓取的角色数量:\(ExtStrongSelf.crawlRoleNumber)")
+                }
             }
         }
     }
     
     internal func uploadData() {
-        // TODO:
+        
+        // 获取本地数据然后上传到服务端，上传成功后删除
+        
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)){ [weak self] () -> Void in
+         
+            if let strongSelf = self {
+        
+                // 上传群组数据
+                dispatch_async(dispatch_get_main_queue()){
+                    SVProgressHUD.showWithStatus("上传群组数据...", maskType: SVProgressHUDMaskType.Clear)
+                }
+                
+                let managedObjCtx = AppDelegate.instanse().managedObjectContext
+                
+                let localRoleGroupDescription =
+                NSEntityDescription.entityForName("LocalRoleGroup",
+                    inManagedObjectContext: managedObjCtx!)
+                
+                let groupRequest = NSFetchRequest()
+                groupRequest.entity = localRoleGroupDescription
+                var error: NSError?
+                let groupResults = managedObjCtx?.executeFetchRequest(groupRequest, error: &error) as! [LocalRoleGroup]
+                
+                // 最后删除
+                if groupResults.count > 0 {
+                    for obj in groupResults {
+                        
+                        var newGroup = RoleGroup()
+                        newGroup.name = obj.name
+                        if let groupDesp = obj.groupDesp {
+                            newGroup.groupDesp = groupDesp
+                        }
+                        
+                        if newGroup.save(&error) {
+                            managedObjCtx?.deleteObject(obj)
+                        }
+                    }
+                }
+                
+                
+                // 上传角色数据
+                dispatch_async(dispatch_get_main_queue()){
+                    SVProgressHUD.setStatus("上传角色数据...")
+                }
+                
+                let localRoleDescription =
+                NSEntityDescription.entityForName("LocalRole",
+                    inManagedObjectContext: managedObjCtx!)
+                
+                let roleRequest = NSFetchRequest()
+                roleRequest.entity = localRoleDescription
+                let roleResults = managedObjCtx?.executeFetchRequest(roleRequest, error: &error) as! [LocalRole]
+                
+                // 最后删除
+                if roleResults.count > 0 {
+                    for obj in roleResults {
+                        
+                        var newRole = UserRole()
+                        newRole.name = obj.name
+                        newRole.desp = obj.desp
+                        if let gender = obj.gender {
+                            newRole.gender = Gender(rawValue:gender.integerValue)
+                        }
+                        newRole.avatars = obj.avatarUrls as? [String]
+                        
+                        if newRole.save(&error) {
+                            managedObjCtx?.deleteObject(obj)
+                        }
+                    }
+                }
+                
+                dispatch_async(dispatch_get_main_queue()){
+                    SVProgressHUD.showSuccessWithStatus("上传群组和角色数据成功")
+                    
+                    strongSelf.localRoleGroupCountLabel?.text = "\(0)"
+                    strongSelf.localRoleCountLabel?.text = "\(0)"
+                }
+            }
+        }
     }
 }
 

@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="原角色分组数量" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3BU-qy-Ucn">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="服务端Role Group" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3BU-qy-Ucn">
                                 <rect key="frame" x="16" y="40" width="194" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="194" id="3bc-to-WbG"/>
@@ -37,7 +37,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="原库角色数量" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J9B-OE-Xq9">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="服务端Role" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J9B-OE-Xq9">
                                 <rect key="frame" x="16" y="69" width="194" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="194" id="1Rm-Cg-XDA"/>
@@ -57,16 +57,64 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="本地Role Group" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aom-XY-tUs">
+                                <rect key="frame" x="16" y="98" width="194" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="194" id="Kdg-jJ-bG7"/>
+                                    <constraint firstAttribute="height" constant="21" id="Zbv-Xa-OAe"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J5S-Ki-bB5">
+                                <rect key="frame" x="250" y="98" width="109" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="109" id="ZMe-6G-PH1"/>
+                                    <constraint firstAttribute="height" constant="21" id="oP9-Nu-p1a"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="本地Role" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wZZ-2l-5yT">
+                                <rect key="frame" x="16" y="127" width="194" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="5ap-zf-RUM"/>
+                                    <constraint firstAttribute="width" constant="194" id="TyR-eB-DSv"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r05-nv-cWG">
+                                <rect key="frame" x="250" y="127" width="109" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="109" id="8eK-s7-b19"/>
+                                    <constraint firstAttribute="height" constant="21" id="kLC-je-tD3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AJh-0f-9G3">
-                                <rect key="frame" x="16" y="150" width="343" height="42"/>
+                                <rect key="frame" x="16" y="184" width="343" height="42"/>
                                 <color key="backgroundColor" red="0.31192905329999998" green="0.78640879760000004" blue="0.72764750040000004" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="开始爬数据">
+                                <state key="normal" title="清空本地数据">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UXA-c9-4RJ">
-                                <rect key="frame" x="16" y="200" width="343" height="42"/>
+                                <rect key="frame" x="16" y="234" width="343" height="42"/>
+                                <color key="backgroundColor" red="0.10162291212395856" green="0.47846850212045061" blue="0.66666666669999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="开始爬数据">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SMZ-xG-b91">
+                                <rect key="frame" x="16" y="284" width="343" height="42"/>
                                 <color key="backgroundColor" red="0.66666666669999997" green="0.61427489489999998" blue="0.077740821010000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="上传数据">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -88,10 +136,13 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="clearLocalDataButton" destination="AJh-0f-9G3" id="C77-a0-F7t"/>
+                        <outlet property="localRoleCountLabel" destination="r05-nv-cWG" id="hKt-Au-1Jb"/>
+                        <outlet property="localRoleGroupCountLabel" destination="J5S-Ki-bB5" id="EgD-Nf-BHq"/>
                         <outlet property="originRoleCountLabel" destination="fy7-XN-zWa" id="KtB-dq-Xte"/>
                         <outlet property="originRoleGroupCountLabel" destination="uIv-HW-2mp" id="js8-dU-GH7"/>
-                        <outlet property="startCrawlerButton" destination="AJh-0f-9G3" id="L1M-JA-3nQ"/>
-                        <outlet property="uploadDataButton" destination="UXA-c9-4RJ" id="Wwo-Mg-fbu"/>
+                        <outlet property="startCrawlerButton" destination="UXA-c9-4RJ" id="aZR-BL-rJk"/>
+                        <outlet property="uploadDataButton" destination="SMZ-xG-b91" id="bK0-oH-csx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

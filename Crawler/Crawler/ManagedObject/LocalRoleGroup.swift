@@ -11,7 +11,7 @@ import CoreData
 
 class LocalRoleGroup: NSManagedObject {
 
-    @NSManaged var name: String
-    @NSManaged var roleDescription: String
+    @NSManaged var name: String?
+    @NSManaged var groupDesp: String?
 
 }

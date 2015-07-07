@@ -9,8 +9,8 @@
 import UIKit
 import AVOSCloud
 
-enum Gender {
-    case Male
+enum Gender: Int {
+    case Male = 0
     case Female
 }
 
@@ -21,5 +21,5 @@ class UserRole: AVObject {
     var name:String?
     var desp:String?
     var gender:Gender?
-    var avatars:[ImageInfo]?
+    var avatars:[String]?
 }
