@@ -1,0 +1,9 @@
+platform :ios, '8.0'
+use_frameworks!
+
+target 'PengYQ', :exclusive => true do
+    pod 'HanekeSwift'
+    pod 'SVProgressHUD', '~> 1.1.2'
+    pod "UpRefreshControl", :git => "https://github.com/pgbo/UpRefreshControl.git"
+    pod "UpLoadMoreControl", :git => "https://github.com/pgbo/UpLoadMoreControl.git" 
+end

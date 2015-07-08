@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		59A56C851B4CC35B00253301 /* AVObject+DongTai.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A56C841B4CC35B00253301 /* AVObject+DongTai.swift */; };
+		59A56C871B4CDF6E00253301 /* AVObject+WKUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A56C861B4CDF6E00253301 /* AVObject+WKUser.swift */; };
+		59A56C8B1B4CF2C200253301 /* AVObject+Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A56C8A1B4CF2C200253301 /* AVObject+Like.swift */; };
+		59A56C8D1B4CF88300253301 /* AVObject+Unlike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A56C8C1B4CF88300253301 /* AVObject+Unlike.swift */; };
+		59A56C8F1B4CF8E600253301 /* AVObject+Role.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A56C8E1B4CF8E600253301 /* AVObject+Role.swift */; };
+		59A56C911B4CF8F500253301 /* AVObject+RoleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A56C901B4CF8F500253301 /* AVObject+RoleGroup.swift */; };
 		59D13ACD1B4BB9EC002DCD9B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D13ACC1B4BB9EC002DCD9B /* AppDelegate.swift */; };
 		59D13AD01B4BB9EC002DCD9B /* Crawler.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 59D13ACE1B4BB9EC002DCD9B /* Crawler.xcdatamodeld */; };
 		59D13AD21B4BB9EC002DCD9B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D13AD11B4BB9EC002DCD9B /* ViewController.swift */; };
@@ -19,13 +25,6 @@
 		59D13AF51B4BBAFA002DCD9B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59D13AF41B4BBAFA002DCD9B /* MobileCoreServices.framework */; };
 		59D13AF71B4BBB01002DCD9B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59D13AF61B4BBB01002DCD9B /* CoreLocation.framework */; };
 		59D13AF91B4BBB0A002DCD9B /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 59D13AF81B4BBB0A002DCD9B /* libicucore.dylib */; };
-		59D13B051B4BC28B002DCD9B /* DongTai.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D13AFE1B4BC28B002DCD9B /* DongTai.swift */; };
-		59D13B061B4BC28B002DCD9B /* ImageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D13AFF1B4BC28B002DCD9B /* ImageInfo.swift */; };
-		59D13B071B4BC28B002DCD9B /* Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D13B001B4BC28B002DCD9B /* Like.swift */; };
-		59D13B081B4BC28B002DCD9B /* RoleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D13B011B4BC28B002DCD9B /* RoleGroup.swift */; };
-		59D13B091B4BC28B002DCD9B /* Unlike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D13B021B4BC28B002DCD9B /* Unlike.swift */; };
-		59D13B0A1B4BC28B002DCD9B /* UserRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D13B031B4BC28B002DCD9B /* UserRole.swift */; };
-		59D13B0B1B4BC28B002DCD9B /* WKUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D13B041B4BC28B002DCD9B /* WKUser.swift */; };
 		59D13B0E1B4BD162002DCD9B /* LocalRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D13B0D1B4BD162002DCD9B /* LocalRole.swift */; };
 		59D13B101B4BD163002DCD9B /* LocalRoleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D13B0F1B4BD163002DCD9B /* LocalRoleGroup.swift */; };
 		6F0352E7A1F5489D580608EE /* Pods_Crawler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49F910B914A8C7AA69FDA52B /* Pods_Crawler.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -33,6 +32,12 @@
 
 /* Begin PBXFileReference section */
 		49F910B914A8C7AA69FDA52B /* Pods_Crawler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Crawler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		59A56C841B4CC35B00253301 /* AVObject+DongTai.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVObject+DongTai.swift"; sourceTree = "<group>"; };
+		59A56C861B4CDF6E00253301 /* AVObject+WKUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVObject+WKUser.swift"; sourceTree = "<group>"; };
+		59A56C8A1B4CF2C200253301 /* AVObject+Like.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVObject+Like.swift"; sourceTree = "<group>"; };
+		59A56C8C1B4CF88300253301 /* AVObject+Unlike.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVObject+Unlike.swift"; sourceTree = "<group>"; };
+		59A56C8E1B4CF8E600253301 /* AVObject+Role.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVObject+Role.swift"; sourceTree = "<group>"; };
+		59A56C901B4CF8F500253301 /* AVObject+RoleGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVObject+RoleGroup.swift"; sourceTree = "<group>"; };
 		59D13AC71B4BB9EC002DCD9B /* Crawler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Crawler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59D13ACB1B4BB9EC002DCD9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59D13ACC1B4BB9EC002DCD9B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -48,13 +53,6 @@
 		59D13AF41B4BBAFA002DCD9B /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
 		59D13AF61B4BBB01002DCD9B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
 		59D13AF81B4BBB0A002DCD9B /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/usr/lib/libicucore.dylib; sourceTree = DEVELOPER_DIR; };
-		59D13AFE1B4BC28B002DCD9B /* DongTai.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DongTai.swift; sourceTree = "<group>"; };
-		59D13AFF1B4BC28B002DCD9B /* ImageInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageInfo.swift; sourceTree = "<group>"; };
-		59D13B001B4BC28B002DCD9B /* Like.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Like.swift; sourceTree = "<group>"; };
-		59D13B011B4BC28B002DCD9B /* RoleGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoleGroup.swift; sourceTree = "<group>"; };
-		59D13B021B4BC28B002DCD9B /* Unlike.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unlike.swift; sourceTree = "<group>"; };
-		59D13B031B4BC28B002DCD9B /* UserRole.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRole.swift; sourceTree = "<group>"; };
-		59D13B041B4BC28B002DCD9B /* WKUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKUser.swift; sourceTree = "<group>"; };
 		59D13B0D1B4BD162002DCD9B /* LocalRole.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalRole.swift; sourceTree = "<group>"; };
 		59D13B0F1B4BD163002DCD9B /* LocalRoleGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalRoleGroup.swift; sourceTree = "<group>"; };
 		823C643A7ABA3D8AFE94539E /* Pods-Crawler.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Crawler.release.xcconfig"; path = "Pods/Target Support Files/Pods-Crawler/Pods-Crawler.release.xcconfig"; sourceTree = "<group>"; };
@@ -149,13 +147,12 @@
 		59D13AFD1B4BC28B002DCD9B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				59D13AFE1B4BC28B002DCD9B /* DongTai.swift */,
-				59D13AFF1B4BC28B002DCD9B /* ImageInfo.swift */,
-				59D13B001B4BC28B002DCD9B /* Like.swift */,
-				59D13B011B4BC28B002DCD9B /* RoleGroup.swift */,
-				59D13B021B4BC28B002DCD9B /* Unlike.swift */,
-				59D13B031B4BC28B002DCD9B /* UserRole.swift */,
-				59D13B041B4BC28B002DCD9B /* WKUser.swift */,
+				59A56C841B4CC35B00253301 /* AVObject+DongTai.swift */,
+				59A56C861B4CDF6E00253301 /* AVObject+WKUser.swift */,
+				59A56C8A1B4CF2C200253301 /* AVObject+Like.swift */,
+				59A56C8C1B4CF88300253301 /* AVObject+Unlike.swift */,
+				59A56C901B4CF8F500253301 /* AVObject+RoleGroup.swift */,
+				59A56C8E1B4CF8E600253301 /* AVObject+Role.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -297,18 +294,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				59D13B0B1B4BC28B002DCD9B /* WKUser.swift in Sources */,
-				59D13B071B4BC28B002DCD9B /* Like.swift in Sources */,
 				59D13AD21B4BB9EC002DCD9B /* ViewController.swift in Sources */,
-				59D13B061B4BC28B002DCD9B /* ImageInfo.swift in Sources */,
+				59A56C871B4CDF6E00253301 /* AVObject+WKUser.swift in Sources */,
+				59A56C8D1B4CF88300253301 /* AVObject+Unlike.swift in Sources */,
 				59D13AD01B4BB9EC002DCD9B /* Crawler.xcdatamodeld in Sources */,
-				59D13B051B4BC28B002DCD9B /* DongTai.swift in Sources */,
 				59D13ACD1B4BB9EC002DCD9B /* AppDelegate.swift in Sources */,
+				59A56C8B1B4CF2C200253301 /* AVObject+Like.swift in Sources */,
+				59A56C851B4CC35B00253301 /* AVObject+DongTai.swift in Sources */,
+				59A56C8F1B4CF8E600253301 /* AVObject+Role.swift in Sources */,
 				59D13B0E1B4BD162002DCD9B /* LocalRole.swift in Sources */,
-				59D13B0A1B4BC28B002DCD9B /* UserRole.swift in Sources */,
 				59D13B101B4BD163002DCD9B /* LocalRoleGroup.swift in Sources */,
-				59D13B081B4BC28B002DCD9B /* RoleGroup.swift in Sources */,
-				59D13B091B4BC28B002DCD9B /* Unlike.swift in Sources */,
+				59A56C911B4CF8F500253301 /* AVObject+RoleGroup.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

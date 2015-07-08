@@ -72,19 +72,19 @@ class ViewController: UIViewController {
         localRoleCountLabel?.text = "\(roleCount)"
         
         // 获取原数据
-        SVProgressHUD.showWithStatus("获取原数据中...", maskType: SVProgressHUDMaskType.Clear)
+        SVProgressHUD.showWithStatus("获取原数据中...", maskType: SVProgressHUDMaskType.Black)
 
         let groupCountQuery = AVQuery(className: RoleGroupClassName)
         groupCountQuery.countObjectsInBackgroundWithBlock { [weak self] (groupCount:Int, error:NSError!) -> Void in
             if let strongSelf = self {
-                println("groupCount:\(groupCount), error:\(error.description)")
+                println("groupCount:\(groupCount), error:\(error?.description)")
                 dispatch_async(dispatch_get_main_queue()){
                     strongSelf.originRoleGroupCountLabel?.text = String("\(groupCount)")
                 }
                 let roleCountQuery = AVQuery(className: RoleClassName)
                 roleCountQuery.countObjectsInBackgroundWithBlock({ [weak strongSelf] (roleCount:Int, error:NSError!) -> Void in
                     if let inStrongSelf = strongSelf {
-                        println("roleCount:\(roleCount), error:\(error.localizedFailureReason)")
+                        println("roleCount:\(roleCount), error:\(error?.localizedFailureReason)")
                         dispatch_async(dispatch_get_main_queue()){
                             inStrongSelf.originRoleCountLabel?.text = String("\(roleCount)")
                             if error != nil {
@@ -143,7 +143,7 @@ class ViewController: UIViewController {
                 
                 // 爬取群组
                 dispatch_async(dispatch_get_main_queue()){
-                    SVProgressHUD.showWithStatus("爬取群组...", maskType: SVProgressHUDMaskType.Clear)
+                    SVProgressHUD.showWithStatus("爬取群组...", maskType: SVProgressHUDMaskType.Black)
                 }
                 
                 Alamofire.request(.GET, "http://api.mrpyq.com/user/user_groups?access_token=\(CrawlMRPYQ_AccessToken)").responseJSON(options: NSJSONReadingOptions()) { [weak self] (request, response, dictionary, error) -> Void in
@@ -236,7 +236,7 @@ class ViewController: UIViewController {
         
                 // 上传群组数据
                 dispatch_async(dispatch_get_main_queue()){
-                    SVProgressHUD.showWithStatus("上传群组数据...", maskType: SVProgressHUDMaskType.Clear)
+                    SVProgressHUD.showWithStatus("上传群组数据...", maskType: SVProgressHUDMaskType.Black)
                 }
                 
                 let managedObjCtx = AppDelegate.instanse().managedObjectContext
@@ -254,8 +254,8 @@ class ViewController: UIViewController {
                 if groupResults.count > 0 {
                     for obj in groupResults {
                         
-                        var newGroup = RoleGroup()
-                        newGroup.name = obj.name
+                        var newGroup = AVObject(className: AVObject.ClassName_RoleGroup)
+                        newGroup.groupName = obj.name
                         if let groupDesp = obj.groupDesp {
                             newGroup.groupDesp = groupDesp
                         }
@@ -276,25 +276,38 @@ class ViewController: UIViewController {
                 NSEntityDescription.entityForName("LocalRole",
                     inManagedObjectContext: managedObjCtx!)
                 
-                let roleRequest = NSFetchRequest()
-                roleRequest.entity = localRoleDescription
-                let roleResults = managedObjCtx?.executeFetchRequest(roleRequest, error: &error) as! [LocalRole]
+                var fetchOffset = 0
+                var hasMore = true
                 
-                // 最后删除
-                if roleResults.count > 0 {
-                    for obj in roleResults {
-                        
-                        var newRole = UserRole()
-                        newRole.name = obj.name
-                        newRole.desp = obj.desp
-                        if let gender = obj.gender {
-                            newRole.gender = Gender(rawValue:gender.integerValue)
+                while hasMore {
+                    
+                    let roleRequest = NSFetchRequest()
+                    
+                    roleRequest.fetchLimit = 500
+                    roleRequest.fetchOffset = fetchOffset
+                    roleRequest.entity = localRoleDescription
+                    let roleResults = managedObjCtx?.executeFetchRequest(roleRequest, error: &error) as! [LocalRole]
+                    
+                    let resultCount = roleResults.count
+                    // 最后删除
+                    if resultCount > 0 {
+                        for obj in roleResults {
+                            
+                            var newRole = AVObject(className: AVObject.ClassName_Role)
+                            newRole.roleName = obj.name
+                            newRole.roleDesp = obj.desp
+                            if let gender = obj.gender {
+                                newRole.roleGender = gender.integerValue
+                            }
+                            newRole.roleAvatars = obj.avatarUrls as? [String]
+                            
+                            if newRole.save(&error) {
+                                managedObjCtx?.deleteObject(obj)
+                            }
                         }
-                        newRole.avatars = obj.avatarUrls as? [String]
-                        
-                        if newRole.save(&error) {
-                            managedObjCtx?.deleteObject(obj)
-                        }
+                        fetchOffset += resultCount
+                    } else {
+                        hasMore = false
                     }
                 }
                 
