@@ -14,16 +14,25 @@ import SVProgressHUD
 
 class WSRoleSelectVC: UITableViewController {
 
+    var delegate: WSRoleSelectVCDelegate?
+    
     private var roles = [AVObject]()
     private var firstAppear = false
     
     private var upRefreshControl:UpRefreshControl?
     private var upLoadMoreControl:UpLoadMoreControl?
     
+    class func initFromStoryboard() -> WSRoleSelectVC {
+        let vc: WSRoleSelectVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("WSRoleSelectVC") as! WSRoleSelectVC
+        return vc
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        tableView.registerClass(object_getClass(WSSelectRoleCell), forCellReuseIdentifier: WSSelectRoleCellReuseIdentifier)
+        navigationItem.title = "扮演角色"
+        
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         
         upRefreshControl = UpRefreshControl(scrollView: self.tableView, action: { (control) -> Void in
             
@@ -48,6 +57,7 @@ class WSRoleSelectVC: UITableViewController {
                 }
             })
         })
+        tableView.addSubview(upRefreshControl!)
         
         upLoadMoreControl = UpLoadMoreControl(scrollView: self.tableView, action: { [weak self] (control) -> Void in
             if let strongSelf = self {
@@ -70,7 +80,7 @@ class WSRoleSelectVC: UITableViewController {
                                     let orginCount = internalStrongSelf.roles.count
                                     let newQueryCount = (roleResults?.count)!
                                     var insetsIndexPaths = [NSIndexPath]()
-                                    for index in 0...newQueryCount {
+                                    for index in 0...(newQueryCount - 1) {
                                         insetsIndexPaths.append(NSIndexPath(forRow: orginCount + index, inSection: 0))
                                     }
                                     
@@ -84,6 +94,7 @@ class WSRoleSelectVC: UITableViewController {
                 })
             }
         })
+        tableView.addSubview(upLoadMoreControl!)
         
     }
 
@@ -100,7 +111,6 @@ class WSRoleSelectVC: UITableViewController {
             SVProgressHUD.showWithStatus("努力加载...", maskType: SVProgressHUDMaskType.Black)
             let roleQuery = AVQuery(className: AVObject.ClassName_Role)
             roleQuery?.limit = 30
-//            roleQuery?.selectKeys(AVObject.RoleProperties)
             roleQuery?.findObjectsInBackgroundWithBlock({ [weak self] (results, error) -> Void in
                 if let strongSelf = self {
                     if error != nil {
@@ -110,18 +120,7 @@ class WSRoleSelectVC: UITableViewController {
                     } else {
                         let roleResults = results as? [AVObject]
                         if roleResults != nil {
-                            var newResults = [AVObject]()
-                            for role in roleResults! {
-                                println("isDataAvailable:\(role.isDataAvailable())")
-                                if role.isDataAvailable() == false {
-                                    if let newRole = role.fetchIfNeeded() {
-                                        newResults.append(newRole)
-                                    }
-                                } else {
-                                    newResults.append(role)
-                                }
-                            }
-                            strongSelf.roles = newResults
+                            strongSelf.roles = roleResults!
                             strongSelf.tableView.reloadData()
 
                             dispatch_async(dispatch_get_main_queue()) {
@@ -150,6 +149,8 @@ class WSRoleSelectVC: UITableViewController {
         
         // Configure the cell...
         
+        cell.showTopSeperator = indexPath.row != 0
+        
         cell.configWithData(buildSelectRoleCellNeededDataWithRole(roles[indexPath.row]), cellWidth: CGRectGetWidth(tableView.bounds))
         
         return cell
@@ -161,8 +162,6 @@ class WSRoleSelectVC: UITableViewController {
     
     
     private func buildSelectRoleCellNeededDataWithRole(role:AVObject!) -> [String:AnyObject]! {
-        
-        println("role allKeys:\(role.allKeys()), role:\(role)")
         
         var data = [String:AnyObject]()
         data[WSSelectRoleCellDataKey_roleName] = role.roleName
@@ -191,8 +190,9 @@ class WSRoleSelectVC: UITableViewController {
         if selectedButton != nil {
             let p = tableView.convertPoint(CGPoint(x: 0, y: 0), fromView: selectedButton)
             if let clickIndexPath = tableView.indexPathForRowAtPoint(p) {
-                // TODO:
                 println("clickIndexPath.row: \(clickIndexPath.row)")
+                let selectRole: AVObject! = roles[clickIndexPath.row]
+                delegate?.roleSelectVC?(self, didSelectRole:selectRole)
             }
         }
     }
@@ -210,3 +210,9 @@ class WSRoleSelectVC: UITableViewController {
         self.upLoadMoreControl?.scrollViewDidEndDragging()
     }
 }
+
+
+@objc protocol WSRoleSelectVCDelegate {
+    optional func roleSelectVC(vc:WSRoleSelectVC, didSelectRole:AVObject)
+}
+

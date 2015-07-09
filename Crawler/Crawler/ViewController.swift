@@ -255,9 +255,9 @@ class ViewController: UIViewController {
                     for obj in groupResults {
                         
                         var newGroup = AVObject(className: AVObject.ClassName_RoleGroup)
-                        newGroup.groupName = obj.name
+                        newGroup.roleGroupName = obj.name
                         if let groupDesp = obj.groupDesp {
-                            newGroup.groupDesp = groupDesp
+                            newGroup.roleGroupDesp = groupDesp
                         }
                         
                         if newGroup.save(&error) {
@@ -296,9 +296,6 @@ class ViewController: UIViewController {
                             var newRole = AVObject(className: AVObject.ClassName_Role)
                             newRole.roleName = obj.name
                             newRole.roleDesp = obj.desp
-                            if let gender = obj.gender {
-                                newRole.roleGender = gender.integerValue
-                            }
                             newRole.roleAvatars = obj.avatarUrls as? [String]
                             
                             if newRole.save(&error) {

@@ -27,6 +27,8 @@
 		59AA22CB1B4D25BE0028409D /* AVObject+RoleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AA22C51B4D25BE0028409D /* AVObject+RoleGroup.swift */; };
 		59AA22CC1B4D25BE0028409D /* AVObject+Unlike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AA22C61B4D25BE0028409D /* AVObject+Unlike.swift */; };
 		59AA22CD1B4D25BE0028409D /* AVObject+WKUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AA22C71B4D25BE0028409D /* AVObject+WKUser.swift */; };
+		59F3649B1B4E4A370093A6D1 /* WSPengYQVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F3649A1B4E4A370093A6D1 /* WSPengYQVC.swift */; };
+		59F3649E1B4E50B00093A6D1 /* WSUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F3649D1B4E50B00093A6D1 /* WSUserDefaults.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +53,8 @@
 		59AA22C51B4D25BE0028409D /* AVObject+RoleGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVObject+RoleGroup.swift"; sourceTree = "<group>"; };
 		59AA22C61B4D25BE0028409D /* AVObject+Unlike.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVObject+Unlike.swift"; sourceTree = "<group>"; };
 		59AA22C71B4D25BE0028409D /* AVObject+WKUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVObject+WKUser.swift"; sourceTree = "<group>"; };
+		59F3649A1B4E4A370093A6D1 /* WSPengYQVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSPengYQVC.swift; sourceTree = "<group>"; };
+		59F3649D1B4E50B00093A6D1 /* WSUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSUserDefaults.swift; sourceTree = "<group>"; };
 		99AEF786D0C0439F560DA32C /* Pods-PengYQ.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PengYQ.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PengYQ/Pods-PengYQ.debug.xcconfig"; sourceTree = "<group>"; };
 		AE826FC1854B0A699DF7DF19 /* Pods-PengYQ.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PengYQ.release.xcconfig"; path = "Pods/Target Support Files/Pods-PengYQ/Pods-PengYQ.release.xcconfig"; sourceTree = "<group>"; };
 		F24D8669F182A795C92911B5 /* Pods_PengYQ.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PengYQ.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				59A56D351B4D224C00253301 /* WSRoleSelectVC.swift */,
+				59F3649A1B4E4A370093A6D1 /* WSPengYQVC.swift */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -145,6 +150,7 @@
 		59AA22C01B4D25BE0028409D /* Public */ = {
 			isa = PBXGroup;
 			children = (
+				59F3649C1B4E507F0093A6D1 /* Util */,
 				59AA22C11B4D25BE0028409D /* Model */,
 			);
 			name = Public;
@@ -162,6 +168,14 @@
 				59AA22C71B4D25BE0028409D /* AVObject+WKUser.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		59F3649C1B4E507F0093A6D1 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				59F3649D1B4E50B00093A6D1 /* WSUserDefaults.swift */,
+			);
+			path = Util;
 			sourceTree = "<group>";
 		};
 		61DC5881E93DB7BA2420704E /* Frameworks */ = {
@@ -298,8 +312,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				59A56D191B4D21AC00253301 /* ViewController.swift in Sources */,
+				59F3649B1B4E4A370093A6D1 /* WSPengYQVC.swift in Sources */,
 				59A56D391B4D224C00253301 /* WSSelectRoleCell.swift in Sources */,
 				59AA22CC1B4D25BE0028409D /* AVObject+Unlike.swift in Sources */,
+				59F3649E1B4E50B00093A6D1 /* WSUserDefaults.swift in Sources */,
 				59AA22CA1B4D25BE0028409D /* AVObject+Role.swift in Sources */,
 				59AA22CB1B4D25BE0028409D /* AVObject+RoleGroup.swift in Sources */,
 				59AA22C81B4D25BE0028409D /* AVObject+DongTai.swift in Sources */,

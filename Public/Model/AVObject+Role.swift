@@ -12,15 +12,10 @@ import AVOSCloud
 protocol RoleProtocal {
     static var ClassName_Role: String { get }
     
-    static var RoleProperties: [String] { get }
-    
     var roleName:String? {
         get set
     }
     var roleDesp:String? {
-        get set
-    }
-    var roleGender:Int? {
         get set
     }
     var roleAvatars:[String]? {
@@ -28,49 +23,41 @@ protocol RoleProtocal {
     }
 }
 
+let ClassRole = "ClassRole"
+let FRoleName = "FRoleName"
+let FRoleDesp = "FRoleDesp"
+let FRoleAvatars = "FRoleAvatars"
+
 extension AVObject: RoleProtocal {
     
     static var ClassName_Role: String {
-        return "Role"
-    }
-    
-    static var RoleProperties: [String] {
-        return ["roleName", "roleDesp", "roleGender", "roleAvatars"]
+        return ClassRole
     }
     
     var roleName:String? {
         get {
-            return self.objectForKey("roleName") as? String
+            return self.objectForKey(FRoleName) as? String
         }
         set(newValue) {
-            self.setObject(newValue, forKey: "roleName")
+            self.setObject(newValue, forKey: FRoleName)
         }
     }
     
     var roleDesp:String? {
         get {
-            return self.objectForKey("roleDesp") as? String
+            return self.objectForKey(FRoleDesp) as? String
         }
         set(newValue) {
-            self.setObject(newValue, forKey: "roleDesp")
-        }
-    }
-    
-    var roleGender:Int? {
-        get {
-            return self.objectForKey("roleGender") as? Int
-        }
-        set(newValue) {
-            self.setObject(newValue, forKey: "roleGender")
+            self.setObject(newValue, forKey: FRoleDesp)
         }
     }
     
     var roleAvatars:[String]? {
         get {
-            return self.objectForKey("roleAvatars") as? [String]
+            return self.objectForKey(FRoleAvatars) as? [String]
         }
         set(newValue) {
-            self.setObject(newValue, forKey: "roleAvatars")
+            self.setObject(newValue, forKey: FRoleAvatars)
         }
     }
 }

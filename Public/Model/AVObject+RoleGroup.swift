@@ -11,30 +11,34 @@ import AVOSCloud
 
 protocol RoleGroupProtocol {
     static var ClassName_RoleGroup: String { get }
-    var groupName:String? { get set }
-    var groupDesp:String? { get set }
+    var roleGroupName:String? { get set }
+    var roleGroupDesp:String? { get set }
 }
+
+let ClassRoleGroup = "ClassRoleGroup"
+let FRoleGroupName = "FRoleName"
+let FRoleGroupDesp = "FRoleDesp"
 
 extension AVObject: RoleGroupProtocol {
     static var ClassName_RoleGroup: String {
-        return "RoleGroup"
+        return ClassRoleGroup
     }
     
-    var groupName:String? {
+    var roleGroupName:String? {
         get {
-            return self.objectForKey("groupName") as? String
+            return self.objectForKey(FRoleGroupName) as? String
         }
         set(newGroupName) {
-            self.setObject(newGroupName, forKey: "groupName")
+            self.setObject(newGroupName, forKey: FRoleGroupName)
         }
     }
     
-    var groupDesp:String? {
+    var roleGroupDesp:String? {
         get {
-            return self.objectForKey("groupDesp") as? String
+            return self.objectForKey(FRoleGroupDesp) as? String
         }
         set(newGroupDesp) {
-            self.setObject(newGroupDesp, forKey: "groupDesp")
+            self.setObject(newGroupDesp, forKey: FRoleGroupDesp)
         }
     }
 }

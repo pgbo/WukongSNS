@@ -19,6 +19,7 @@ let RoleTextViewMarginCellBottom = CGFloat(8.0)
 class WSSelectRoleCell: UITableViewCell {
     
     @IBOutlet private weak var topSeperator:UIView?
+    @IBOutlet private weak var topSeperatorHeightConstrait:NSLayoutConstraint?
     @IBOutlet private weak var roleTextView:UITextView?
     @IBOutlet private weak var roleAvatarView:UIImageView?
     @IBOutlet private weak var selectRoleButton:UIButton?
@@ -43,10 +44,6 @@ class WSSelectRoleCell: UITableViewCell {
         let roleName = data[WSSelectRoleCellDataKey_roleName] as? String
         let roleDescription = data[WSSelectRoleCellDataKey_roleDescription] as? String
         let roleAvatarURL = data[WSSelectRoleCellDataKey_roleAvatarURL] as? NSURL
-        
-//        let name = roleName as! String
-//        let description = roleDescription as! String
-//        let avatarURL = roleAvatarURL as! NSURL
         
         // 设置内容
         let attributedText = WSSelectRoleCell.buildRoleTextViewAttributedTextWithName(roleName, description: roleDescription)
@@ -127,23 +124,30 @@ class WSSelectRoleCell: UITableViewCell {
         
         // 角色描述
         if description?.isEmpty == false {
+            if attributedText.length > 0 {
+                attributedText.appendAttributedString(NSAttributedString(string: "\n"))
+            }
+            
             let despPS = NSMutableParagraphStyle()
             despPS.lineSpacing = 2
             despPS.paragraphSpacing = 4
-            attributedText.appendAttributedString(NSAttributedString(string:name!, attributes:[NSFontAttributeName:UIFont.systemFontOfSize(14), NSForegroundColorAttributeName:UIColor.grayColor(), NSParagraphStyleAttributeName:despPS]))
+            attributedText.appendAttributedString(NSAttributedString(string:description!, attributes:[NSFontAttributeName:UIFont.systemFontOfSize(14), NSForegroundColorAttributeName:UIColor.grayColor(), NSParagraphStyleAttributeName:despPS]))
         }
         
         return attributedText
     }
     
     
-    private func selectButtonClicked(sender:UIButton) {
+    @objc private func selectButtonClicked(sender:UIButton) {
         NSNotificationCenter.defaultCenter().postNotificationName(WSSelectRoleCellSelectButtonClickNotification, object: self, userInfo: [kWSSelectRoleCellSelectButton:sender])
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        selectionStyle = UITableViewCellSelectionStyle.None
+        
+        topSeperatorHeightConstrait?.constant = 0.5
         topSeperator?.backgroundColor = UIColor.grayColor()
         
         showTopSeperator = false
@@ -160,8 +164,8 @@ class WSSelectRoleCell: UITableViewCell {
         selectRoleButton?.setBackgroundImage(bgImg, forState: UIControlState.Normal)
         selectRoleButton?.setBackgroundImage(bgImg, forState: UIControlState.Highlighted)
         selectRoleButton?.setTitle("扮演TA", forState: UIControlState.Normal)
-        selectRoleButton?.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-        selectRoleButton?.titleLabel?.font = UIFont.systemFontOfSize(14.0)
+        selectRoleButton?.setTitleColor(UIColor.blueColor(), forState: UIControlState.Normal)
+        selectRoleButton?.titleLabel?.font = UIFont.systemFontOfSize(12.0)
         
         selectRoleButton?.addTarget(self, action:"selectButtonClicked:", forControlEvents: UIControlEvents.TouchUpInside)
     }
