@@ -65,7 +65,7 @@ class WSSelectRoleCell: UITableViewCell {
     
     :returns:
     */
-    static func cellHeightWithData(data:NSDictionary?, cellWidth:CGFloat?) ->CGFloat {
+    static func cellHeightWithData(data:[String:AnyObject]!, cellWidth:CGFloat?) ->CGFloat {
         let roleName: AnyObject? = data?[WSSelectRoleCellDataKey_roleName]
         let roleDescription: AnyObject? = data?[WSSelectRoleCellDataKey_roleDescription]
         
