@@ -35,6 +35,39 @@ class WSSelectRoleCell: UITableViewCell {
         }
     }
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        selectionStyle = UITableViewCellSelectionStyle.None
+        
+        topSeperatorHeightConstrait?.constant = 0.5
+        topSeperator?.backgroundColor = UIColor.grayColor()
+        
+        showTopSeperator = false
+        
+        roleTextView?.backgroundColor = UIColor.clearColor()
+        roleTextView?.editable = false
+        roleTextView?.scrollEnabled = false
+        roleTextView?.showsHorizontalScrollIndicator = false
+        roleTextView?.showsVerticalScrollIndicator = false
+        roleTextView?.autoresizingMask = UIViewAutoresizing.FlexibleWidth|UIViewAutoresizing.FlexibleBottomMargin
+        
+        // 设置选择按钮
+        let bgImg = UIImage(named: "WhiteButnBg")?.resizableImageWithCapInsets(UIEdgeInsetsMake(12.0, 12.0, 12.0, 12.0))
+        selectRoleButton?.setBackgroundImage(bgImg, forState: UIControlState.Normal)
+        selectRoleButton?.setBackgroundImage(bgImg, forState: UIControlState.Highlighted)
+        selectRoleButton?.setTitle("扮演TA", forState: UIControlState.Normal)
+        selectRoleButton?.setTitleColor(UIColor.blueColor(), forState: UIControlState.Normal)
+        selectRoleButton?.titleLabel?.font = UIFont.systemFontOfSize(12.0)
+        
+        selectRoleButton?.addTarget(self, action:"selectButtonClicked:", forControlEvents: UIControlEvents.TouchUpInside)
+    }
+    
+    override func setSelected(selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        
+    }
+    
     /**
     设置数据，配置cell
     
@@ -88,7 +121,7 @@ class WSSelectRoleCell: UITableViewCell {
     :param: attributedText      内容
     :param: roleTextViewWidth   视图宽度
     */
-    static func roleTextViewHeightWithAttributedText(attributedText:NSAttributedString?, roleTextViewWidth:CGFloat?) ->CGFloat {
+    static private func roleTextViewHeightWithAttributedText(attributedText:NSAttributedString?, roleTextViewWidth:CGFloat?) ->CGFloat {
         
         struct Static {
             static var onceToken : dispatch_once_t = 0
@@ -110,7 +143,7 @@ class WSSelectRoleCell: UITableViewCell {
     :param: name        role名称
     :param: description role描述
     */
-    private static func buildRoleTextViewAttributedTextWithName(name:String?, description:String?) -> NSAttributedString {
+    static private func buildRoleTextViewAttributedTextWithName(name:String?, description:String?) -> NSAttributedString {
         
         let attributedText = NSMutableAttributedString()
         
@@ -140,39 +173,6 @@ class WSSelectRoleCell: UITableViewCell {
     
     @objc private func selectButtonClicked(sender:UIButton) {
         NSNotificationCenter.defaultCenter().postNotificationName(WSSelectRoleCellSelectButtonClickNotification, object: self, userInfo: [kWSSelectRoleCellSelectButton:sender])
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        selectionStyle = UITableViewCellSelectionStyle.None
-        
-        topSeperatorHeightConstrait?.constant = 0.5
-        topSeperator?.backgroundColor = UIColor.grayColor()
-        
-        showTopSeperator = false
-        
-        roleTextView?.backgroundColor = UIColor.clearColor()
-        roleTextView?.editable = false
-        roleTextView?.scrollEnabled = false
-        roleTextView?.showsHorizontalScrollIndicator = false
-        roleTextView?.showsVerticalScrollIndicator = false
-        roleTextView?.autoresizingMask = UIViewAutoresizing.FlexibleWidth|UIViewAutoresizing.FlexibleBottomMargin
-        
-        // 设置选择按钮
-        let bgImg = UIImage(named: "WhiteButnBg")?.resizableImageWithCapInsets(UIEdgeInsetsMake(12.0, 12.0, 12.0, 12.0))
-        selectRoleButton?.setBackgroundImage(bgImg, forState: UIControlState.Normal)
-        selectRoleButton?.setBackgroundImage(bgImg, forState: UIControlState.Highlighted)
-        selectRoleButton?.setTitle("扮演TA", forState: UIControlState.Normal)
-        selectRoleButton?.setTitleColor(UIColor.blueColor(), forState: UIControlState.Normal)
-        selectRoleButton?.titleLabel?.font = UIFont.systemFontOfSize(12.0)
-        
-        selectRoleButton?.addTarget(self, action:"selectButtonClicked:", forControlEvents: UIControlEvents.TouchUpInside)
-    }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
     }
 }
 

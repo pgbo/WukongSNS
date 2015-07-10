@@ -29,10 +29,13 @@ class WSTwitterCell: UITableViewCell {
     }
     
     func configWithData(data: [String: AnyObject]? = nil, cellWidth: CGFloat? = 0) {
-    
+        // TODO:
     }
     
     class func cellHeightWithData(data: [String: AnyObject]? = nil, cellWidth: CGFloat? = 0) -> CGFloat {
+        
+        // TODO:
+        
         return 0
     }
 
@@ -51,5 +54,5 @@ let WSTwitterCellTwitterDataKey_zanUserNames = "WSTwitterCellTwitterDataKey_zanU
 
 // 评论的数据key
 let WSTwitterCellCommentDataKey_authorName = "WSTwitterCellCommentDataKey_authorName"
-let WSTwitterCellCommentDataKey_atUserNames = "WSTwitterCellCommentDataKey_atUserNames"
+let WSTwitterCellCommentDataKey_atUserName = "WSTwitterCellCommentDataKey_atUserName"
 let WSTwitterCellCommentDataKey_textContent = "WSTwitterCellCommentDataKey_textContent"
