@@ -20,6 +20,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 设置leancloud
         AVOSCloud.setApplicationId("me90srxsg78g6n2s01oqx1ncwt1k2mtx8t263ajrf3k8my7g", clientKey: "ok3pxal4n7jyy342lxq4cp95ormwn546yw25yie8crpfub0l")
         
+        WSTwitter.registerSubclass()
+        WSUser.registerSubclass()
+        WSRole.registerSubclass()
+        WSRoleGroup.registerSubclass()
+        
+        
         return true
     }
     

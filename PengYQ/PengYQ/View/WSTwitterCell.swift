@@ -17,9 +17,21 @@ class WSTwitterCell: UITableViewCell {
     @IBOutlet private weak var createDateLabel: UILabel?
     @IBOutlet private weak var moreOperateButton: UIButton?
     @IBOutlet private weak var commentShowView: TwitterCommentShowView?
-
+    
+    @IBOutlet private weak var twitterTextViewTopConstraint: NSLayoutConstraint?
+    @IBOutlet private weak var twitterTextViewHeightConstraint: NSLayoutConstraint?
+    @IBOutlet private weak var photosContaintViewTopConstraint: NSLayoutConstraint?
+    @IBOutlet private weak var photosContaintViewHeightConstraint: NSLayoutConstraint?
+    @IBOutlet private weak var commentShowViewTopConstraint: NSLayoutConstraint?
+    @IBOutlet private weak var commentShowViewHeightConstraint: NSLayoutConstraint?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        twitterTextView?.backgroundColor = UIColor.clearColor()
+        photosContaintView?.backgroundColor = UIColor.clearColor()
+        createDateLabel?.backgroundColor = UIColor.clearColor()
+        commentShowView?.backgroundColor = UIColor.clearColor()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -30,6 +42,17 @@ class WSTwitterCell: UITableViewCell {
     
     func configWithData(data: [String: AnyObject]? = nil, cellWidth: CGFloat? = 0) {
         // TODO:
+        
+        let avatarURL = data?[WSTwitterCellTwitterDataKey_avatarURL]
+        let authorName = data?[WSTwitterCellTwitterDataKey_authorName]
+        let textContent = data?[WSTwitterCellTwitterDataKey_textContent]
+        let photoURLs = data?[WSTwitterCellTwitterDataKey_photoURLs]
+        let createDate = data?[WSTwitterCellTwitterDataKey_createDate]
+        let comments = data?[WSTwitterCellTwitterDataKey_comments]
+        let zans = data?[WSTwitterCellTwitterDataKey_zanUserNames]
+        
+        
+        
     }
     
     class func cellHeightWithData(data: [String: AnyObject]? = nil, cellWidth: CGFloat? = 0) -> CGFloat {
@@ -40,6 +63,8 @@ class WSTwitterCell: UITableViewCell {
     }
 
 }
+
+let WSTwitterCellMinHeight: CGFloat = 64
 
  /// 动态的数据key
 let WSTwitterCellTwitterDataKey_avatarURL = "WSTwitterCellTwitterDataKey_avatarURL"

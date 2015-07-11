@@ -8,7 +8,9 @@
 
 import UIKit
 import Haneke
+import Toucan
 import AVOSCloud
+import SVProgressHUD
 
 /**
 *  朋友圈VC
@@ -67,30 +69,25 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate {
     private var pengYQHeader: PengYQHeaderView?
     private var roleSelectVC: WSRoleSelectVC?
     
+    lazy var twitters: [WSTwitter] = {
+        return [WSTwitter]()
+    }()
+    
+    private var firstAppear = false
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.clearsSelectionOnViewWillAppear = false
         
         self.navigationItem.title = "有趣*朋友圈"
         
-        // 设置导航栏左item
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        let lastPlayedRoleName = userDefaults.stringForKey(UD_kLastPlayedRoleName)
-        let lastPlayedRoleDesp = userDefaults.stringForKey(UD_kLastPlayedRoleDesp)
-        let lastPlayedRoleAvatars = userDefaults.arrayForKey(UD_kLastPlayedRoleAvatars) as? [String]
-        
-        var showAvatarURL: NSURL?
-        if lastPlayedRoleAvatars?.count > 0 {
-            showAvatarURL = NSURL(string: lastPlayedRoleAvatars![0])
-        }
-        self.navigationItem.leftBarButtonItem = createAvatarBarButtonItemWithAvatarURL(avatarURL: showAvatarURL, target:self, action: "clickAtRoleAvatarBarItem")
-        
         // 设置导航栏右item
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Camera, target: self, action: "toMakeATwitter")
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor(white: 0.6, alpha: 1)
         
         // 设置朋友圈header
-        pengYQHeader = PengYQHeaderView(frame: CGRectMake(0, 0, CGRectGetWidth(self.tableView.bounds), 180))
+        pengYQHeader = PengYQHeaderView(frame: CGRectMake(0, 0, CGRectGetWidth(self.tableView.bounds), 240))
         self.tableView.tableHeaderView = pengYQHeader
         
         pengYQHeader?.backgroundImageView?.userInteractionEnabled = true
@@ -99,50 +96,249 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate {
         
         pengYQHeader?.avatarView?.userInteractionEnabled = true
         pengYQHeader?.avatarView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "tapPengYQHeaderAvatarView"))
-        if showAvatarURL != nil {
-            pengYQHeader?.avatarView?.hnk_setImageFromURL(showAvatarURL!, placeholder: UIImage(named: "RoleAvatar"))
-        } else {
-            pengYQHeader?.avatarView?.image = UIImage(named: "RoleAvatar")
+        
+        
+        updateAvatarRelativeViewWithAvatarURL(nil)
+        
+        var loginUser = AVUser.currentUser() as? WSUser
+        if let loginUserRole = loginUser?.userCurrentRole {
+            let query = AVQuery(className: WSRole.parseClassName())
+            query.getObjectInBackgroundWithId(loginUserRole.objectId, block: { [weak self] (completeRole, error) -> Void in
+                if let strongSelf = self {
+                    var showAvatarURL: NSURL?
+                    let lastPlayedRoleAvatars = (completeRole as! WSRole).FRoleAvatars
+                    if lastPlayedRoleAvatars?.count > 0 {
+                        showAvatarURL = NSURL(string: lastPlayedRoleAvatars![0])
+                    }
+                    strongSelf.updateAvatarRelativeViewWithAvatarURL(showAvatarURL)
+                }
+            })
         }
     }
 
     override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+        twitters.removeAll(keepCapacity: false)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if firstAppear == false {
+            firstAppear = true
+            SVProgressHUD.showWithStatus("努力加载...", maskType: SVProgressHUDMaskType.Black)
+            let roleQuery = AVQuery(className: WSTwitter.parseClassName())
+            roleQuery?.limit = 30
+            roleQuery?.findObjectsInBackgroundWithBlock({ [weak self] (results, error) -> Void in
+                if let strongSelf = self {
+                    if error != nil {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            SVProgressHUD.showErrorWithStatus(error?.localizedFailureReason, maskType: SVProgressHUDMaskType.Black)
+                        }
+                    } else {
+                        let roleResults = results as? [WSTwitter]
+                        if roleResults != nil {
+                            dispatch_async(dispatch_get_main_queue()) {
+                                strongSelf.twitters = roleResults!
+                                strongSelf.tableView.reloadData()
+                                SVProgressHUD.dismiss()
+                            }
+                        }
+                    }
+                }
+                })
+        }
     }
 
     // MARK: - Table view data source
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        return 0
+        
+        return twitters.count
+    }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        return WSTwitterCell.cellHeightWithData(data: buildTwitterCellDataWithWSTwitter(twitters[indexPath.row]), cellWidth: CGRectGetWidth(tableView.bounds))
+        
     }
 
-    /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("WSTwitterCell", forIndexPath: indexPath) as! WSTwitterCell
 
-        // Configure the cell...
+        cell.configWithData(data: buildTwitterCellDataWithWSTwitter(twitters[indexPath.row]), cellWidth: CGRectGetWidth(tableView.bounds))
 
         return cell
     }
-    */
 
+    // MARK: - WSRoleSelectVCDelegate
     
-    func roleSelectVC(vc:WSRoleSelectVC, didSelectRole:AVObject) {
+    func roleSelectVC(vc:WSRoleSelectVC, didSelectRole:WSRole) {
         self.navigationController?.popViewControllerAnimated(true)
         println("didSelectRole:\(didSelectRole)")
+        
+        let loginUser = AVUser.currentUser() as? WSUser
+        if loginUser?.objectId == didSelectRole.objectId {
+            // 更新资料
+            loginUser!.userCurrentRole = didSelectRole
+            
+            SVProgressHUD.showWithStatus("角色变换...", maskType: SVProgressHUDMaskType.Black)
+            loginUser!.saveInBackgroundWithBlock({ (success, error) -> Void in
+                if success {
+                    AVUser.changeCurrentUser(loginUser, save: true)
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        if let strongSelf = self {
+                            SVProgressHUD.showSuccessWithStatus("角色变换成功", maskType: SVProgressHUDMaskType.Black)
+                            let roleAvatarUrls = loginUser!.userCurrentRole?.FRoleAvatars
+                            let avatarURL = (roleAvatarUrls?.count > 0) ?NSURL(string: roleAvatarUrls![0]):nil
+                            strongSelf.updateAvatarRelativeViewWithAvatarURL(avatarURL)
+                        }
+                    }
+                } else {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        SVProgressHUD.showErrorWithStatus("角色变换失败", maskType: SVProgressHUDMaskType.Black)
+                    }
+                }
+            })
+        } else {
+            // 需要登录
+            let newUser = WSUser()
+            newUser.userCurrentRole = didSelectRole
+            newUser.username = NSUUID().UUIDString
+            newUser.password = "simple password"
+            
+            SVProgressHUD.showWithStatus("角色变换...", maskType: SVProgressHUDMaskType.Black)
+            
+            newUser.signUpInBackgroundWithBlock({ [weak self] (success, error) -> Void in
+                if let strongSelf = self {
+                    if success {
+                        AVUser.changeCurrentUser(newUser, save: true)
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                            if let strongSelf = self {
+                                SVProgressHUD.showSuccessWithStatus("角色变换成功", maskType: SVProgressHUDMaskType.Black)
+                                let roleAvatarUrls = newUser.userCurrentRole?.FRoleAvatars
+                                let avatarURL = (roleAvatarUrls?.count > 0) ?NSURL(string: roleAvatarUrls![0]):nil
+                                strongSelf.updateAvatarRelativeViewWithAvatarURL(avatarURL)
+                            }
+                        }
+                    } else {
+                        println("New user save error:\(error?.localizedFailureReason)")
+                        dispatch_async(dispatch_get_main_queue()) {
+                            SVProgressHUD.showSuccessWithStatus("角色变换失败", maskType: SVProgressHUDMaskType.Black)
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    /**
+    根据动态信息创建cell需要的数据
+    
+    :param: twitter
+    
+    :returns:
+    */
+    private func buildTwitterCellDataWithWSTwitter(twitter: WSTwitter) -> [String: AnyObject] {
+
+        // TODO: 也许所有的对象属性需要单独去获取
+        
+        
+        var cellData = [String: AnyObject]()
+        
+        if let tContent = twitter.dtContent {
+            cellData[WSTwitterCellTwitterDataKey_textContent] = tContent
+        }
+        
+        if let tPictures = twitter.dtPictures {
+            var photoURLs = [NSURL]()
+            for url in tPictures {
+                if let URL = NSURL(string: url) {
+                    photoURLs.append(URL)
+                }
+            }
+            cellData[WSTwitterCellTwitterDataKey_photoURLs] = photoURLs
+        }
+        
+        if let tAuthor = twitter.dtAuthor {
+            if let authorName = tAuthor.userCurrentRole?.FRoleName {
+                cellData[WSTwitterCellTwitterDataKey_authorName] = authorName
+            }
+            
+            if let authorAvatars = tAuthor.userCurrentRole?.FRoleAvatars {
+                if authorAvatars.count > 0 {
+                    if let avatarURL = NSURL(string: authorAvatars[0]) {
+                        cellData[WSTwitterCellTwitterDataKey_avatarURL] = avatarURL
+                    }
+                }
+            }
+        }
+        
+        cellData[WSTwitterCellTwitterDataKey_createDate] = twitter.createdAt
+        
+        // 设置评论
+        if let comments = twitter.dtComments {
+            var commentsData = [[String: AnyObject]]()
+            
+            for comment in comments {
+                var commentData = [String: AnyObject]()
+                
+                let commentAuthorRole = comment.dtAuthor?.userCurrentRole
+                if let commentAuthorRoleName = commentAuthorRole?.FRoleName {
+                    commentData[WSTwitterCellCommentDataKey_authorName] = commentAuthorRoleName
+                }
+                
+                let commentAtUserRole = comment.atUser?.userCurrentRole
+                if let commentAtUserRoleName = commentAtUserRole?.FRoleName {
+                    commentData[WSTwitterCellCommentDataKey_atUserName] = commentAtUserRoleName
+                }
+                
+                if let commentText = comment.dtContent {
+                    commentData[WSTwitterCellCommentDataKey_textContent] = commentText
+                }
+                
+                commentsData.append(commentData)
+            }
+            
+            cellData[WSTwitterCellTwitterDataKey_comments] = commentsData
+        }
+        
+        if let tLikes = twitter.dtLikes {
+            var zanUserRoleNames = [String]()
+            
+            for tLike in tLikes {
+                if let roleName = tLike.lAuthor?.userCurrentRole?.FRoleName {
+                    zanUserRoleNames.append(roleName)
+                }
+            }
+            
+            cellData[WSTwitterCellTwitterDataKey_zanUserNames] = zanUserRoleNames
+        }
+        
+        return cellData
     }
     
+    private func updateAvatarRelativeViewWithAvatarURL(avatarURL: NSURL?) {
+        self.navigationItem.leftBarButtonItem = createAvatarBarButtonItemWithAvatarURL(avatarURL, target:self, action: "clickAtRoleAvatarBarItem")
+        
+        if avatarURL != nil {
+            pengYQHeader?.avatarView?.hnk_setImageFromURL(avatarURL!, placeholder: UIImage(named: "RoleAvatar"))
+        } else {
+            pengYQHeader?.avatarView?.image = UIImage(named: "RoleAvatar")
+        }
+    }
     
     // MARK: - Private methods
     
-    private func createAvatarBarButtonItemWithAvatarURL(avatarURL:NSURL? = nil, target: AnyObject? = nil, action: Selector? = nil) -> UIBarButtonItem {
+    private func createAvatarBarButtonItemWithAvatarURL(avatarURL:NSURL?, target: AnyObject?, action: Selector?) -> UIBarButtonItem {
         
         let customButn = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
         customButn.bounds = CGRectMake(0, 0, 32, 32)
         if avatarURL != nil {
-            customButn.hnk_setImageFromURL(avatarURL!, state: UIControlState.Normal, placeholder: UIImage(named: "RoleAvatar"))
+            customButn.hnk_setImageFromURL(avatarURL!, state: UIControlState.Normal, placeholder: UIImage(named: "RoleAvatar"), format: nil, failure: nil, success: { [weak customButn] (image) -> () in
+                if let strongCustomButn = customButn {
+                    strongCustomButn.setImage(Toucan.Mask.maskImageWithEllipse(image), forState: UIControlState.Normal)
+                }
+            })
         } else {
             customButn.setImage(UIImage(named: "CircleDefaultAvatar"), forState: UIControlState.Normal)
         }

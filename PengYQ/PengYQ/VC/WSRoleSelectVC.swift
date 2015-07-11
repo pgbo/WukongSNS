@@ -16,7 +16,7 @@ class WSRoleSelectVC: UITableViewController {
 
     var delegate: WSRoleSelectVCDelegate?
     
-    private var roles = [AVObject]()
+    private var roles = [WSRole]()
     private var firstAppear = false
     
     private var upRefreshControl:UpRefreshControl?
@@ -36,7 +36,7 @@ class WSRoleSelectVC: UITableViewController {
         
         upRefreshControl = UpRefreshControl(scrollView: self.tableView, action: { (control) -> Void in
             
-            let roleQuery = AVQuery(className: AVObject.ClassName_Role)
+            let roleQuery = AVQuery(className: WSRole.parseClassName())
             roleQuery?.limit = 30
             roleQuery?.findObjectsInBackgroundWithBlock({ [weak self] (results, error) -> Void in
                 if let strongSelf = self {
@@ -46,7 +46,7 @@ class WSRoleSelectVC: UITableViewController {
                     if error != nil {
                         println(error?.localizedFailureReason)
                     } else {
-                        let roleResults = results as? [AVObject]
+                        let roleResults = results as? [WSRole]
                         if roleResults != nil {
                             dispatch_async(dispatch_get_main_queue()) {
                                 strongSelf.roles = roleResults!
@@ -62,7 +62,7 @@ class WSRoleSelectVC: UITableViewController {
         upLoadMoreControl = UpLoadMoreControl(scrollView: self.tableView, action: { [weak self] (control) -> Void in
             if let strongSelf = self {
                 
-                let roleQuery = AVQuery(className: AVObject.ClassName_Role)
+                let roleQuery = AVQuery(className: WSRole.parseClassName())
                 roleQuery?.skip = strongSelf.roles.count
                 roleQuery?.limit = 30
                 roleQuery?.findObjectsInBackgroundWithBlock({ [weak strongSelf] (results, error) -> Void in
@@ -73,7 +73,7 @@ class WSRoleSelectVC: UITableViewController {
                         if error != nil {
                             println(error?.localizedFailureReason)
                         } else {
-                            let roleResults = results as? [AVObject]
+                            let roleResults = results as? [WSRole]
                             if roleResults != nil {
                                 dispatch_async(dispatch_get_main_queue()) {
                                     
@@ -109,7 +109,7 @@ class WSRoleSelectVC: UITableViewController {
         if firstAppear == false {
             firstAppear = true
             SVProgressHUD.showWithStatus("努力加载...", maskType: SVProgressHUDMaskType.Black)
-            let roleQuery = AVQuery(className: AVObject.ClassName_Role)
+            let roleQuery = AVQuery(className: WSRole.parseClassName())
             roleQuery?.limit = 30
             roleQuery?.findObjectsInBackgroundWithBlock({ [weak self] (results, error) -> Void in
                 if let strongSelf = self {
@@ -118,12 +118,11 @@ class WSRoleSelectVC: UITableViewController {
                             SVProgressHUD.showErrorWithStatus(error?.localizedFailureReason, maskType: SVProgressHUDMaskType.Black)
                         }
                     } else {
-                        let roleResults = results as? [AVObject]
+                        let roleResults = results as? [WSRole]
                         if roleResults != nil {
-                            strongSelf.roles = roleResults!
-                            strongSelf.tableView.reloadData()
-
                             dispatch_async(dispatch_get_main_queue()) {
+                                strongSelf.roles = roleResults!
+                                strongSelf.tableView.reloadData()
                                 SVProgressHUD.dismiss()
                             }
                         }
@@ -161,15 +160,15 @@ class WSRoleSelectVC: UITableViewController {
     }
     
     
-    private func buildSelectRoleCellNeededDataWithRole(role:AVObject!) -> [String:AnyObject]! {
+    private func buildSelectRoleCellNeededDataWithRole(role:WSRole!) -> [String:AnyObject]! {
         
         var data = [String:AnyObject]()
-        data[WSSelectRoleCellDataKey_roleName] = role.roleName
-        data[WSSelectRoleCellDataKey_roleDescription] = role.roleDesp
+        data[WSSelectRoleCellDataKey_roleName] = role.FRoleName
+        data[WSSelectRoleCellDataKey_roleDescription] = role.FRoleDesp
         
-        if role.roleAvatars != nil {
+        if role.FRoleAvatars != nil {
             var avaliableAvatarURL:NSURL?
-            for avatarUrl in role.roleAvatars! {
+            for avatarUrl in role.FRoleAvatars! {
                 avaliableAvatarURL = NSURL(string: avatarUrl)
                 if avaliableAvatarURL != nil {
                     break
@@ -191,7 +190,7 @@ class WSRoleSelectVC: UITableViewController {
             let p = tableView.convertPoint(CGPoint(x: 0, y: 0), fromView: selectedButton)
             if let clickIndexPath = tableView.indexPathForRowAtPoint(p) {
                 println("clickIndexPath.row: \(clickIndexPath.row)")
-                let selectRole: AVObject! = roles[clickIndexPath.row]
+                let selectRole = roles[clickIndexPath.row]
                 delegate?.roleSelectVC?(self, didSelectRole:selectRole)
             }
         }
@@ -213,6 +212,6 @@ class WSRoleSelectVC: UITableViewController {
 
 
 @objc protocol WSRoleSelectVCDelegate {
-    optional func roleSelectVC(vc:WSRoleSelectVC, didSelectRole:AVObject)
+    optional func roleSelectVC(vc:WSRoleSelectVC, didSelectRole:WSRole)
 }
 

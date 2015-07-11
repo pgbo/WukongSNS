@@ -124,10 +124,16 @@
                                 <connections>
                                     <outlet property="avatarView" destination="MJa-Gd-ndP" id="wg2-zc-WPv"/>
                                     <outlet property="commentShowView" destination="Qkp-SN-8cS" id="4Ww-N8-SNf"/>
+                                    <outlet property="commentShowViewHeightConstraint" destination="Y7Y-hJ-v6b" id="WMB-ud-dWc"/>
+                                    <outlet property="commentShowViewTopConstraint" destination="J3D-RF-5tR" id="Xpo-O7-gH9"/>
                                     <outlet property="createDateLabel" destination="wDb-tx-MHX" id="yxN-b9-RdD"/>
                                     <outlet property="moreOperateButton" destination="2WX-Jp-n9h" id="PBx-A3-M2w"/>
                                     <outlet property="photosContaintView" destination="uOu-34-xue" id="SLv-Xd-lDl"/>
+                                    <outlet property="photosContaintViewHeightConstraint" destination="ujr-Ch-aqo" id="qRj-hf-0dS"/>
+                                    <outlet property="photosContaintViewTopConstraint" destination="FSp-9i-Uw7" id="4TJ-PZ-hsN"/>
                                     <outlet property="twitterTextView" destination="zLy-gt-zTl" id="5cT-rK-8UF"/>
+                                    <outlet property="twitterTextViewHeightConstraint" destination="Ecw-wm-yyj" id="eLt-Qw-nQi"/>
+                                    <outlet property="twitterTextViewTopConstraint" destination="kfZ-1Y-krl" id="2kH-jb-s7V"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

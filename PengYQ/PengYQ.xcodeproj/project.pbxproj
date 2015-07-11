@@ -21,17 +21,17 @@
 		59A56D411B4D249E00253301 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59A56D401B4D249E00253301 /* MobileCoreServices.framework */; };
 		59A56D431B4D24A700253301 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59A56D421B4D24A700253301 /* CoreLocation.framework */; };
 		59A56D451B4D24B300253301 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 59A56D441B4D24B300253301 /* libicucore.dylib */; };
-		59AA22C81B4D25BE0028409D /* AVObject+DongTai.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AA22C21B4D25BE0028409D /* AVObject+DongTai.swift */; };
-		59AA22C91B4D25BE0028409D /* AVObject+Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AA22C31B4D25BE0028409D /* AVObject+Like.swift */; };
-		59AA22CA1B4D25BE0028409D /* AVObject+Role.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AA22C41B4D25BE0028409D /* AVObject+Role.swift */; };
-		59AA22CB1B4D25BE0028409D /* AVObject+RoleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AA22C51B4D25BE0028409D /* AVObject+RoleGroup.swift */; };
-		59AA22CC1B4D25BE0028409D /* AVObject+Unlike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AA22C61B4D25BE0028409D /* AVObject+Unlike.swift */; };
-		59AA22CD1B4D25BE0028409D /* AVObject+WKUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AA22C71B4D25BE0028409D /* AVObject+WKUser.swift */; };
 		59F3649B1B4E4A370093A6D1 /* WSPengYQVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F3649A1B4E4A370093A6D1 /* WSPengYQVC.swift */; };
 		59F3649E1B4E50B00093A6D1 /* WSUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F3649D1B4E50B00093A6D1 /* WSUserDefaults.swift */; };
 		865380D11B4EC55100FEDD02 /* WSTwitterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380D01B4EC55100FEDD02 /* WSTwitterCell.swift */; };
 		865380D51B4ECE8300FEDD02 /* TwitterCommentShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380D41B4ECE8300FEDD02 /* TwitterCommentShowView.swift */; };
 		865380D71B50B30300FEDD02 /* WSCreateTwitterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380D61B50B30300FEDD02 /* WSCreateTwitterVC.swift */; };
+		865380DB1B5144D000FEDD02 /* WSConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380DA1B5144D000FEDD02 /* WSConstants.swift */; };
+		865380DD1B516C6200FEDD02 /* WSTwitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380DC1B516C6200FEDD02 /* WSTwitter.swift */; };
+		865380DF1B516DB000FEDD02 /* WSUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380DE1B516DB000FEDD02 /* WSUser.swift */; };
+		865380E11B516EC500FEDD02 /* WSRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380E01B516EC500FEDD02 /* WSRole.swift */; };
+		865380E31B516F4E00FEDD02 /* WSRoleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380E21B516F4E00FEDD02 /* WSRoleGroup.swift */; };
+		865380E51B5189D300FEDD02 /* WSLike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380E41B5189D300FEDD02 /* WSLike.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,17 +50,17 @@
 		59A56D401B4D249E00253301 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
 		59A56D421B4D24A700253301 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
 		59A56D441B4D24B300253301 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/usr/lib/libicucore.dylib; sourceTree = DEVELOPER_DIR; };
-		59AA22C21B4D25BE0028409D /* AVObject+DongTai.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVObject+DongTai.swift"; sourceTree = "<group>"; };
-		59AA22C31B4D25BE0028409D /* AVObject+Like.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVObject+Like.swift"; sourceTree = "<group>"; };
-		59AA22C41B4D25BE0028409D /* AVObject+Role.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVObject+Role.swift"; sourceTree = "<group>"; };
-		59AA22C51B4D25BE0028409D /* AVObject+RoleGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVObject+RoleGroup.swift"; sourceTree = "<group>"; };
-		59AA22C61B4D25BE0028409D /* AVObject+Unlike.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVObject+Unlike.swift"; sourceTree = "<group>"; };
-		59AA22C71B4D25BE0028409D /* AVObject+WKUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVObject+WKUser.swift"; sourceTree = "<group>"; };
 		59F3649A1B4E4A370093A6D1 /* WSPengYQVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSPengYQVC.swift; sourceTree = "<group>"; };
 		59F3649D1B4E50B00093A6D1 /* WSUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSUserDefaults.swift; sourceTree = "<group>"; };
 		865380D01B4EC55100FEDD02 /* WSTwitterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSTwitterCell.swift; sourceTree = "<group>"; };
 		865380D41B4ECE8300FEDD02 /* TwitterCommentShowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterCommentShowView.swift; sourceTree = "<group>"; };
 		865380D61B50B30300FEDD02 /* WSCreateTwitterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSCreateTwitterVC.swift; sourceTree = "<group>"; };
+		865380DA1B5144D000FEDD02 /* WSConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSConstants.swift; sourceTree = "<group>"; };
+		865380DC1B516C6200FEDD02 /* WSTwitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSTwitter.swift; sourceTree = "<group>"; };
+		865380DE1B516DB000FEDD02 /* WSUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSUser.swift; sourceTree = "<group>"; };
+		865380E01B516EC500FEDD02 /* WSRole.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSRole.swift; sourceTree = "<group>"; };
+		865380E21B516F4E00FEDD02 /* WSRoleGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSRoleGroup.swift; sourceTree = "<group>"; };
+		865380E41B5189D300FEDD02 /* WSLike.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSLike.swift; sourceTree = "<group>"; };
 		99AEF786D0C0439F560DA32C /* Pods-PengYQ.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PengYQ.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PengYQ/Pods-PengYQ.debug.xcconfig"; sourceTree = "<group>"; };
 		AE826FC1854B0A699DF7DF19 /* Pods-PengYQ.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PengYQ.release.xcconfig"; path = "Pods/Target Support Files/Pods-PengYQ/Pods-PengYQ.release.xcconfig"; sourceTree = "<group>"; };
 		F24D8669F182A795C92911B5 /* Pods_PengYQ.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PengYQ.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -169,12 +169,11 @@
 		59AA22C11B4D25BE0028409D /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				59AA22C21B4D25BE0028409D /* AVObject+DongTai.swift */,
-				59AA22C41B4D25BE0028409D /* AVObject+Role.swift */,
-				59AA22C51B4D25BE0028409D /* AVObject+RoleGroup.swift */,
-				59AA22C31B4D25BE0028409D /* AVObject+Like.swift */,
-				59AA22C61B4D25BE0028409D /* AVObject+Unlike.swift */,
-				59AA22C71B4D25BE0028409D /* AVObject+WKUser.swift */,
+				865380DC1B516C6200FEDD02 /* WSTwitter.swift */,
+				865380DE1B516DB000FEDD02 /* WSUser.swift */,
+				865380E01B516EC500FEDD02 /* WSRole.swift */,
+				865380E21B516F4E00FEDD02 /* WSRoleGroup.swift */,
+				865380E41B5189D300FEDD02 /* WSLike.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -183,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				59F3649D1B4E50B00093A6D1 /* WSUserDefaults.swift */,
+				865380DA1B5144D000FEDD02 /* WSConstants.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -320,20 +320,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				865380DD1B516C6200FEDD02 /* WSTwitter.swift in Sources */,
 				59A56D191B4D21AC00253301 /* ViewController.swift in Sources */,
 				59F3649B1B4E4A370093A6D1 /* WSPengYQVC.swift in Sources */,
 				59A56D391B4D224C00253301 /* WSSelectRoleCell.swift in Sources */,
 				865380D51B4ECE8300FEDD02 /* TwitterCommentShowView.swift in Sources */,
-				59AA22CC1B4D25BE0028409D /* AVObject+Unlike.swift in Sources */,
+				865380E51B5189D300FEDD02 /* WSLike.swift in Sources */,
 				865380D11B4EC55100FEDD02 /* WSTwitterCell.swift in Sources */,
 				59F3649E1B4E50B00093A6D1 /* WSUserDefaults.swift in Sources */,
-				59AA22CA1B4D25BE0028409D /* AVObject+Role.swift in Sources */,
-				59AA22CB1B4D25BE0028409D /* AVObject+RoleGroup.swift in Sources */,
-				59AA22C81B4D25BE0028409D /* AVObject+DongTai.swift in Sources */,
-				59AA22CD1B4D25BE0028409D /* AVObject+WKUser.swift in Sources */,
+				865380E11B516EC500FEDD02 /* WSRole.swift in Sources */,
 				865380D71B50B30300FEDD02 /* WSCreateTwitterVC.swift in Sources */,
+				865380E31B516F4E00FEDD02 /* WSRoleGroup.swift in Sources */,
+				865380DF1B516DB000FEDD02 /* WSUser.swift in Sources */,
 				59A56D171B4D21AC00253301 /* AppDelegate.swift in Sources */,
-				59AA22C91B4D25BE0028409D /* AVObject+Like.swift in Sources */,
+				865380DB1B5144D000FEDD02 /* WSConstants.swift in Sources */,
 				59A56D381B4D224C00253301 /* WSRoleSelectVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -417,6 +417,10 @@
 				INFOPLIST_FILE = PengYQ/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/pengguangbo/Documents/githubProj/Dev-WukongSNS",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -465,6 +469,10 @@
 				INFOPLIST_FILE = PengYQ/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/pengguangbo/Documents/githubProj/Dev-WukongSNS",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;

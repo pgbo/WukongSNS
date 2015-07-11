@@ -9,4 +9,5 @@ target 'PengYQ', :exclusive => true do
     pod "SFTagView"
     pod "TTTAttributedLabel"
     pod "CTAssetsPickerController"
+    pod "Toucan"
 end

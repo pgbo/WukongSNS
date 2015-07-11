@@ -8,10 +8,14 @@
 
 import UIKit
 import CTAssetsPickerController
+import SVProgressHUD
+import AVOSCloud
+import Toucan
 
 /// 发推vc
 class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, CTAssetsPickerControllerDelegate {
     
+    private var controlBackgroud: UIControl?
     private var contentView: UIView?
     private var textView: UITextView?
     private var collectionView: UICollectionView?
@@ -31,15 +35,20 @@ class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollect
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if hasSetupSubviewConstraints == false {
+            controlBackgroud?.setTranslatesAutoresizingMaskIntoConstraints(false)
             contentView?.setTranslatesAutoresizingMaskIntoConstraints(false)
             textView?.setTranslatesAutoresizingMaskIntoConstraints(false)
             collectionView?.setTranslatesAutoresizingMaskIntoConstraints(false)
             stateLabel?.setTranslatesAutoresizingMaskIntoConstraints(false)
             
             // 设置约束
-            let views = ["contentView": contentView!, "textView": textView!, "collectionView": collectionView!, "stateLabel": stateLabel!]
+            let views = ["controlBackgroud":controlBackgroud!, "contentView": contentView!, "textView": textView!, "collectionView": collectionView!, "stateLabel": stateLabel!]
             
             let metrics = ["photoHeight": albumAddBtnImage.size.height]
+            
+            // 设置controlBackgroud的约束
+            self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[controlBackgroud]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+            self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[controlBackgroud]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
             
             // 设置contentView的约束
             self.view.addConstraint(NSLayoutConstraint(item: contentView!, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: self.topLayoutGuide, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: 0))
@@ -47,7 +56,7 @@ class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollect
             self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[contentView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
             
             // 设置textView的约束
-            contentView!.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[textView(120)]-8-[collectionView(photoHeight)]-8-[stateLabel(20)]|", options: NSLayoutFormatOptions.AlignAllLeading|NSLayoutFormatOptions.AlignAllTrailing, metrics: metrics, views: views))
+            contentView!.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[textView(120)]-8-[collectionView(photoHeight)]-16-[stateLabel(20)]-20-|", options: NSLayoutFormatOptions.AlignAllLeading|NSLayoutFormatOptions.AlignAllTrailing, metrics: metrics, views: views))
             contentView!.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[textView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
             
             
@@ -134,6 +143,9 @@ class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollect
         
         picker.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
         
+        let selectedAssetsCount = assets.count
+        stateLabel?.text = WSCreateTwitterVC.description(x_photosSelected:selectedAssetsCount, y_photosRemain:TwitterUploadPhotoMaxNumber - selectedAssetsCount)
+        
         collectionView?.reloadData()
     }
     
@@ -144,7 +156,7 @@ class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollect
     
     func assetsPickerController(picker: CTAssetsPickerController!, shouldSelectAsset asset: ALAsset!) -> Bool {
         
-        if picker.selectedAssets.count > 9 {
+        if picker.selectedAssets.count >= 9 {
             let alert = UIAlertView(title: nil, message: "最多选择9张图片", delegate: nil, cancelButtonTitle: "知道了")
             alert.show()
             return false
@@ -174,7 +186,12 @@ class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollect
         self.navigationItem.title = "发表动态"
         
         
-        self.view.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
+        self.view.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+        
+        controlBackgroud = UIControl()
+        self.view.addSubview(controlBackgroud!)
+        
+        controlBackgroud?.addTarget(self, action: "hideKeyboard", forControlEvents: UIControlEvents.TouchDown)
         
         // 设置contentView
         contentView = UIView()
@@ -223,16 +240,86 @@ class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollect
         stateLabel?.font = UIFont.systemFontOfSize(15)
         stateLabel?.textColor = UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1)
         
+        stateLabel?.text = WSCreateTwitterVC.description(x_photosSelected:0, y_photosRemain:TwitterUploadPhotoMaxNumber)
+        
         // Warming: 在viewDidLayoutSubviews里设置约束
     }
     
+    static private func description(x_photosSelected x: Int = 0, y_photosRemain y: Int = 0) -> String {
+        return "已选\(x)张，还可以添加\(y)张"
+    }
     
     @objc private func clickAddPhotoButn() {
         self.presentViewController(assetsPickerController, animated: true, completion: nil)
     }
     
+    /**
+    发表动态
+    */
     @objc private func requestCreateTwitter() {
-        // TODO:
+        
+        if AVUser.currentUser() != nil {
+            
+            // 已经在试用登录
+            
+            SVProgressHUD.showWithStatus("请稍后...", maskType: SVProgressHUDMaskType.Black)
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { [weak self] in
+                
+                if let strongSelf = self {
+                    
+                    // 上传图片
+                    var photoUrls = [String]()
+                    let selectedAssets = strongSelf.assetsPickerController.selectedAssets
+                    if selectedAssets?.count > 0 {
+                        for asset in selectedAssets {
+                            if let image = UIImage(CGImage: asset.defaultRepresentation().fullScreenImage().takeUnretainedValue(), scale: 1, orientation: UIImageOrientation.Up) {
+                                
+                                let uploadImageSize = suitableSizeForTwitterUploadImageSize(image.size)
+                                var uploadImage = Toucan(image: image).resize(uploadImageSize, fitMode: Toucan.Resize.FitMode.Clip).image
+                                let uploadFile = AVFile.fileWithData(uploadImage.asData()) as! AVFile
+                                
+                                var error: NSError?
+                                if uploadFile.save(&error) {
+                                    if uploadFile.url != nil {
+                                        photoUrls.append(uploadFile.url)
+                                    }
+                                } else {
+                                    println("Upload twitter photo error:\(error?.localizedFailureReason)")
+                                }
+                            }
+                        }
+                    }
+                    
+                    // 上传动态
+                    var newTwitter = WSTwitter()
+                    
+                    newTwitter.dtContent = strongSelf.textView?.text
+                    newTwitter.dtPictures = photoUrls
+                    newTwitter.dtAuthor = AVUser.currentUser() as? WSUser
+                    
+                    var error: NSError?
+                    if newTwitter.save(&error) {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            SVProgressHUD.showSuccessWithStatus("发表成功", maskType: SVProgressHUDMaskType.Black)
+                            strongSelf.cancelCreateTwitter()
+                        }
+                    } else {
+                        println("Upload twitter photo error:\(error?.localizedFailureReason)")
+                        dispatch_async(dispatch_get_main_queue()) {
+                            SVProgressHUD.showErrorWithStatus("发表失败，请稍后再试", maskType: SVProgressHUDMaskType.Black)
+                        }
+                    }
+                }
+            }
+            
+        } else {
+            SVProgressHUD.showErrorWithStatus("您还没有选择角色，请选择角色后再发表动态", maskType: SVProgressHUDMaskType.Black)
+        }
+    }
+    
+    @objc private func hideKeyboard() {
+        textView?.resignFirstResponder()
     }
     
     @objc private func cancelCreateTwitter() {
@@ -254,6 +341,8 @@ class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollect
         return picker
         }()
 }
+
+let TwitterUploadPhotoMaxNumber = 9
 
 let AddPhotoButtonCellButtonTag = 100
 let AddPhotoButtonCellReusableIdentifier = "AddPhotoButtonCell"

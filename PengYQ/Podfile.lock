@@ -5,6 +5,7 @@ PODS:
   - SFTagView (0.6):
     - PureLayout
   - SVProgressHUD (1.1.3)
+  - Toucan (0.2.0)
   - TTTAttributedLabel (1.13.4)
   - UpLoadMoreControl (0.1.0)
   - UpRefreshControl (0.1.0)
@@ -14,6 +15,7 @@ DEPENDENCIES:
   - HanekeSwift
   - SFTagView
   - SVProgressHUD (~> 1.1.2)
+  - Toucan
   - TTTAttributedLabel
   - UpLoadMoreControl (from `https://github.com/pgbo/UpLoadMoreControl.git`)
   - UpRefreshControl (from `https://github.com/pgbo/UpRefreshControl.git`)
@@ -38,6 +40,7 @@ SPEC CHECKSUMS:
   PureLayout: f25f0bb904d5ccfe6e31da3cb869185259f02e0d
   SFTagView: 55cd68e4a9a59328d5b06fbddd7982380c8d64b6
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
+  Toucan: 61d31928e7d75c401e1d51cd2b13d8275a7a579c
   TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f
   UpLoadMoreControl: 357a1fa72d6f717079e8cdcbab51a81f96d062b4
   UpRefreshControl: 442379f120f0cb4deba7166d6514aac5ba0e6bc6
