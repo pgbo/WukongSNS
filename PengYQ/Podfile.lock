@@ -1,4 +1,5 @@
 PODS:
+  - CTAssetsPickerController (2.9.5)
   - HanekeSwift (0.9.1)
   - PureLayout (2.0.6)
   - SFTagView (0.6):
@@ -9,6 +10,7 @@ PODS:
   - UpRefreshControl (0.1.0)
 
 DEPENDENCIES:
+  - CTAssetsPickerController
   - HanekeSwift
   - SFTagView
   - SVProgressHUD (~> 1.1.2)
@@ -31,6 +33,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/pgbo/UpRefreshControl.git
 
 SPEC CHECKSUMS:
+  CTAssetsPickerController: b413fece2194ae3dbf22fbc544cf6f2a6d516a4d
   HanekeSwift: 50d37bfbc4432edc649167e538c259feccb4a2bb
   PureLayout: f25f0bb904d5ccfe6e31da3cb869185259f02e0d
   SFTagView: 55cd68e4a9a59328d5b06fbddd7982380c8d64b6

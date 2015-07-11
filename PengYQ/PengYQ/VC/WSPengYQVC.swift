@@ -168,6 +168,7 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate {
     // 到发推页面
     @objc private func toMakeATwitter() {
         println("到发推页面")
+        self.presentViewController(UINavigationController(rootViewController: WSCreateTwitterVC()), animated: true, completion: nil)
     }
     
     @objc private func tapPengYQHeaderBackgroundView() {

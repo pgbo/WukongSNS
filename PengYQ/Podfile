@@ -8,4 +8,5 @@ target 'PengYQ', :exclusive => true do
     pod "UpLoadMoreControl", :git => "https://github.com/pgbo/UpLoadMoreControl.git"
     pod "SFTagView"
     pod "TTTAttributedLabel"
+    pod "CTAssetsPickerController"
 end

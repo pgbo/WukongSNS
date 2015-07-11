@@ -31,6 +31,7 @@
 		59F3649E1B4E50B00093A6D1 /* WSUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F3649D1B4E50B00093A6D1 /* WSUserDefaults.swift */; };
 		865380D11B4EC55100FEDD02 /* WSTwitterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380D01B4EC55100FEDD02 /* WSTwitterCell.swift */; };
 		865380D51B4ECE8300FEDD02 /* TwitterCommentShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380D41B4ECE8300FEDD02 /* TwitterCommentShowView.swift */; };
+		865380D71B50B30300FEDD02 /* WSCreateTwitterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380D61B50B30300FEDD02 /* WSCreateTwitterVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +60,7 @@
 		59F3649D1B4E50B00093A6D1 /* WSUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSUserDefaults.swift; sourceTree = "<group>"; };
 		865380D01B4EC55100FEDD02 /* WSTwitterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSTwitterCell.swift; sourceTree = "<group>"; };
 		865380D41B4ECE8300FEDD02 /* TwitterCommentShowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterCommentShowView.swift; sourceTree = "<group>"; };
+		865380D61B50B30300FEDD02 /* WSCreateTwitterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSCreateTwitterVC.swift; sourceTree = "<group>"; };
 		99AEF786D0C0439F560DA32C /* Pods-PengYQ.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PengYQ.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PengYQ/Pods-PengYQ.debug.xcconfig"; sourceTree = "<group>"; };
 		AE826FC1854B0A699DF7DF19 /* Pods-PengYQ.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PengYQ.release.xcconfig"; path = "Pods/Target Support Files/Pods-PengYQ/Pods-PengYQ.release.xcconfig"; sourceTree = "<group>"; };
 		F24D8669F182A795C92911B5 /* Pods_PengYQ.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PengYQ.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -139,6 +141,7 @@
 			children = (
 				59A56D351B4D224C00253301 /* WSRoleSelectVC.swift */,
 				59F3649A1B4E4A370093A6D1 /* WSPengYQVC.swift */,
+				865380D61B50B30300FEDD02 /* WSCreateTwitterVC.swift */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 				59AA22CB1B4D25BE0028409D /* AVObject+RoleGroup.swift in Sources */,
 				59AA22C81B4D25BE0028409D /* AVObject+DongTai.swift in Sources */,
 				59AA22CD1B4D25BE0028409D /* AVObject+WKUser.swift in Sources */,
+				865380D71B50B30300FEDD02 /* WSCreateTwitterVC.swift in Sources */,
 				59A56D171B4D21AC00253301 /* AppDelegate.swift in Sources */,
 				59AA22C91B4D25BE0028409D /* AVObject+Like.swift in Sources */,
 				59A56D381B4D224C00253301 /* WSRoleSelectVC.swift in Sources */,
