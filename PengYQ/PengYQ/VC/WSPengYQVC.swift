@@ -8,6 +8,7 @@
 
 import UIKit
 import Haneke
+import Kingfisher
 import Toucan
 import AVOSCloud
 import SVProgressHUD
@@ -15,7 +16,7 @@ import SVProgressHUD
 /**
 *  朋友圈VC
 */
-class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate {
+class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDelegate, TwitterCommentShowViewDelegate {
     
     /**
     *  header view
@@ -231,6 +232,29 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate {
         }
     }
 
+    // MARK: - WSTwitterCellDelegate
+    func twitterCell(twitterCell: WSTwitterCell, didClickMoreOprateButton: UIButton) {
+        // TODO:
+    }
+    
+    func twitterCell(twitterCell: WSTwitterCell, didSelectPhotoViewAtIndex: Int) {
+        // TODO:
+    }
+    
+    // MARK: - TwitterCommentShowViewDelegate
+    
+    func twitterCommentShowView(view: TwitterCommentShowView, didSelectCommentIndex: Int) {
+        // TODO:
+    }
+    
+    func twitterCommentShowView(view: TwitterCommentShowView, didSelectCommentUserName: String) {
+        // TODO:
+    }
+    
+    func twitterCommentShowView(view: TwitterCommentShowView, didSelectZanUserName: String, atIndex: Int) {
+        // TODO:
+    }
+    
     /**
     根据动态信息创建cell需要的数据
     
@@ -323,7 +347,9 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate {
         if avatarURL != nil {
             pengYQHeader?.avatarView?.hnk_setImageFromURL(avatarURL!, placeholder: UIImage(named: "RoleAvatar"))
         } else {
+            pengYQHeader?.avatarView?.hnk_cancelSetImage()
             pengYQHeader?.avatarView?.image = UIImage(named: "RoleAvatar")
+//            pengYQHeader?.avatarView?.hnk_setImage(UIImage(named: "RoleAvatar")!, animated: false, success: nil)
         }
     }
     
@@ -340,7 +366,9 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate {
                 }
             })
         } else {
-            customButn.setImage(UIImage(named: "CircleDefaultAvatar"), forState: UIControlState.Normal)
+//            customButn.hnk_setImage(UIImage(named: "CircleDefaultAvatar")!, state: UIControlState.Normal, animated: false, success: nil)
+            customButn.hnk_cancelSetImage()
+            customButn.setImage(UIImage(named: "RoleAvatar"), forState: UIControlState.Normal)
         }
         customButn.imageEdgeInsets = UIEdgeInsetsZero
         if target != nil && action != nil {

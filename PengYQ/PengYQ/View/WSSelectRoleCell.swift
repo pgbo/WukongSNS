@@ -121,7 +121,11 @@ class WSSelectRoleCell: UITableViewCell {
     :param: attributedText      内容
     :param: roleTextViewWidth   视图宽度
     */
-    static private func roleTextViewHeightWithAttributedText(attributedText:NSAttributedString?, roleTextViewWidth:CGFloat?) ->CGFloat {
+    static private func roleTextViewHeightWithAttributedText(attributedText:NSAttributedString?, roleTextViewWidth:CGFloat? = 0) ->CGFloat {
+        
+        if attributedText == nil {
+            return 0
+        }
         
         struct Static {
             static var onceToken : dispatch_once_t = 0

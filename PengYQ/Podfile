@@ -3,11 +3,13 @@ use_frameworks!
 
 target 'PengYQ', :exclusive => true do
     pod 'HanekeSwift'
+    pod 'Kingfisher', '~> 1.4'
     pod 'SVProgressHUD', '~> 1.1.2'
     pod "UpRefreshControl", :git => "https://github.com/pgbo/UpRefreshControl.git"
     pod "UpLoadMoreControl", :git => "https://github.com/pgbo/UpLoadMoreControl.git"
-    pod "SFTagView"
+    pod "DWTagList"
     pod "TTTAttributedLabel"
     pod "CTAssetsPickerController"
     pod "Toucan"
+    pod "MHPrettyDate"
 end

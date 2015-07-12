@@ -35,6 +35,13 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OtL-Jb-6A6" id="Q0S-SG-GBR">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mDw-Y1-Qtc">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="1" id="7Ex-19-743"/>
+                                            </constraints>
+                                        </view>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MJa-Gd-ndP">
                                             <rect key="frame" x="8" y="8" width="48" height="48"/>
                                             <constraints>
@@ -65,13 +72,6 @@
                                             </attributedString>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uOu-34-xue">
-                                            <rect key="frame" x="64" y="73" width="303" height="84"/>
-                                            <color key="backgroundColor" red="0.40765341533071259" green="0.86634664290386754" blue="0.83670657038334173" alpha="1" colorSpace="calibratedRGB"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="84" id="ujr-Ch-aqo"/>
-                                            </constraints>
-                                        </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="22分钟前" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wDb-tx-MHX">
                                             <rect key="frame" x="64" y="165" width="175" height="18"/>
                                             <constraints>
@@ -102,23 +102,40 @@
                                                 <constraint firstAttribute="height" constant="60" id="Y7Y-hJ-v6b"/>
                                             </constraints>
                                         </view>
+                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="zsV-Mw-mBN">
+                                            <rect key="frame" x="64" y="73" width="303" height="84"/>
+                                            <color key="backgroundColor" red="0.40765341529999999" green="0.86634664289999996" blue="0.83670657039999996" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="84" id="3vv-EV-qdM"/>
+                                            </constraints>
+                                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="rtV-lp-osX">
+                                                <size key="itemSize" width="50" height="50"/>
+                                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                            </collectionViewFlowLayout>
+                                            <cells/>
+                                        </collectionView>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="mDw-Y1-Qtc" firstAttribute="leading" secondItem="Q0S-SG-GBR" secondAttribute="leading" id="0dZ-Xg-lRa"/>
                                         <constraint firstItem="MJa-Gd-ndP" firstAttribute="top" secondItem="Q0S-SG-GBR" secondAttribute="top" constant="8" id="6WS-11-gOo"/>
-                                        <constraint firstItem="wDb-tx-MHX" firstAttribute="top" secondItem="uOu-34-xue" secondAttribute="bottom" constant="8" id="83K-Mg-1Fs"/>
                                         <constraint firstAttribute="trailing" secondItem="2WX-Jp-n9h" secondAttribute="trailing" constant="8" id="8Rq-C4-XL3"/>
                                         <constraint firstItem="wDb-tx-MHX" firstAttribute="centerY" secondItem="2WX-Jp-n9h" secondAttribute="centerY" id="Bch-1i-uTP"/>
                                         <constraint firstItem="MJa-Gd-ndP" firstAttribute="leading" secondItem="Q0S-SG-GBR" secondAttribute="leading" constant="8" id="Cpp-iB-Uqt"/>
-                                        <constraint firstItem="uOu-34-xue" firstAttribute="top" secondItem="zLy-gt-zTl" secondAttribute="bottom" constant="8" id="FSp-9i-Uw7"/>
+                                        <constraint firstItem="mDw-Y1-Qtc" firstAttribute="top" secondItem="Q0S-SG-GBR" secondAttribute="top" id="Dc2-7v-a8R"/>
+                                        <constraint firstAttribute="trailing" secondItem="zsV-Mw-mBN" secondAttribute="trailing" constant="8" id="I9V-gI-dmg"/>
                                         <constraint firstItem="Qkp-SN-8cS" firstAttribute="top" secondItem="wDb-tx-MHX" secondAttribute="bottom" constant="8" id="J3D-RF-5tR"/>
                                         <constraint firstItem="Qkp-SN-8cS" firstAttribute="leading" secondItem="wDb-tx-MHX" secondAttribute="leading" id="KqS-lu-eLe"/>
-                                        <constraint firstAttribute="trailing" secondItem="uOu-34-xue" secondAttribute="trailing" constant="8" id="TvL-hf-EBp"/>
+                                        <constraint firstItem="zsV-Mw-mBN" firstAttribute="top" secondItem="zLy-gt-zTl" secondAttribute="bottom" constant="8" id="NXc-6B-1Mz"/>
+                                        <constraint firstItem="wDb-tx-MHX" firstAttribute="top" secondItem="zsV-Mw-mBN" secondAttribute="bottom" constant="8" id="OUG-Cz-Vbq"/>
+                                        <constraint firstItem="zsV-Mw-mBN" firstAttribute="leading" secondItem="wDb-tx-MHX" secondAttribute="leading" id="Phd-DJ-Ohr"/>
                                         <constraint firstItem="zLy-gt-zTl" firstAttribute="leading" secondItem="MJa-Gd-ndP" secondAttribute="trailing" constant="8" id="YSV-d5-f31"/>
                                         <constraint firstAttribute="trailing" secondItem="Qkp-SN-8cS" secondAttribute="trailing" constant="8" id="aef-wO-zlk"/>
-                                        <constraint firstItem="uOu-34-xue" firstAttribute="leading" secondItem="wDb-tx-MHX" secondAttribute="leading" id="kXo-a4-x5w"/>
+                                        <constraint firstItem="zsV-Mw-mBN" firstAttribute="leading" secondItem="zLy-gt-zTl" secondAttribute="leading" id="grr-XY-6Fl"/>
                                         <constraint firstItem="zLy-gt-zTl" firstAttribute="top" secondItem="Q0S-SG-GBR" secondAttribute="top" constant="6" id="kfZ-1Y-krl"/>
                                         <constraint firstAttribute="trailing" secondItem="zLy-gt-zTl" secondAttribute="trailing" constant="8" id="vxK-eL-Owj"/>
-                                        <constraint firstItem="zLy-gt-zTl" firstAttribute="leading" secondItem="uOu-34-xue" secondAttribute="leading" id="w3U-rV-V65"/>
+                                        <constraint firstAttribute="trailing" secondItem="mDw-Y1-Qtc" secondAttribute="trailing" id="wWz-lA-987"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -128,9 +145,11 @@
                                     <outlet property="commentShowViewTopConstraint" destination="J3D-RF-5tR" id="Xpo-O7-gH9"/>
                                     <outlet property="createDateLabel" destination="wDb-tx-MHX" id="yxN-b9-RdD"/>
                                     <outlet property="moreOperateButton" destination="2WX-Jp-n9h" id="PBx-A3-M2w"/>
-                                    <outlet property="photosContaintView" destination="uOu-34-xue" id="SLv-Xd-lDl"/>
-                                    <outlet property="photosContaintViewHeightConstraint" destination="ujr-Ch-aqo" id="qRj-hf-0dS"/>
-                                    <outlet property="photosContaintViewTopConstraint" destination="FSp-9i-Uw7" id="4TJ-PZ-hsN"/>
+                                    <outlet property="photosCollectionView" destination="zsV-Mw-mBN" id="mJP-hx-JJh"/>
+                                    <outlet property="photosCollectionViewHeightConstraint" destination="3vv-EV-qdM" id="1ax-0J-20d"/>
+                                    <outlet property="photosCollectionViewTopConstraint" destination="NXc-6B-1Mz" id="BRr-UA-dIV"/>
+                                    <outlet property="topSeperator" destination="mDw-Y1-Qtc" id="L2s-n2-ALn"/>
+                                    <outlet property="topSeperatorHeightConstraint" destination="7Ex-19-743" id="pa1-X7-VF1"/>
                                     <outlet property="twitterTextView" destination="zLy-gt-zTl" id="5cT-rK-8UF"/>
                                     <outlet property="twitterTextViewHeightConstraint" destination="Ecw-wm-yyj" id="eLt-Qw-nQi"/>
                                     <outlet property="twitterTextViewTopConstraint" destination="kfZ-1Y-krl" id="2kH-jb-s7V"/>

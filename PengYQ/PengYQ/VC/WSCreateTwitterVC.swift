@@ -76,7 +76,7 @@ class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollect
             
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(AddPhotoButtonCellReusableIdentifier, forIndexPath: indexPath) as! UICollectionViewCell
             
-            if cell.viewWithTag(AddPhotoButtonCellButtonTag) == nil {
+            if cell.contentView.viewWithTag(AddPhotoButtonCellButtonTag) == nil {
                 let addPhotoButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
                 cell.contentView.addSubview(addPhotoButton)
                 
@@ -99,7 +99,7 @@ class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollect
             
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(AttachTwitterPhotoCellReusableIdentifier, forIndexPath: indexPath) as! UICollectionViewCell
             
-            var attachImageView = cell.viewWithTag(AttachTwitterPhotoCellImageViewTag) as? UIImageView
+            var attachImageView = cell.contentView.viewWithTag(AttachTwitterPhotoCellImageViewTag) as? UIImageView
             
             if attachImageView == nil {
                 attachImageView = UIImageView()
