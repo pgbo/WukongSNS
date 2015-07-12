@@ -16,7 +16,7 @@ class WSRoleSelectVC: UITableViewController {
 
     var delegate: WSRoleSelectVCDelegate?
     
-    private var roles = [WSRole]()
+    lazy private var roles = [WSRole]()
     private var firstAppear = false
     
     private var upRefreshControl:UpRefreshControl?
@@ -46,12 +46,14 @@ class WSRoleSelectVC: UITableViewController {
                     if error != nil {
                         println(error?.localizedFailureReason)
                     } else {
-                        let roleResults = results as? [WSRole]
-                        if roleResults != nil {
-                            dispatch_async(dispatch_get_main_queue()) {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            let roleResults = results as? [WSRole]
+                            if roleResults?.count > 0 {
                                 strongSelf.roles = roleResults!
-                                strongSelf.tableView.reloadData()
+                            } else {
+                                strongSelf.roles.removeAll(keepCapacity: false)
                             }
+                            strongSelf.tableView.reloadData()
                         }
                     }
                 }
@@ -74,7 +76,7 @@ class WSRoleSelectVC: UITableViewController {
                             println(error?.localizedFailureReason)
                         } else {
                             let roleResults = results as? [WSRole]
-                            if roleResults != nil {
+                            if roleResults?.count > 0 {
                                 dispatch_async(dispatch_get_main_queue()) {
                                     
                                     let orginCount = internalStrongSelf.roles.count
@@ -118,13 +120,15 @@ class WSRoleSelectVC: UITableViewController {
                             SVProgressHUD.showErrorWithStatus(error?.localizedFailureReason, maskType: SVProgressHUDMaskType.Black)
                         }
                     } else {
-                        let roleResults = results as? [WSRole]
-                        if roleResults != nil {
-                            dispatch_async(dispatch_get_main_queue()) {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            let roleResults = results as? [WSRole]
+                            if roleResults?.count > 0 {
                                 strongSelf.roles = roleResults!
-                                strongSelf.tableView.reloadData()
-                                SVProgressHUD.dismiss()
+                            } else {
+                                strongSelf.roles.removeAll(keepCapacity: false)
                             }
+                            strongSelf.tableView.reloadData()
+                            SVProgressHUD.dismiss()
                         }
                     }
                 }
@@ -158,7 +162,6 @@ class WSRoleSelectVC: UITableViewController {
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return WSSelectRoleCell.cellHeightWithData(buildSelectRoleCellNeededDataWithRole(roles[indexPath.row]), cellWidth: CGRectGetWidth(tableView.bounds))
     }
-    
     
     private func buildSelectRoleCellNeededDataWithRole(role:WSRole!) -> [String:AnyObject]! {
         

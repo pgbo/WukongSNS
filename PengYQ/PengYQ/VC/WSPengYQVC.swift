@@ -7,11 +7,12 @@
 //
 
 import UIKit
-import Haneke
 import Kingfisher
 import Toucan
 import AVOSCloud
 import SVProgressHUD
+import UpRefreshControl
+import UpLoadMoreControl
 
 /**
 *  朋友圈VC
@@ -68,6 +69,12 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
     }
     
     private var pengYQHeader: PengYQHeaderView?
+    private var pengYQHeaderAvatarViewRetrieveImageTask: RetrieveImageTask?
+    private var avatarBarButtonRetrieveImageTask: RetrieveImageTask?
+    
+    private var upRefreshControl:UpRefreshControl?
+    private var upLoadMoreControl:UpLoadMoreControl?
+    
     private var roleSelectVC: WSRoleSelectVC?
     
     lazy var twitters: [WSTwitter] = {
@@ -87,6 +94,8 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Camera, target: self, action: "toMakeATwitter")
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor(white: 0.6, alpha: 1)
         
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        
         // 设置朋友圈header
         pengYQHeader = PengYQHeaderView(frame: CGRectMake(0, 0, CGRectGetWidth(self.tableView.bounds), 240))
         self.tableView.tableHeaderView = pengYQHeader
@@ -97,6 +106,71 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
         
         pengYQHeader?.avatarView?.userInteractionEnabled = true
         pengYQHeader?.avatarView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "tapPengYQHeaderAvatarView"))
+        
+        upRefreshControl = UpRefreshControl(scrollView: self.tableView, action: { (control) -> Void in
+            
+            let query = AVQuery(className: WSTwitter.parseClassName())
+            query?.limit = WSPEngYQVCTwitterPageNumber
+            query?.findObjectsInBackgroundWithBlock({ [weak self] (results, error) -> Void in
+                if let strongSelf = self {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        strongSelf.upRefreshControl?.finishedLoadingWithStatus("", delay: 0)
+                    }
+                    if error != nil {
+                        println(error?.localizedFailureReason)
+                    } else {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            let twitterResults = results as? [WSTwitter]
+                            if twitterResults?.count > 0 {
+                                strongSelf.twitters = twitterResults!
+                            } else {
+                                strongSelf.twitters.removeAll(keepCapacity: false)
+                            }
+                            strongSelf.tableView.reloadData()
+                        }
+                    }
+                }
+            })
+        })
+        tableView.addSubview(upRefreshControl!)
+        
+        upLoadMoreControl = UpLoadMoreControl(scrollView: self.tableView, action: { [weak self] (control) -> Void in
+            if let strongSelf = self {
+                
+                let query = AVQuery(className: WSTwitter.parseClassName())
+                query?.skip = strongSelf.twitters.count
+                query?.limit = WSPEngYQVCTwitterPageNumber
+                query?.findObjectsInBackgroundWithBlock({ [weak strongSelf] (results, error) -> Void in
+                    if let internalStrongSelf = strongSelf {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            internalStrongSelf.upLoadMoreControl?.finishedLoadingWithStatus("", delay: 0)
+                        }
+                        
+                        if error != nil {
+                            println(error?.localizedFailureReason)
+                        } else {
+                            let twitterResults = results as? [WSTwitter]
+                            if twitterResults?.count > 0 {
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    
+                                    let orginCount = internalStrongSelf.twitters.count
+                                    let newQueryCount = (twitterResults?.count)!
+                                    var insetsIndexPaths = [NSIndexPath]()
+                                    for index in 0...(newQueryCount - 1) {
+                                        insetsIndexPaths.append(NSIndexPath(forRow: orginCount + index, inSection: 0))
+                                    }
+                                    
+                                    internalStrongSelf.twitters += twitterResults!
+                                    
+                                    internalStrongSelf.tableView.insertRowsAtIndexPaths(insetsIndexPaths, withRowAnimation: UITableViewRowAnimation.None);
+                                }
+                            }
+                        }
+                    }
+                    })
+            }
+            })
+        tableView.addSubview(upLoadMoreControl!)
         
         
         updateAvatarRelativeViewWithAvatarURL(nil)
@@ -128,7 +202,7 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
             firstAppear = true
             SVProgressHUD.showWithStatus("努力加载...", maskType: SVProgressHUDMaskType.Black)
             let roleQuery = AVQuery(className: WSTwitter.parseClassName())
-            roleQuery?.limit = 30
+            roleQuery?.limit = WSPEngYQVCTwitterPageNumber
             roleQuery?.findObjectsInBackgroundWithBlock({ [weak self] (results, error) -> Void in
                 if let strongSelf = self {
                     if error != nil {
@@ -136,17 +210,19 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
                             SVProgressHUD.showErrorWithStatus(error?.localizedFailureReason, maskType: SVProgressHUDMaskType.Black)
                         }
                     } else {
-                        let roleResults = results as? [WSTwitter]
-                        if roleResults != nil {
-                            dispatch_async(dispatch_get_main_queue()) {
-                                strongSelf.twitters = roleResults!
-                                strongSelf.tableView.reloadData()
-                                SVProgressHUD.dismiss()
+                        dispatch_async(dispatch_get_main_queue()) {
+                            let twitterResults = results as? [WSTwitter]
+                            if twitterResults?.count > 0 {
+                                strongSelf.twitters = twitterResults!
+                            } else {
+                                strongSelf.twitters.removeAll(keepCapacity: false)
                             }
+                            strongSelf.tableView.reloadData()
+                            SVProgressHUD.dismiss()
                         }
                     }
                 }
-                })
+            })
         }
     }
 
@@ -166,9 +242,22 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("WSTwitterCell", forIndexPath: indexPath) as! WSTwitterCell
 
+        cell.showTopSeperator = (indexPath.row != 0)
         cell.configWithData(data: buildTwitterCellDataWithWSTwitter(twitters[indexPath.row]), cellWidth: CGRectGetWidth(tableView.bounds))
 
         return cell
+    }
+    
+    // MARK: - UIScrollViewDelegate
+    
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        self.upRefreshControl?.scrollViewDidScroll()
+        self.upLoadMoreControl?.scrollViewDidScroll()
+    }
+    
+    override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        self.upRefreshControl?.scrollViewDidEndDragging()
+        self.upLoadMoreControl?.scrollViewDidEndDragging()
     }
 
     // MARK: - WSRoleSelectVCDelegate
@@ -345,11 +434,10 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
         self.navigationItem.leftBarButtonItem = createAvatarBarButtonItemWithAvatarURL(avatarURL, target:self, action: "clickAtRoleAvatarBarItem")
         
         if avatarURL != nil {
-            pengYQHeader?.avatarView?.hnk_setImageFromURL(avatarURL!, placeholder: UIImage(named: "RoleAvatar"))
+             pengYQHeaderAvatarViewRetrieveImageTask = pengYQHeader?.avatarView?.kf_setImageWithURL(avatarURL!, placeholderImage: UIImage(named: "RoleAvatar"))
         } else {
-            pengYQHeader?.avatarView?.hnk_cancelSetImage()
+            pengYQHeaderAvatarViewRetrieveImageTask?.cancel()
             pengYQHeader?.avatarView?.image = UIImage(named: "RoleAvatar")
-//            pengYQHeader?.avatarView?.hnk_setImage(UIImage(named: "RoleAvatar")!, animated: false, success: nil)
         }
     }
     
@@ -359,17 +447,20 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
         
         let customButn = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
         customButn.bounds = CGRectMake(0, 0, 32, 32)
+        
         if avatarURL != nil {
-            customButn.hnk_setImageFromURL(avatarURL!, state: UIControlState.Normal, placeholder: UIImage(named: "RoleAvatar"), format: nil, failure: nil, success: { [weak customButn] (image) -> () in
+            avatarBarButtonRetrieveImageTask = customButn.kf_setImageWithURL(avatarURL!, forState: UIControlState.Normal, placeholderImage: UIImage(named: "RoleAvatar"), optionsInfo: nil, progressBlock: nil, completionHandler: { [weak customButn] (image, error, cacheType, imageURL) -> () in
                 if let strongCustomButn = customButn {
-                    strongCustomButn.setImage(Toucan.Mask.maskImageWithEllipse(image), forState: UIControlState.Normal)
+                    if image != nil {
+                        strongCustomButn.setImage(Toucan.Mask.maskImageWithEllipse(image!), forState: UIControlState.Normal)
+                    }
                 }
             })
         } else {
-//            customButn.hnk_setImage(UIImage(named: "CircleDefaultAvatar")!, state: UIControlState.Normal, animated: false, success: nil)
-            customButn.hnk_cancelSetImage()
+            avatarBarButtonRetrieveImageTask?.cancel()
             customButn.setImage(UIImage(named: "RoleAvatar"), forState: UIControlState.Normal)
         }
+        
         customButn.imageEdgeInsets = UIEdgeInsetsZero
         if target != nil && action != nil {
             customButn.addTarget(target!, action: action!, forControlEvents: UIControlEvents.TouchUpInside)
@@ -403,3 +494,5 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
         println("到选取头像照片页面")
     }
 }
+
+let WSPEngYQVCTwitterPageNumber = 5

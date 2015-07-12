@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Haneke
+import Kingfisher
 
 let WSSelectRoleCellReuseIdentifier = "WSSelectRoleCell"
 
@@ -24,14 +24,10 @@ class WSSelectRoleCell: UITableViewCell {
     @IBOutlet private weak var roleAvatarView:UIImageView?
     @IBOutlet private weak var selectRoleButton:UIButton?
     @IBOutlet private weak var roleTextViewHeightConstrait:NSLayoutConstraint?
-
-    var showTopSeperator:Bool {
-        get {
-            return self.showTopSeperator
-        }
-        
-        set(ifShow) {
-            topSeperator?.hidden = !ifShow
+    
+    var showTopSeperator:Bool = false {
+        didSet {
+            topSeperator?.hidden = !showTopSeperator
         }
     }
     
@@ -87,7 +83,7 @@ class WSSelectRoleCell: UITableViewCell {
         
         
         // 设置头像
-        roleAvatarView!.hnk_setImageFromURL(roleAvatarURL!, placeholder:UIImage(named: "RoleAvatar"))
+        roleAvatarView!.kf_setImageWithURL(roleAvatarURL!, placeholderImage:UIImage(named: "RoleAvatar"))
     }
     
     /**

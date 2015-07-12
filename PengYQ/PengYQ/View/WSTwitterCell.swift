@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Haneke
 import Kingfisher
 import MHPrettyDate
 
@@ -15,20 +14,14 @@ import MHPrettyDate
 class WSTwitterCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     weak var delegate: protocol<WSTwitterCellDelegate, TwitterCommentShowViewDelegate>? {
-        get {
-            return self.delegate
-        }
-        set (newValue){
-            commentShowView?.delegate = newValue
+        didSet {
+            commentShowView?.delegate = delegate
         }
     }
     
-    var showTopSeperator: Bool {
-        get {
-            return self.showTopSeperator
-        }
-        set (newValue) {
-            topSeperator?.hidden = !newValue
+    var showTopSeperator: Bool = false {
+        didSet {
+            topSeperator?.hidden = !showTopSeperator
         }
     }
     
@@ -48,6 +41,7 @@ class WSTwitterCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
     @IBOutlet private weak var commentShowViewTopConstraint: NSLayoutConstraint?
     @IBOutlet private weak var commentShowViewHeightConstraint: NSLayoutConstraint?
     
+    private var avatarViewRetrieveImageTask: RetrieveImageTask?
     private var photoURLs: [NSURL]?
     
     override func awakeFromNib() {
@@ -55,16 +49,19 @@ class WSTwitterCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
         
         topSeperator?.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
         topSeperatorHeightConstraint?.constant = 0.5
+        
         twitterTextView?.backgroundColor = UIColor.clearColor()
+        twitterTextView?.scrollEnabled = false
+        twitterTextView?.showsVerticalScrollIndicator = false
+        twitterTextView?.showsHorizontalScrollIndicator = false
+        twitterTextView?.editable = false
+        twitterTextView?.selectable = false
+        twitterTextView?.userInteractionEnabled = false
         
         photosCollectionView?.backgroundColor = UIColor.clearColor()
         photosCollectionView?.registerClass(TwitterPhotoCell.self, forCellWithReuseIdentifier: WSTwitterPhotoCellReuseIdentifier)
         photosCollectionView?.delegate = self
         photosCollectionView?.dataSource = self
-//        let photosCollectionViewLayout = photosCollectionView?.collectionViewLayout as! UICollectionViewFlowLayout
-//        photosCollectionViewLayout.itemSize = CGSizeMake(WSTwitterPhotoSize, WSTwitterPhotoSize)
-//        photosCollectionViewLayout.minimumLineSpacing = WSTwitterPhotoMinimumLineSpacing
-//        photosCollectionViewLayout.minimumInteritemSpacing = WSTwitterPhotoMinimumInteritemSpacing
         
         createDateLabel?.backgroundColor = UIColor.clearColor()
         
@@ -91,8 +88,6 @@ class WSTwitterCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(WSTwitterPhotoCellReuseIdentifier, forIndexPath: indexPath) as! TwitterPhotoCell
-        
-//        imageView?.hnk_setImageFromURL(photoURLs![indexPath.row], placeholder: UIImage(named: "Twitter_photo_default_background"))
         
         cell.configWithPhotoURL(photoURLs![indexPath.row])
         
@@ -132,10 +127,9 @@ class WSTwitterCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
         
         // 设置头像
         if avatarURL != nil {
-            avatarView?.hnk_setImageFromURL(avatarURL!, placeholder: UIImage(named: "RoleAvatar"))
+            avatarViewRetrieveImageTask = avatarView?.kf_setImageWithURL(avatarURL!, placeholderImage: UIImage(named: "RoleAvatar"))
         } else {
-//            avatarView?.hnk_setImage(UIImage(named: "RoleAvatar")!, animated: false, success: nil)
-            avatarView?.hnk_cancelSetImage()
+            avatarViewRetrieveImageTask?.cancel()
             avatarView?.image = UIImage(named: "RoleAvatar")
         }
         
@@ -176,13 +170,64 @@ class WSTwitterCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
         }
         
         commentShowView?.configWithData(data: commentShowViewData, viewWidth: twitterTextViewWidth)
+        
+        if commentShowViewData.count > 0 {
+            commentShowViewTopConstraint?.constant = WSTwitterCommentShowViewTopMargin
+            commentShowViewHeightConstraint?.constant = TwitterCommentShowView.caculateHeightWithData(data: commentShowViewData, viewWidth: twitterTextViewWidth)
+        } else {
+            commentShowViewTopConstraint?.constant = 0
+            commentShowViewHeightConstraint?.constant = 0
+        }
     }
     
-    class func cellHeightWithData(data: [String: AnyObject]? = nil, cellWidth: CGFloat? = 0) -> CGFloat {
+    class func cellHeightWithData(data: [String: AnyObject]? = nil, cellWidth: CGFloat = 0) -> CGFloat {
         
-        // TODO:
+        var cellHeight: CGFloat = 0
         
-        return 0
+        let authorName = data?[WSTwitterCellTwitterDataKey_authorName] as? String
+        let textContent = data?[WSTwitterCellTwitterDataKey_textContent] as? String
+        let photoURLs = data?[WSTwitterCellTwitterDataKey_photoURLs] as? [NSURL]
+        let createDate = data?[WSTwitterCellTwitterDataKey_createDate]  as? NSDate
+        let comments = data?[WSTwitterCellTwitterDataKey_comments] as? [[String: AnyObject]]
+        let zans = data?[WSTwitterCellTwitterDataKey_zanUserNames] as? [String]
+        
+        let twitterTextViewWidth = cellWidth - WSTwitterTextViewLittleThanCellWidth
+        
+        // 计算cell顶部padding
+        cellHeight += WSTwitterCellTopPadding
+        
+        // 计算文字内容视图高度
+        
+        let twitterAttributedText = WSTwitterCell.buildTwitterTextViewAttributedTextWithAuthorName(authorName, twitterTextContent:textContent)
+        cellHeight += WSTwitterCell.twitterTextViewHeightWithAttributedText(twitterAttributedText, twitterTextViewWidth: twitterTextViewWidth)
+        
+        // 计算图片显示视图高度
+        if let photoCount = photoURLs?.count {
+            cellHeight += (WSTwitterPhotosCollectionViewTopMargin +
+            caculatePhtotosCollectionViewHeightWithPhotoNumber(photoNumber: photoCount, collectionViewWidth: twitterTextViewWidth))
+        }
+        
+        // 计算时间视图高度
+        cellHeight += (WSTwitterCreateDateLabelTopMargin + WSTwitterCreateDateLabelHeight)
+        
+        // 计算评论视图高度
+        var commentShowViewData = [String: AnyObject]()
+        if zans != nil {
+            commentShowViewData[TwitterCommentShowViewTwitterDataKey_zanUserNames] = zans!
+        }
+        
+        if comments != nil {
+            commentShowViewData[TwitterCommentShowViewTwitterDataKey_comments] = comments!
+        }
+        
+        if commentShowViewData.count > 0 {
+            cellHeight += (WSTwitterCommentShowViewTopMargin + TwitterCommentShowView.caculateHeightWithData(data: commentShowViewData, viewWidth: twitterTextViewWidth))
+        }
+        
+        // 计算cell底部padding
+        cellHeight += WSTwitterCellBottomPadding
+        
+        return cellHeight > WSTwitterCellMinHeight ?cellHeight:WSTwitterCellMinHeight
     }
     
     static private func buildTwitterTextViewAttributedTextWithAuthorName(authorName: String?, twitterTextContent: String?) -> NSAttributedString? {
@@ -301,8 +346,8 @@ class WSTwitterCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
 }
 
 let WSTwitterCellMinHeight: CGFloat = 64
-let WSTwitterCellTopPadding = 6
-let WSTwitterCellBottomPadding = 8
+let WSTwitterCellTopPadding: CGFloat = 6
+let WSTwitterCellBottomPadding: CGFloat = 8
 
 let WSTwitterTextViewLittleThanCellWidth: CGFloat = 72
 
@@ -311,6 +356,9 @@ let WSTwitterPhotoSize: CGFloat = 84
 let WSTwitterPhotoMinimumLineSpacing: CGFloat = 4
 let WSTwitterPhotoMinimumInteritemSpacing: CGFloat = 4
 let WSTwitterPhotoCellReuseIdentifier = "WSTwitterPhotoCell"
+
+let WSTwitterCreateDateLabelTopMargin: CGFloat = 8
+let WSTwitterCreateDateLabelHeight: CGFloat = 18
 
 let WSTwitterCommentShowViewTopMargin: CGFloat = 8
 

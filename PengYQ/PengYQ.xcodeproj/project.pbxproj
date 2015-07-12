@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1962340B18760BFFFD4F394A /* Pods_PengYQ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F24D8669F182A795C92911B5 /* Pods_PengYQ.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		59A56D171B4D21AC00253301 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A56D161B4D21AC00253301 /* AppDelegate.swift */; };
-		59A56D191B4D21AC00253301 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A56D181B4D21AC00253301 /* ViewController.swift */; };
 		59A56D1C1B4D21AC00253301 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59A56D1A1B4D21AC00253301 /* Main.storyboard */; };
 		59A56D1E1B4D21AC00253301 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59A56D1D1B4D21AC00253301 /* Images.xcassets */; };
 		59A56D211B4D21AC00253301 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59A56D1F1B4D21AC00253301 /* LaunchScreen.xib */; };
@@ -38,7 +37,6 @@
 		59A56D111B4D21AC00253301 /* PengYQ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PengYQ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59A56D151B4D21AC00253301 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59A56D161B4D21AC00253301 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		59A56D181B4D21AC00253301 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		59A56D1B1B4D21AC00253301 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		59A56D1D1B4D21AC00253301 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		59A56D201B4D21AC00253301 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -119,7 +117,6 @@
 				59A56D341B4D224C00253301 /* VC */,
 				59A56D361B4D224C00253301 /* View */,
 				59A56D161B4D21AC00253301 /* AppDelegate.swift */,
-				59A56D181B4D21AC00253301 /* ViewController.swift */,
 				59A56D1A1B4D21AC00253301 /* Main.storyboard */,
 				59A56D1D1B4D21AC00253301 /* Images.xcassets */,
 				59A56D1F1B4D21AC00253301 /* LaunchScreen.xib */,
@@ -321,7 +318,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				865380DD1B516C6200FEDD02 /* WSTwitter.swift in Sources */,
-				59A56D191B4D21AC00253301 /* ViewController.swift in Sources */,
 				59F3649B1B4E4A370093A6D1 /* WSPengYQVC.swift in Sources */,
 				59A56D391B4D224C00253301 /* WSSelectRoleCell.swift in Sources */,
 				865380D51B4ECE8300FEDD02 /* TwitterCommentShowView.swift in Sources */,

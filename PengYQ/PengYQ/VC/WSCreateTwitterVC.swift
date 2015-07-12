@@ -11,6 +11,7 @@ import CTAssetsPickerController
 import SVProgressHUD
 import AVOSCloud
 import Toucan
+import Haneke
 
 /// 发推vc
 class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, CTAssetsPickerControllerDelegate {
@@ -57,7 +58,10 @@ class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollect
             
             // 设置textView的约束
             contentView!.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[textView(120)]-8-[collectionView(photoHeight)]-16-[stateLabel(20)]-20-|", options: NSLayoutFormatOptions.AlignAllLeading|NSLayoutFormatOptions.AlignAllTrailing, metrics: metrics, views: views))
+            
             contentView!.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[textView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+            
+            contentView!.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-16-[collectionView]-16-|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
             
             
             hasSetupSubviewConstraints = true
@@ -215,7 +219,6 @@ class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollect
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = albumAddBtnImage.size
         flowLayout.minimumLineSpacing = 8
-        flowLayout.sectionInset = UIEdgeInsetsMake(0, 16, 0, 16)
         flowLayout.scrollDirection = UICollectionViewScrollDirection.Horizontal
         
         collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: flowLayout)
@@ -258,9 +261,18 @@ class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollect
     */
     @objc private func requestCreateTwitter() {
         
+        textView?.resignFirstResponder()
+        
         if AVUser.currentUser() != nil {
             
             // 已经在试用登录
+            
+            let selectedPhotoCount = assetsPickerController.selectedAssets.count
+            let textEmpty = textView?.text.isEmpty
+            if selectedPhotoCount == 0 || textEmpty == true {
+                SVProgressHUD.showErrorWithStatus("没有填写动态信息或添加照片", maskType: SVProgressHUDMaskType.Black)
+                return
+            }
             
             SVProgressHUD.showWithStatus("请稍后...", maskType: SVProgressHUDMaskType.Black)
             
