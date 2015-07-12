@@ -102,7 +102,18 @@ class WSTwitterCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake(WSTwitterPhotoSize, WSTwitterPhotoSize)
+        
+        let collectionViewWidth = CGRectGetWidth(collectionView.bounds)
+        let columns = Int((collectionViewWidth + WSTwitterPhotoMinimumInteritemSpacing)/(WSTwitterPhotoSize + WSTwitterPhotoMinimumInteritemSpacing))
+        
+        var itemWidth: CGFloat = 0
+        if columns == 0 {
+            itemWidth = collectionViewWidth
+        } else {
+            itemWidth = (collectionViewWidth - CGFloat(columns - 1)*WSTwitterPhotoMinimumInteritemSpacing)/CGFloat(columns)
+        }
+        
+        return CGSizeMake(itemWidth, WSTwitterPhotoSize)
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
@@ -327,6 +338,7 @@ class WSTwitterCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
             
             photoView?.setTranslatesAutoresizingMaskIntoConstraints(false)
             photoView?.contentMode = UIViewContentMode.ScaleAspectFill
+            photoView?.clipsToBounds = true
             
             // 设置约束
             let views = ["photoView":photoView!]
