@@ -320,7 +320,7 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
         self.addSubview(likesCommentsSeperatorView!)
         
         likesCommentsSeperatorView?.setTranslatesAutoresizingMaskIntoConstraints(false)
-        likesCommentsSeperatorView?.backgroundColor = UIColor(white: 0.4, alpha: 1)
+        likesCommentsSeperatorView?.backgroundColor = UIColor(white: 0.9, alpha: 1)
         
         commentsTable = UITableView(frame: CGRectZero, style: UITableViewStyle.Plain)
         self.addSubview(commentsTable!)
@@ -353,7 +353,7 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
         
         
         // 设置likesCommentsSeperatorView的约束
-        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[likesCommentsSeperatorView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-4-[likesCommentsSeperatorView]-4-|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
         
         likesCommentsSeperatorViewTopConstraint = NSLayoutConstraint(item: likesCommentsSeperatorView!, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: likesTagView!, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: 0)
         self.addConstraint(likesCommentsSeperatorViewTopConstraint!)
@@ -550,16 +550,23 @@ class TwitterCommentCell: UITableViewCell, TTTAttributedLabelDelegate {
     
     
     private func setupTwitterCommentCell() {
+        self.backgroundColor = UIColor.clearColor()
+        
         commentLabel = TTTAttributedLabel(frame: self.contentView.bounds)
         self.contentView.addSubview(commentLabel!)
         
-        commentLabel?.autoresizingMask = UIViewAutoresizing.FlexibleHeight|UIViewAutoresizing.FlexibleWidth
-        
+        commentLabel?.backgroundColor = UIColor.clearColor()
         TwitterCommentCell.customCommentLabel(commentLabel)
         
         commentLabel?.delegate = self
         commentLabel?.linkAttributes = [NSUnderlineStyleAttributeName:false]
         commentLabel?.activeLinkAttributes = [kTTTBackgroundFillColorAttributeName:UIColor(white: 0.4, alpha: 1).CGColor, NSUnderlineStyleAttributeName:false]
+        
+        commentLabel?.setTranslatesAutoresizingMaskIntoConstraints(false)
+        
+        let views = ["commentLabel":commentLabel!]
+        self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-4-[commentLabel]-4-|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[commentLabel]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
     }
     
     // MARK: - TTTAttributedLabelDelegate
