@@ -152,7 +152,6 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor(white: 0.6, alpha: 1)
         
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-        self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
         
         // 设置朋友圈header
         pengYQHeader = PengYQHeaderView(frame: CGRectMake(0, 0, CGRectGetWidth(self.tableView.bounds), 240))
@@ -316,13 +315,17 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
     // MARK: - UIScrollViewDelegate
     
     override func scrollViewDidScroll(scrollView: UIScrollView) {
-        self.upRefreshControl?.scrollViewDidScroll()
-        self.upLoadMoreControl?.scrollViewDidScroll()
+        upRefreshControl?.scrollViewDidScroll()
+        upLoadMoreControl?.scrollViewDidScroll()
     }
     
     override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        self.upRefreshControl?.scrollViewDidEndDragging()
-        self.upLoadMoreControl?.scrollViewDidEndDragging()
+        upRefreshControl?.scrollViewDidEndDragging()
+        upLoadMoreControl?.scrollViewDidEndDragging()
+    }
+    
+    override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        commentFiledResignFirstResponder()
     }
 
     // MARK: - WSRoleSelectVCDelegate
@@ -654,7 +657,9 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
         twitterOperateModelWindow.dismissWithAnimated(true)
         
         if twitterOperatingIndexPath != nil && twitters.count > twitterOperatingIndexPath!.row {
-            fakeCommentInputField.becomeFirstResponder()
+            if fakeCommentInputField.becomeFirstResponder() {
+                realCommentInputField.becomeFirstResponder()
+            }
         }
     }
     
