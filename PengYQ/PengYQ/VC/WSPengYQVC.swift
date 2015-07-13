@@ -13,11 +13,12 @@ import AVOSCloud
 import SVProgressHUD
 import UpRefreshControl
 import UpLoadMoreControl
+import LvModelWindow
 
 /**
 *  朋友圈VC
 */
-class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDelegate, TwitterCommentShowViewDelegate {
+class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDelegate, TwitterCommentShowViewDelegate, LvModelWindowDelegate, UITextFieldDelegate {
     
     /**
     *  header view
@@ -75,14 +76,70 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
     private var upRefreshControl:UpRefreshControl?
     private var upLoadMoreControl:UpLoadMoreControl?
     
+    private var twitterOperatingIndexPath: NSIndexPath?   // 正在操作的索引
+    lazy private var twitterOperateView: TwitterOperateView = {
+        let operateView = TwitterOperateView()
+        operateView.zanButton?.addTarget(self, action: "doOperateViewZan", forControlEvents: UIControlEvents.TouchUpInside)
+        operateView.commentButton?.addTarget(self, action: "doOperateViewComment", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        return operateView
+    }()
+    
+    lazy private var twitterOperateModelWindow: LvModelWindow = {
+        let modelWindow = LvModelWindow(preferStatusBarHidden: false, supportedOrientationPortrait: false, supportedOrientationPortraitUpsideDown: false, supportedOrientationLandscapeLeft: false, supportedOrientationLandscapeRight: false)
+        
+        modelWindow.windowRootView.userInteractionEnabled = true
+        modelWindow.windowRootView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "dismissTwitterOperateModelWindow"))
+        
+        modelWindow.modelWindowDelegate = self
+        modelWindow.windowRootView.addSubview(self.twitterOperateView)
+    
+        return modelWindow
+    }()
+    
     private var roleSelectVC: WSRoleSelectVC?
     
-    lazy var twitters: [WSTwitter] = {
-        return [WSTwitter]()
-    }()
+    lazy var twitters = [WSTwitter]()
+    
+    private var loginUser: WSUser?
     
     private var firstAppear = false
     
+    // 假评论输入框
+    lazy private var fakeCommentInputField: UITextField = {
+        
+        let fakeTextField = UITextField(frame: CGRectZero)
+        fakeTextField.inputAccessoryView = self.fakeCommentInputFieldAccessoryView
+        return fakeTextField
+    }()
+    
+    lazy private var fakeCommentInputFieldAccessoryView: UIView = {
+        
+        let inputAccessoryView = UIView(frame: CGRectMake(0, 0, CGRectGetWidth(UIScreen.mainScreen().applicationFrame), 44))
+        inputAccessoryView.backgroundColor = UIColor(white: 0.91, alpha: 1)
+        
+        let commentTextField = self.realCommentInputField
+        inputAccessoryView.addSubview(commentTextField)
+        
+        commentTextField.setTranslatesAutoresizingMaskIntoConstraints(false)
+        
+        inputAccessoryView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-8-[commentTextField]-8-|", options: NSLayoutFormatOptions(0), metrics: nil, views: ["commentTextField" : commentTextField]))
+        inputAccessoryView.addConstraint(NSLayoutConstraint(item: commentTextField, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: inputAccessoryView, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0))
+        
+        return inputAccessoryView
+    }()
+    
+    // 真正的评论输入框
+    lazy private var realCommentInputField: UITextField = {
+        let commentInputField = UITextField()
+        commentInputField.delegate = self
+        commentInputField.returnKeyType = UIReturnKeyType.Send;
+        commentInputField.spellCheckingType = UITextSpellCheckingType.No
+        commentInputField.autocorrectionType = UITextAutocorrectionType.No
+        commentInputField.borderStyle = UITextBorderStyle.RoundedRect
+        
+        return commentInputField
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,6 +152,7 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor(white: 0.6, alpha: 1)
         
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
         
         // 设置朋友圈header
         pengYQHeader = PengYQHeaderView(frame: CGRectMake(0, 0, CGRectGetWidth(self.tableView.bounds), 240))
@@ -172,20 +230,26 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
             })
         tableView.addSubview(upLoadMoreControl!)
         
+        // 添加fakeCommentInputField到视图
+        tableView.addSubview(fakeCommentInputField)
+        
         
         updateAvatarRelativeViewWithAvatarURL(nil)
         
-        var loginUser = AVUser.currentUser() as? WSUser
+        loginUser = AVUser.currentUser() as? WSUser
         if let loginUserRole = loginUser?.userCurrentRole {
             let query = AVQuery(className: WSRole.parseClassName())
             query.getObjectInBackgroundWithId(loginUserRole.objectId, block: { [weak self] (completeRole, error) -> Void in
                 if let strongSelf = self {
-                    var showAvatarURL: NSURL?
-                    let lastPlayedRoleAvatars = (completeRole as! WSRole).FRoleAvatars
-                    if lastPlayedRoleAvatars?.count > 0 {
-                        showAvatarURL = NSURL(string: lastPlayedRoleAvatars![0])
+                    if strongSelf.loginUser != nil && error == nil {
+                        strongSelf.loginUser!.userCurrentRole = completeRole as? WSRole
+                        var showAvatarURL: NSURL?
+                        let lastPlayedRoleAvatars = (completeRole as? WSRole)?.FRoleAvatars
+                        if lastPlayedRoleAvatars?.count > 0 {
+                            showAvatarURL = NSURL(string: lastPlayedRoleAvatars![0])
+                        }
+                        strongSelf.updateAvatarRelativeViewWithAvatarURL(showAvatarURL)
                     }
-                    strongSelf.updateAvatarRelativeViewWithAvatarURL(showAvatarURL)
                 }
             })
         }
@@ -243,6 +307,7 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
         let cell = tableView.dequeueReusableCellWithIdentifier("WSTwitterCell", forIndexPath: indexPath) as! WSTwitterCell
 
         cell.showTopSeperator = (indexPath.row != 0)
+        cell.delegate = self
         cell.configWithData(data: buildTwitterCellDataWithWSTwitter(twitters[indexPath.row]), cellWidth: CGRectGetWidth(tableView.bounds))
 
         return cell
@@ -323,11 +388,28 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
 
     // MARK: - WSTwitterCellDelegate
     func twitterCell(twitterCell: WSTwitterCell, didClickMoreOprateButton: UIButton) {
-        // TODO:
+        
+        println("点击了操作图标，弹出操作视图")
+        if let operateCellIndexPath = tableView.indexPathForRowAtPoint(tableView.convertPoint(CGPointZero, fromView: twitterCell)) {
+            println("操作所在索引: \(operateCellIndexPath.row)")
+            
+            // 记录操作所在元素的索引
+            
+            twitterOperatingIndexPath = operateCellIndexPath
+            
+            let buttonBounds = didClickMoreOprateButton.bounds
+            let operateButnCenterYOriginPointAtRootView = tableView.window!.convertPoint(CGPointMake(CGRectGetMinX(buttonBounds), CGRectGetMidY(buttonBounds)), fromView: didClickMoreOprateButton)
+            
+            let operateViewIntrinsicContentSize = self.twitterOperateView.intrinsicContentSize()
+            self.twitterOperateView.frame = CGRectMake(operateButnCenterYOriginPointAtRootView.x - operateViewIntrinsicContentSize.width, operateButnCenterYOriginPointAtRootView.y - operateViewIntrinsicContentSize.height/CGFloat(2), operateViewIntrinsicContentSize.width, operateViewIntrinsicContentSize.height)
+            
+            self.twitterOperateModelWindow.showWithAnimated(true)
+        }
     }
     
     func twitterCell(twitterCell: WSTwitterCell, didSelectPhotoViewAtIndex: Int) {
         // TODO:
+        println("点击了图片, index:\(didSelectPhotoViewAtIndex)")
     }
     
     // MARK: - TwitterCommentShowViewDelegate
@@ -343,6 +425,55 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
     func twitterCommentShowView(view: TwitterCommentShowView, didSelectZanUserName: String, atIndex: Int) {
         // TODO:
     }
+    
+    
+    // MARK: - LvModelWindowDelegate
+    
+    func modelWindowDidShow(modelWindow: LvModelWindow!) {
+    
+    }
+    
+    func modelWindowDidDismiss(modelWindow: LvModelWindow!) {
+        
+    }
+    
+    // MARK: - UITextFieldDelegate
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if textField == realCommentInputField {
+            
+            commentFiledResignFirstResponder()
+            
+            if let comment = textField.text {
+                
+                if twitterOperatingIndexPath != nil && twitters.count > twitterOperatingIndexPath!.row {
+                    let operateTwitter = twitters[twitterOperatingIndexPath!.row]
+                    let newComment = WSTwitter()
+                    newComment.dtAuthor = loginUser
+                    newComment.dtContent = comment
+                    if operateTwitter.dtComments?.count > 0 {
+                        operateTwitter.dtComments!.append(newComment)
+                    } else {
+                        operateTwitter.dtComments = [newComment]
+                    }
+                    self.tableView.reloadRowsAtIndexPaths([twitterOperatingIndexPath!], withRowAnimation: UITableViewRowAnimation.None)
+                
+                    // TODO:发送评论到服务端 
+                }
+            }
+        }
+        return true
+    }
+        
+    private func commentFiledResignFirstResponder() {
+        if realCommentInputField.isFirstResponder() {
+            realCommentInputField.resignFirstResponder()
+        }
+        if fakeCommentInputField.isFirstResponder() {
+            fakeCommentInputField.resignFirstResponder()
+        }
+    }
+    
     
     /**
     根据动态信息创建cell需要的数据
@@ -492,6 +623,43 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
     
     @objc private func tapPengYQHeaderAvatarView() {
         println("到选取头像照片页面")
+    }
+    
+    /**
+    处理点赞
+    */
+    @objc private func doOperateViewZan() {
+        
+        println("点击了赞按钮")
+        twitterOperateModelWindow.dismissWithAnimated(true)
+        
+        if twitterOperatingIndexPath != nil && twitters.count > twitterOperatingIndexPath!.row {
+            let operateTwitter = twitters[twitterOperatingIndexPath!.row]
+            let newLike = WSLike()
+            newLike.lAuthor = loginUser
+            if operateTwitter.dtLikes?.count > 0 {
+                operateTwitter.dtLikes!.append(newLike)
+            } else {
+                operateTwitter.dtLikes = [newLike]
+            }
+            self.tableView.reloadRowsAtIndexPaths([twitterOperatingIndexPath!], withRowAnimation: UITableViewRowAnimation.None)
+            
+            // TODO: 发送赞到服务器端
+        }
+    }
+    
+    @objc private func doOperateViewComment() {
+        // TODO
+        println("点击了评论按钮")
+        twitterOperateModelWindow.dismissWithAnimated(true)
+        
+        if twitterOperatingIndexPath != nil && twitters.count > twitterOperatingIndexPath!.row {
+            fakeCommentInputField.becomeFirstResponder()
+        }
+    }
+    
+    @objc private func dismissTwitterOperateModelWindow() {
+        twitterOperateModelWindow.dismissWithAnimated(true)
     }
 }
 

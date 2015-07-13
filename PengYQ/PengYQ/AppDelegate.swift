@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         WSUser.registerSubclass()
         WSRole.registerSubclass()
         WSRoleGroup.registerSubclass()
+        WSLike.registerSubclass()
         
         
         return true

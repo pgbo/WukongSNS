@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1962340B18760BFFFD4F394A /* Pods_PengYQ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F24D8669F182A795C92911B5 /* Pods_PengYQ.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		59529E731B5363D300BF8582 /* TwitterOperateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59529E721B5363D300BF8582 /* TwitterOperateView.swift */; };
 		59A56D171B4D21AC00253301 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A56D161B4D21AC00253301 /* AppDelegate.swift */; };
 		59A56D1C1B4D21AC00253301 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59A56D1A1B4D21AC00253301 /* Main.storyboard */; };
 		59A56D1E1B4D21AC00253301 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59A56D1D1B4D21AC00253301 /* Images.xcassets */; };
@@ -34,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		59529E721B5363D300BF8582 /* TwitterOperateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterOperateView.swift; sourceTree = "<group>"; };
 		59A56D111B4D21AC00253301 /* PengYQ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PengYQ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59A56D151B4D21AC00253301 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59A56D161B4D21AC00253301 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				59A56D371B4D224C00253301 /* WSSelectRoleCell.swift */,
 				865380D01B4EC55100FEDD02 /* WSTwitterCell.swift */,
 				865380D41B4ECE8300FEDD02 /* TwitterCommentShowView.swift */,
+				59529E721B5363D300BF8582 /* TwitterOperateView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 				865380DD1B516C6200FEDD02 /* WSTwitter.swift in Sources */,
 				59F3649B1B4E4A370093A6D1 /* WSPengYQVC.swift in Sources */,
 				59A56D391B4D224C00253301 /* WSSelectRoleCell.swift in Sources */,
+				59529E731B5363D300BF8582 /* TwitterOperateView.swift in Sources */,
 				865380D51B4ECE8300FEDD02 /* TwitterCommentShowView.swift in Sources */,
 				865380E51B5189D300FEDD02 /* WSLike.swift in Sources */,
 				865380D11B4EC55100FEDD02 /* WSTwitterCell.swift in Sources */,

@@ -47,6 +47,8 @@ class WSTwitterCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        self.selectionStyle = UITableViewCellSelectionStyle.None
+        
         topSeperator?.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
         topSeperatorHeightConstraint?.constant = 0.5
         
@@ -177,7 +179,25 @@ class WSTwitterCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
         }
         
         if comments != nil {
-            commentShowViewData[TwitterCommentShowViewTwitterDataKey_comments] = comments!
+            var commentShowViewComments = [[String:AnyObject]]()
+            for comment in comments! {
+                var commentShowViewComment = [String:AnyObject]()
+                
+                if let commentAuthorRoleName: AnyObject = comment[WSTwitterCellCommentDataKey_authorName] {
+                    commentShowViewComment[TwitterCommentShowViewCommentDataKey_authorName] = commentAuthorRoleName
+                }
+                
+                if let commentAtUserRoleName: AnyObject = comment[WSTwitterCellCommentDataKey_atUserName] {
+                    commentShowViewComment[TwitterCommentShowViewCommentDataKey_atUserName] = commentAtUserRoleName
+                }
+                
+                if let commentText: AnyObject = comment[WSTwitterCellCommentDataKey_textContent] {
+                    commentShowViewComment[TwitterCommentShowViewCommentDataKey_textContent] = commentText
+                }
+                
+                commentShowViewComments.append(commentShowViewComment)
+            }
+            commentShowViewData[TwitterCommentShowViewTwitterDataKey_comments] = commentShowViewComments
         }
         
         commentShowView?.configWithData(data: commentShowViewData, viewWidth: twitterTextViewWidth)
