@@ -170,12 +170,13 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
         let zanUserNames = data?[TwitterCommentShowViewTwitterDataKey_zanUserNames] as? [String]
         let comments = data?[TwitterCommentShowViewTwitterDataKey_comments] as? [[String:AnyObject]!]
         
+        // 计算topPadding
+        height += TwitterCommentShowView_likesTagViewTopMargin
+        
         // 计算赞相关视图的高度
         if zanUserNames?.count > 0 {
             let likesTagViewHeight = caculateLikesTagViewHeightWithZanUserNames(names: zanUserNames, likesTagViewWidth: (viewWidth - TwitterCommentShowView_likesTagViewLittleThanShowView))
-            if likesTagViewHeight > 0 {
-                height += TwitterCommentShowView_likesTagViewTopMargin + likesTagViewHeight
-            }
+            height += likesTagViewHeight
         }
         
         // 计算分割线的高度
@@ -204,10 +205,11 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
         tagView.horizontalPadding = 0
         tagView.verticalPadding = 0
         tagView.bottomMargin = 0
+        tagView.textShadowColor = UIColor.clearColor()
         tagView.setTagBackgroundColor(UIColor.clearColor())
         tagView.setTagHighlightColor(UIColor(white: 0.7, alpha: 1))
         tagView.textColor = UIColor.darkGrayColor()
-        tagView.font = UIFont.systemFontOfSize(10)
+        tagView.font = UIFont.systemFontOfSize(12)
         tagView.borderWidth = 0
         tagView.cornerRadius = 0
     }
@@ -374,7 +376,7 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
 }
 
 let TwitterCommentShowView_likesTagViewLittleThanShowView: CGFloat = 21
-let TwitterCommentShowView_likesTagViewTopMargin: CGFloat = 10
+let TwitterCommentShowView_likesTagViewTopMargin: CGFloat = 8
 let TwitterCommentShowView_likeIconTopMargin: CGFloat = 8
 let TwitterCommentShowView_likeIconLeftMargin: CGFloat = 4
 let TwitterCommentShowView_seperatorTopMargin: CGFloat = 0
@@ -409,7 +411,7 @@ let TwitterCommentCellReuseIdentifer = "TwitterCommentCell"
 class TwitterCommentCell: UITableViewCell, TTTAttributedLabelDelegate {
     
     static private let TwitterCommentLabelFontSize: CGFloat = 12
-    private let CustomDetectUserNameURLProtocol = "PengYQUser://"
+    private let CustomDetectUserNameURLProtocol = "http://www.justdoit.com/"
     
     weak var delegate: TwitterCommentCellDelegate?
     
@@ -442,12 +444,17 @@ class TwitterCommentCell: UITableViewCell, TTTAttributedLabelDelegate {
         let builedCommentText = buildResult.builedCommentText
         
         if builedCommentText.isEmpty == false {
-            commentLabel?.setText(builedCommentText, afterInheritingLabelAttributesAndConfiguringWithBlock: { (mutableAttributedString) -> NSMutableAttributedString! in
+            var attributedText = NSMutableAttributedString(string: builedCommentText, attributes: nil)
+            attributedText.setAttributes([NSForegroundColorAttributeName: UIColor.blueColor()], range: authorNameRange)
+            attributedText.setAttributes([NSForegroundColorAttributeName: UIColor.blueColor()], range: atUserNameRange)
+            commentLabel?.setText(attributedText, afterInheritingLabelAttributesAndConfiguringWithBlock: { (mutableAttributedString) -> NSMutableAttributedString! in
                 return mutableAttributedString
             })
             
             if authorNameRange.location != NSNotFound {
-                commentLabel?.addLinkToURL(NSURL(string: ("\(CustomDetectUserNameURLProtocol)" + "\(authorName)")), withRange: authorNameRange)
+                var linkUrl = (CustomDetectUserNameURLProtocol + authorName!).stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
+                let link = NSURL(string:linkUrl!)
+                commentLabel?.addLinkToURL(link!, withRange: authorNameRange)
             }
             
             if atUserNameRange.location != NSNotFound {
@@ -559,8 +566,10 @@ class TwitterCommentCell: UITableViewCell, TTTAttributedLabelDelegate {
         TwitterCommentCell.customCommentLabel(commentLabel)
         
         commentLabel?.delegate = self
+        // FIXME: 无法检测链接
+//        commentLabel?.enabledTextCheckingTypes = NSTextCheckingType.Link.rawValue
         commentLabel?.linkAttributes = [NSUnderlineStyleAttributeName:false]
-        commentLabel?.activeLinkAttributes = [kTTTBackgroundFillColorAttributeName:UIColor(white: 0.4, alpha: 1).CGColor, NSUnderlineStyleAttributeName:false]
+        commentLabel?.activeLinkAttributes = [kTTTBackgroundFillColorAttributeName:UIColor(white: 0.7, alpha: 1).CGColor, kCTForegroundColorAttributeName: UIColor(red: 0.2, green: 0.2, blue: 0.8, alpha: 1).CGColor, NSUnderlineStyleAttributeName:false]
         
         commentLabel?.setTranslatesAutoresizingMaskIntoConstraints(false)
         
@@ -571,10 +580,10 @@ class TwitterCommentCell: UITableViewCell, TTTAttributedLabelDelegate {
     
     // MARK: - TTTAttributedLabelDelegate
     
-    private func attributedLabel(label: TTTAttributedLabel!, didSelectLinkWithURL url: NSURL!) {
-        if let urlString = url.absoluteString {
+    func attributedLabel(label: TTTAttributedLabel!, didSelectLinkWithURL url: NSURL!) {
+        if let urlString = url.absoluteString?.stringByReplacingPercentEscapesUsingEncoding(NSUTF8StringEncoding) {
             let selectUserName = urlString.substringFromIndex(advance(urlString.startIndex, count(CustomDetectUserNameURLProtocol)))
-            if selectUserName.isEmpty != false {
+            if selectUserName.isEmpty == false {
                 delegate?.twitterCommentCell?(self, didSelectUserName: selectUserName)
             }
         }
