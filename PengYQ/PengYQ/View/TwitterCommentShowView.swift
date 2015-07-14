@@ -141,7 +141,7 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
         commentsTable?.reloadData()
         
         if comments?.count > 0 {
-            let commentsTableHeight = TwitterCommentShowView.caculateCommentsTableheightWithComments(comments: comments!, commentsTableWidth: viewWidth)
+            let commentsTableHeight = TwitterCommentShowView.caculateCommentsTableHeightWithComments(comments: comments!, commentsTableWidth: viewWidth)
             commentsTableHeightConstraint?.constant = commentsTableHeight
             if commentsTableHeight > 0 {
                 commentsTableTopConstraint?.constant = TwitterCommentShowView_commentsTableTopMargin
@@ -181,14 +181,14 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
         
         // 计算分割线的高度
         if zanUserNames?.count > 0 && comments?.count > 0 {
-            height += TwitterCommentShowView_seperatorTopMargin + TwitterCommentShowView_seperatorViewHeight
+            height += (TwitterCommentShowView_seperatorTopMargin + TwitterCommentShowView_seperatorViewHeight)
         }
         
         // 计算评论相关的高度
         if comments?.count > 0 {
-            let commentsTableHeight = caculateCommentsTableheightWithComments(comments: comments!, commentsTableWidth: viewWidth)
+            let commentsTableHeight = caculateCommentsTableHeightWithComments(comments: comments!, commentsTableWidth: viewWidth)
             if commentsTableHeight > 0 {
-                height += TwitterCommentShowView_commentsTableTopMargin + commentsTableHeight
+                height += (TwitterCommentShowView_commentsTableTopMargin + commentsTableHeight)
             }
         }
         
@@ -208,7 +208,7 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
         tagView.textShadowColor = UIColor.clearColor()
         tagView.setTagBackgroundColor(UIColor.clearColor())
         tagView.setTagHighlightColor(UIColor(white: 0.7, alpha: 1))
-        tagView.textColor = UIColor.darkGrayColor()
+        tagView.textColor = UIColor(red: 0.46, green: 0.53, blue: 0.71, alpha: 1)
         tagView.font = UIFont.systemFontOfSize(12)
         tagView.borderWidth = 0
         tagView.cornerRadius = 0
@@ -287,7 +287,7 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
     
     :returns: 计算结果
     */
-    static private func caculateCommentsTableheightWithComments(comments: [[String: AnyObject]!]? = nil, commentsTableWidth: CGFloat? = 0) -> CGFloat {
+    static private func caculateCommentsTableHeightWithComments(comments: [[String: AnyObject]!]? = nil, commentsTableWidth: CGFloat = 0) -> CGFloat {
         
         if comments?.count > 0 {
             var height: CGFloat = 0
@@ -480,33 +480,34 @@ class TwitterCommentCell: UITableViewCell, TTTAttributedLabelDelegate {
     :param: data      评论数据
     :param: cellWidth cell宽度
     */
-    static func cellHeightWithData(data: [String: AnyObject]? = nil, cellWidth: CGFloat? = 0) -> CGFloat {
+    static func cellHeightWithData(data: [String: AnyObject]? = nil, cellWidth: CGFloat = 0) -> CGFloat {
         
         var height: CGFloat = 0
+        var commentLabelWidth = cellWidth - TwitterCommentCellLeftpadding - TwitterCommentCellRightpadding
         
         struct Static {
             static var onceToken : dispatch_once_t = 0
             static var sizingLabel : TTTAttributedLabel? = nil
         }
         dispatch_once(&Static.onceToken) {
-            Static.sizingLabel = TTTAttributedLabel(frame: CGRectZero)
+            Static.sizingLabel = TTTAttributedLabel(frame: CGRectMake(0, 0, 200, TwitterCommentCellMinHeight))
             self.customCommentLabel(Static.sizingLabel)
         }
         
         var sizingLabelFrame = Static.sizingLabel!.frame
-        if sizingLabelFrame.size.width != cellWidth || sizingLabelFrame.size.height != CGFloat.max {
-            sizingLabelFrame.size.width = cellWidth!
+        if sizingLabelFrame.size.width != commentLabelWidth || sizingLabelFrame.size.height != CGFloat.max {
+            sizingLabelFrame.size.width = commentLabelWidth
             sizingLabelFrame.size.height = CGFloat.max
             Static.sizingLabel?.frame = sizingLabelFrame
         }
         
         Static.sizingLabel?.text = buildCommentTextWithData(data).builedCommentText
-        
         Static.sizingLabel?.sizeToFit()
         
         let labelHeight = Static.sizingLabel!.frame.height
+        
         if labelHeight > 0 {
-            height += TwitterCommentCellTopPadding + TwitterCommentCellBottomPadding
+            height += (labelHeight + TwitterCommentCellTopPadding + TwitterCommentCellBottomPadding)
         }
         
         return height > TwitterCommentCellMinHeight ?height:TwitterCommentCellMinHeight
@@ -566,10 +567,8 @@ class TwitterCommentCell: UITableViewCell, TTTAttributedLabelDelegate {
         TwitterCommentCell.customCommentLabel(commentLabel)
         
         commentLabel?.delegate = self
-        // FIXME: 无法检测链接
-//        commentLabel?.enabledTextCheckingTypes = NSTextCheckingType.Link.rawValue
-        commentLabel?.linkAttributes = [NSUnderlineStyleAttributeName:false]
-        commentLabel?.activeLinkAttributes = [kTTTBackgroundFillColorAttributeName:UIColor(white: 0.7, alpha: 1).CGColor, kCTForegroundColorAttributeName: UIColor(red: 0.2, green: 0.2, blue: 0.8, alpha: 1).CGColor, NSUnderlineStyleAttributeName:false]
+        commentLabel?.linkAttributes = [NSUnderlineStyleAttributeName:false, kCTForegroundColorAttributeName: UIColor(red: 0.46, green: 0.53, blue: 0.71, alpha: 1).CGColor]
+        commentLabel?.activeLinkAttributes = [kTTTBackgroundFillColorAttributeName:UIColor(white: 0.7, alpha: 1).CGColor, NSUnderlineStyleAttributeName:false]
         
         commentLabel?.setTranslatesAutoresizingMaskIntoConstraints(false)
         
@@ -593,7 +592,10 @@ class TwitterCommentCell: UITableViewCell, TTTAttributedLabelDelegate {
 
 let TwitterCommentCellTopPadding: CGFloat = 2
 let TwitterCommentCellBottomPadding: CGFloat = 2
+let TwitterCommentCellLeftpadding: CGFloat = 4
+let TwitterCommentCellRightpadding: CGFloat = 4
 let TwitterCommentCellMinHeight: CGFloat = 16
+
 
 
 // 动态的评论数据，每条评论的具体信息再通过评论的数据key获取

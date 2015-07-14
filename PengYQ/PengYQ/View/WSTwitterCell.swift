@@ -181,21 +181,7 @@ class WSTwitterCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
         if comments != nil {
             var commentShowViewComments = [[String:AnyObject]]()
             for comment in comments! {
-                var commentShowViewComment = [String:AnyObject]()
-                
-                if let commentAuthorRoleName: AnyObject = comment[WSTwitterCellCommentDataKey_authorName] {
-                    commentShowViewComment[TwitterCommentShowViewCommentDataKey_authorName] = commentAuthorRoleName
-                }
-                
-                if let commentAtUserRoleName: AnyObject = comment[WSTwitterCellCommentDataKey_atUserName] {
-                    commentShowViewComment[TwitterCommentShowViewCommentDataKey_atUserName] = commentAtUserRoleName
-                }
-                
-                if let commentText: AnyObject = comment[WSTwitterCellCommentDataKey_textContent] {
-                    commentShowViewComment[TwitterCommentShowViewCommentDataKey_textContent] = commentText
-                }
-                
-                commentShowViewComments.append(commentShowViewComment)
+                commentShowViewComments.append(WSTwitterCell.buildCommentShowViewCommentDataWithTwitterComment(comment))
             }
             commentShowViewData[TwitterCommentShowViewTwitterDataKey_comments] = commentShowViewComments
         }
@@ -211,7 +197,25 @@ class WSTwitterCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
         }
     }
     
-    class func cellHeightWithData(data: [String: AnyObject]? = nil, cellWidth: CGFloat = 0) -> CGFloat {
+    static func buildCommentShowViewCommentDataWithTwitterComment(twitterComment: [String: AnyObject]) -> [String: AnyObject] {
+        var commentShowViewComment = [String:AnyObject]()
+        
+        if let commentAuthorRoleName: AnyObject = twitterComment[WSTwitterCellCommentDataKey_authorName] {
+            commentShowViewComment[TwitterCommentShowViewCommentDataKey_authorName] = commentAuthorRoleName
+        }
+        
+        if let commentAtUserRoleName: AnyObject = twitterComment[WSTwitterCellCommentDataKey_atUserName] {
+            commentShowViewComment[TwitterCommentShowViewCommentDataKey_atUserName] = commentAtUserRoleName
+        }
+        
+        if let commentText: AnyObject = twitterComment[WSTwitterCellCommentDataKey_textContent] {
+            commentShowViewComment[TwitterCommentShowViewCommentDataKey_textContent] = commentText
+        }
+        
+        return commentShowViewComment
+    }
+    
+    static func cellHeightWithData(data: [String: AnyObject]? = nil, cellWidth: CGFloat = 0) -> CGFloat {
         
         var cellHeight: CGFloat = 0
         
@@ -248,7 +252,11 @@ class WSTwitterCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
         }
         
         if comments != nil {
-            commentShowViewData[TwitterCommentShowViewTwitterDataKey_comments] = comments!
+            var commentShowViewComments = [[String:AnyObject]]()
+            for comment in comments! {
+                commentShowViewComments.append(WSTwitterCell.buildCommentShowViewCommentDataWithTwitterComment(comment))
+            }
+            commentShowViewData[TwitterCommentShowViewTwitterDataKey_comments] = commentShowViewComments
         }
         
         if commentShowViewData.count > 0 {

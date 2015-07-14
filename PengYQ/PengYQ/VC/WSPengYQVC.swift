@@ -345,6 +345,7 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
                     AVUser.changeCurrentUser(loginUser, save: true)
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
                         if let strongSelf = self {
+                            strongSelf.loginUser = loginUser
                             SVProgressHUD.showSuccessWithStatus("角色变换成功", maskType: SVProgressHUDMaskType.Black)
                             let roleAvatarUrls = loginUser!.userCurrentRole?.FRoleAvatars
                             let avatarURL = (roleAvatarUrls?.count > 0) ?NSURL(string: roleAvatarUrls![0]):nil
@@ -372,6 +373,7 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
                         AVUser.changeCurrentUser(newUser, save: true)
                         dispatch_async(dispatch_get_main_queue()) { [weak self] in
                             if let strongSelf = self {
+                                strongSelf.loginUser = newUser
                                 SVProgressHUD.showSuccessWithStatus("角色变换成功", maskType: SVProgressHUDMaskType.Black)
                                 let roleAvatarUrls = newUser.userCurrentRole?.FRoleAvatars
                                 let avatarURL = (roleAvatarUrls?.count > 0) ?NSURL(string: roleAvatarUrls![0]):nil
@@ -418,15 +420,25 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
     // MARK: - TwitterCommentShowViewDelegate
     
     func twitterCommentShowView(view: TwitterCommentShowView, didSelectCommentIndex: Int) {
-        // TODO:
+        // TODO: 获取实际的评论者名字
+        let commentUserName = "xxxx"
+        
+        realCommentInputField.text = nil
+        realCommentInputField.placeholder = "回复 \(commentUserName):"
+        
+        if (fakeCommentInputField.becomeFirstResponder()) {
+            realCommentInputField.becomeFirstResponder()
+        }
     }
     
     func twitterCommentShowView(view: TwitterCommentShowView, didSelectCommentUserName: String) {
         // TODO:
+        println("didSelectCommentUserName: \(didSelectCommentUserName)")
     }
     
     func twitterCommentShowView(view: TwitterCommentShowView, didSelectZanUserName: String, atIndex: Int) {
         // TODO:
+        println("didSelectZanUserName: \(didSelectZanUserName)")
     }
     
     
@@ -446,8 +458,9 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
         if textField == realCommentInputField {
             
             commentFiledResignFirstResponder()
+            let comment = textField.text
             
-            if let comment = textField.text {
+            if comment.isEmpty == false {
                 
                 if twitterOperatingIndexPath != nil && twitters.count > twitterOperatingIndexPath!.row {
                     let operateTwitter = twitters[twitterOperatingIndexPath!.row]
