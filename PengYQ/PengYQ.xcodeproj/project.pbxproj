@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1962340B18760BFFFD4F394A /* Pods_PengYQ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F24D8669F182A795C92911B5 /* Pods_PengYQ.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		59529E731B5363D300BF8582 /* TwitterOperateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59529E721B5363D300BF8582 /* TwitterOperateView.swift */; };
+		59529E7B1B55133B00BF8582 /* GeneratePropertisConstants.sh in Sources */ = {isa = PBXBuildFile; fileRef = 59529E7A1B55133B00BF8582 /* GeneratePropertisConstants.sh */; };
 		59A56D171B4D21AC00253301 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A56D161B4D21AC00253301 /* AppDelegate.swift */; };
 		59A56D1C1B4D21AC00253301 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59A56D1A1B4D21AC00253301 /* Main.storyboard */; };
 		59A56D1E1B4D21AC00253301 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59A56D1D1B4D21AC00253301 /* Images.xcassets */; };
@@ -36,6 +37,7 @@
 
 /* Begin PBXFileReference section */
 		59529E721B5363D300BF8582 /* TwitterOperateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterOperateView.swift; sourceTree = "<group>"; };
+		59529E7A1B55133B00BF8582 /* GeneratePropertisConstants.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = GeneratePropertisConstants.sh; sourceTree = "<group>"; };
 		59A56D111B4D21AC00253301 /* PengYQ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PengYQ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59A56D151B4D21AC00253301 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59A56D161B4D21AC00253301 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				865380E01B516EC500FEDD02 /* WSRole.swift */,
 				865380E21B516F4E00FEDD02 /* WSRoleGroup.swift */,
 				865380E41B5189D300FEDD02 /* WSLike.swift */,
+				59529E7A1B55133B00BF8582 /* GeneratePropertisConstants.sh */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -321,6 +324,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				865380DD1B516C6200FEDD02 /* WSTwitter.swift in Sources */,
+				59529E7B1B55133B00BF8582 /* GeneratePropertisConstants.sh in Sources */,
 				59F3649B1B4E4A370093A6D1 /* WSPengYQVC.swift in Sources */,
 				59A56D391B4D224C00253301 /* WSSelectRoleCell.swift in Sources */,
 				59529E731B5363D300BF8582 /* TwitterOperateView.swift in Sources */,

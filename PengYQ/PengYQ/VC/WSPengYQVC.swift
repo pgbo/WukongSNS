@@ -76,7 +76,18 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
     private var upRefreshControl:UpRefreshControl?
     private var upLoadMoreControl:UpLoadMoreControl?
     
-    private var twitterOperatingIndexPath: NSIndexPath?   // 正在操作的索引
+    private struct TwitterOperateIndexPaths {
+        var operateTwitterIndexPath: NSIndexPath?
+        var operateCommentIndexPath: NSIndexPath?
+        
+        init(operateTwitterIndexPath: NSIndexPath, operateCommentIndexPath: NSIndexPath? = nil) {
+            self.operateTwitterIndexPath = operateTwitterIndexPath
+            self.operateCommentIndexPath = operateCommentIndexPath
+        }
+    }
+    
+    private var twitterOperatingIndexPaths: TwitterOperateIndexPaths?   // 正在操作的索引
+    
     lazy private var twitterOperateView: TwitterOperateView = {
         let operateView = TwitterOperateView()
         operateView.zanButton?.addTarget(self, action: "doOperateViewZan", forControlEvents: UIControlEvents.TouchUpInside)
@@ -392,6 +403,7 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
     }
 
     // MARK: - WSTwitterCellDelegate
+    
     func twitterCell(twitterCell: WSTwitterCell, didClickMoreOprateButton: UIButton) {
         
         println("点击了操作图标，弹出操作视图")
@@ -399,8 +411,12 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
             println("操作所在索引: \(operateCellIndexPath.row)")
             
             // 记录操作所在元素的索引
+            if twitterOperatingIndexPaths?.operateTwitterIndexPath != operateCellIndexPath {
+                realCommentInputField.text = nil
+            }
             
-            twitterOperatingIndexPath = operateCellIndexPath
+            twitterOperatingIndexPaths = TwitterOperateIndexPaths(operateTwitterIndexPath: operateCellIndexPath)
+            realCommentInputField.placeholder = "说点什么?"
             
             let buttonBounds = didClickMoreOprateButton.bounds
             let operateButnCenterYOriginPointAtRootView = tableView.window!.convertPoint(CGPointMake(CGRectGetMinX(buttonBounds), CGRectGetMidY(buttonBounds)), fromView: didClickMoreOprateButton)
@@ -420,14 +436,34 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
     // MARK: - TwitterCommentShowViewDelegate
     
     func twitterCommentShowView(view: TwitterCommentShowView, didSelectCommentIndex: Int) {
-        // TODO: 获取实际的评论者名字
-        let commentUserName = "xxxx"
         
-        realCommentInputField.text = nil
-        realCommentInputField.placeholder = "回复 \(commentUserName):"
+        // 获取点击的twitter所在索引
+        let twitterIndexPath = tableView.indexPathForRowAtPoint(tableView.convertPoint(CGPointZero, fromView: view))
         
-        if (fakeCommentInputField.becomeFirstResponder()) {
-            realCommentInputField.becomeFirstResponder()
+        if twitterIndexPath != nil && twitters.count > twitterIndexPath?.row {
+            
+            var placeholder = "回复"
+            
+            let operateTwitter = twitters[twitterIndexPath!.row]
+            let operateTwitterComments = operateTwitter.dtComments
+            
+            if operateTwitterComments?.count > didSelectCommentIndex {
+                let operateComment = operateTwitterComments![didSelectCommentIndex]
+                if let commentUserName = operateComment.dtAuthor?.userCurrentRole?.FRoleName {
+                    placeholder += (" " + commentUserName)
+                }
+            }
+            placeholder += ":"
+            
+            realCommentInputField.text = nil
+            realCommentInputField.placeholder = placeholder
+            
+            // 改变操作行
+            twitterOperatingIndexPaths = TwitterOperateIndexPaths(operateTwitterIndexPath: twitterIndexPath!, operateCommentIndexPath: NSIndexPath(forRow: didSelectCommentIndex, inSection: 0))
+            
+            if (fakeCommentInputField.becomeFirstResponder()) {
+                realCommentInputField.becomeFirstResponder()
+            }
         }
     }
     
@@ -462,11 +498,22 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
             
             if comment.isEmpty == false {
                 
+                let twitterOperatingIndexPath = twitterOperatingIndexPaths?.operateTwitterIndexPath
+                
                 if twitterOperatingIndexPath != nil && twitters.count > twitterOperatingIndexPath!.row {
                     let operateTwitter = twitters[twitterOperatingIndexPath!.row]
                     let newComment = WSTwitter()
                     newComment.dtAuthor = loginUser
                     newComment.dtContent = comment
+                    
+                    if let twitterCommentingIndexPath = twitterOperatingIndexPaths?.operateCommentIndexPath {
+                        let operateTwitterComments = operateTwitter.dtComments
+                        if operateTwitterComments?.count > twitterCommentingIndexPath.row {
+                            let operateComment = operateTwitterComments![twitterCommentingIndexPath.row]
+                            newComment.atUser = operateComment.dtAuthor
+                        }
+                    }
+                    
                     if operateTwitter.dtComments?.count > 0 {
                         operateTwitter.dtComments!.append(newComment)
                     } else {
@@ -647,7 +694,9 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
     @objc private func doOperateViewZan() {
         
         println("点击了赞按钮")
+        
         twitterOperateModelWindow.dismissWithAnimated(true)
+        let twitterOperatingIndexPath = twitterOperatingIndexPaths?.operateTwitterIndexPath
         
         if twitterOperatingIndexPath != nil && twitters.count > twitterOperatingIndexPath!.row {
             let operateTwitter = twitters[twitterOperatingIndexPath!.row]
@@ -665,9 +714,11 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
     }
     
     @objc private func doOperateViewComment() {
-        // TODO
+        
         println("点击了评论按钮")
+        
         twitterOperateModelWindow.dismissWithAnimated(true)
+        let twitterOperatingIndexPath = twitterOperatingIndexPaths?.operateTwitterIndexPath
         
         if twitterOperatingIndexPath != nil && twitters.count > twitterOperatingIndexPath!.row {
             if fakeCommentInputField.becomeFirstResponder() {

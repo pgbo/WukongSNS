@@ -13,6 +13,9 @@ class WSUser: AVUser, AVSubclassing {
 
     @NSManaged var userGender:Int
     @NSManaged var userAge:Int
+//    @NSManaged var FRoleName:String?
+//    @NSManaged var FRoleDesp:String?
+//    @NSManaged var FRoleAvatars:[String]?
     @NSManaged var userCurrentRole:WSRole?
     @NSManaged var userBackgroudImages:[String]?
     

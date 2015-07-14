@@ -11,7 +11,9 @@ import AVOSCloud
 
 class WSTwitter: AVObject, AVSubclassing {
     
+    let DTCONETNT = "dtContent"
     @NSManaged var dtContent: String?
+    let DTPICTURES = "dtPictures"
     @NSManaged var dtPictures: [String]?
     @NSManaged var dtAuthor: WSUser?
     @NSManaged var dtComments: [WSTwitter]?
