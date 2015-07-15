@@ -10,10 +10,6 @@
 		1962340B18760BFFFD4F394A /* Pods_PengYQ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F24D8669F182A795C92911B5 /* Pods_PengYQ.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		59529E731B5363D300BF8582 /* TwitterOperateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59529E721B5363D300BF8582 /* TwitterOperateView.swift */; };
 		59529E7B1B55133B00BF8582 /* GeneratePropertisConstants.sh in Sources */ = {isa = PBXBuildFile; fileRef = 59529E7A1B55133B00BF8582 /* GeneratePropertisConstants.sh */; };
-		59529E7F1B56419F00BF8582 /* TwitterQuery+TwitterQueryIncludeKeysProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59529E7E1B56419F00BF8582 /* TwitterQuery+TwitterQueryIncludeKeysProtocol.swift */; };
-		59529E811B5641F600BF8582 /* TwitterQueryIncludeKeysProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59529E801B5641F600BF8582 /* TwitterQueryIncludeKeysProtocol.swift */; };
-		59529E831B5644CE00BF8582 /* AVObject+AllPropertyNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59529E821B5644CE00BF8582 /* AVObject+AllPropertyNames.swift */; };
-		59529E851B5679E600BF8582 /* AVObjctKeyCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59529E841B5679E600BF8582 /* AVObjctKeyCheck.swift */; };
 		59A56D171B4D21AC00253301 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A56D161B4D21AC00253301 /* AppDelegate.swift */; };
 		59A56D1C1B4D21AC00253301 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59A56D1A1B4D21AC00253301 /* Main.storyboard */; };
 		59A56D1E1B4D21AC00253301 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59A56D1D1B4D21AC00253301 /* Images.xcassets */; };
@@ -37,15 +33,12 @@
 		865380E11B516EC500FEDD02 /* WSRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380E01B516EC500FEDD02 /* WSRole.swift */; };
 		865380E31B516F4E00FEDD02 /* WSRoleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380E21B516F4E00FEDD02 /* WSRoleGroup.swift */; };
 		865380E51B5189D300FEDD02 /* WSLike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380E41B5189D300FEDD02 /* WSLike.swift */; };
+		8680CCA21B56C34900C9EF3C /* AVObject+Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8680CCA11B56C34900C9EF3C /* AVObject+Query.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		59529E721B5363D300BF8582 /* TwitterOperateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterOperateView.swift; sourceTree = "<group>"; };
 		59529E7A1B55133B00BF8582 /* GeneratePropertisConstants.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = GeneratePropertisConstants.sh; sourceTree = "<group>"; };
-		59529E7E1B56419F00BF8582 /* TwitterQuery+TwitterQueryIncludeKeysProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TwitterQuery+TwitterQueryIncludeKeysProtocol.swift"; sourceTree = "<group>"; };
-		59529E801B5641F600BF8582 /* TwitterQueryIncludeKeysProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterQueryIncludeKeysProtocol.swift; sourceTree = "<group>"; };
-		59529E821B5644CE00BF8582 /* AVObject+AllPropertyNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVObject+AllPropertyNames.swift"; sourceTree = "<group>"; };
-		59529E841B5679E600BF8582 /* AVObjctKeyCheck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVObjctKeyCheck.swift; sourceTree = "<group>"; };
 		59A56D111B4D21AC00253301 /* PengYQ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PengYQ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59A56D151B4D21AC00253301 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59A56D161B4D21AC00253301 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -71,6 +64,7 @@
 		865380E01B516EC500FEDD02 /* WSRole.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSRole.swift; sourceTree = "<group>"; };
 		865380E21B516F4E00FEDD02 /* WSRoleGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSRoleGroup.swift; sourceTree = "<group>"; };
 		865380E41B5189D300FEDD02 /* WSLike.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSLike.swift; sourceTree = "<group>"; };
+		8680CCA11B56C34900C9EF3C /* AVObject+Query.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AVObject+Query.swift"; path = "../../../../AVObject+Query.swift"; sourceTree = "<group>"; };
 		99AEF786D0C0439F560DA32C /* Pods-PengYQ.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PengYQ.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PengYQ/Pods-PengYQ.debug.xcconfig"; sourceTree = "<group>"; };
 		AE826FC1854B0A699DF7DF19 /* Pods-PengYQ.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PengYQ.release.xcconfig"; path = "Pods/Target Support Files/Pods-PengYQ/Pods-PengYQ.release.xcconfig"; sourceTree = "<group>"; };
 		F24D8669F182A795C92911B5 /* Pods_PengYQ.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PengYQ.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -106,10 +100,7 @@
 		59529E7D1B56417A00BF8582 /* Model+extension */ = {
 			isa = PBXGroup;
 			children = (
-				59529E821B5644CE00BF8582 /* AVObject+AllPropertyNames.swift */,
-				59529E801B5641F600BF8582 /* TwitterQueryIncludeKeysProtocol.swift */,
-				59529E7E1B56419F00BF8582 /* TwitterQuery+TwitterQueryIncludeKeysProtocol.swift */,
-				59529E841B5679E600BF8582 /* AVObjctKeyCheck.swift */,
+				8680CCA11B56C34900C9EF3C /* AVObject+Query.swift */,
 			);
 			path = "Model+extension";
 			sourceTree = "<group>";
@@ -346,6 +337,7 @@
 				865380DD1B516C6200FEDD02 /* WSTwitter.swift in Sources */,
 				59529E7B1B55133B00BF8582 /* GeneratePropertisConstants.sh in Sources */,
 				59F3649B1B4E4A370093A6D1 /* WSPengYQVC.swift in Sources */,
+				8680CCA21B56C34900C9EF3C /* AVObject+Query.swift in Sources */,
 				59A56D391B4D224C00253301 /* WSSelectRoleCell.swift in Sources */,
 				59529E731B5363D300BF8582 /* TwitterOperateView.swift in Sources */,
 				865380D51B4ECE8300FEDD02 /* TwitterCommentShowView.swift in Sources */,
@@ -353,16 +345,12 @@
 				865380D11B4EC55100FEDD02 /* WSTwitterCell.swift in Sources */,
 				59F3649E1B4E50B00093A6D1 /* WSUserDefaults.swift in Sources */,
 				865380E11B516EC500FEDD02 /* WSRole.swift in Sources */,
-				59529E811B5641F600BF8582 /* TwitterQueryIncludeKeysProtocol.swift in Sources */,
 				865380D71B50B30300FEDD02 /* WSCreateTwitterVC.swift in Sources */,
-				59529E851B5679E600BF8582 /* AVObjctKeyCheck.swift in Sources */,
 				865380E31B516F4E00FEDD02 /* WSRoleGroup.swift in Sources */,
 				865380DF1B516DB000FEDD02 /* WSUser.swift in Sources */,
 				59A56D171B4D21AC00253301 /* AppDelegate.swift in Sources */,
 				865380DB1B5144D000FEDD02 /* WSConstants.swift in Sources */,
 				59A56D381B4D224C00253301 /* WSRoleSelectVC.swift in Sources */,
-				59529E7F1B56419F00BF8582 /* TwitterQuery+TwitterQueryIncludeKeysProtocol.swift in Sources */,
-				59529E831B5644CE00BF8582 /* AVObject+AllPropertyNames.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
