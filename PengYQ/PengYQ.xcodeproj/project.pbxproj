@@ -31,6 +31,9 @@
 		865380DF1B516DB000FEDD02 /* AVUser+WS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380DE1B516DB000FEDD02 /* AVUser+WS.swift */; };
 		865380E11B516EC500FEDD02 /* WSRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380E01B516EC500FEDD02 /* WSRole.swift */; };
 		865380E31B516F4E00FEDD02 /* WSRoleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380E21B516F4E00FEDD02 /* WSRoleGroup.swift */; };
+		8679131C1B5BC51E00D395E0 /* AVOSCloudIM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8679131B1B5BC51E00D395E0 /* AVOSCloudIM.framework */; };
+		867913201B5BE88000D395E0 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8679131F1B5BE88000D395E0 /* libsqlite3.dylib */; };
+		867913221B5BED7800D395E0 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 867913211B5BED7800D395E0 /* libc++.dylib */; };
 		86A1AC771B5A4089002569D0 /* WSTwitterComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A1AC761B5A4089002569D0 /* WSTwitterComment.swift */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +63,9 @@
 		865380DE1B516DB000FEDD02 /* AVUser+WS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVUser+WS.swift"; sourceTree = "<group>"; };
 		865380E01B516EC500FEDD02 /* WSRole.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSRole.swift; sourceTree = "<group>"; };
 		865380E21B516F4E00FEDD02 /* WSRoleGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSRoleGroup.swift; sourceTree = "<group>"; };
+		8679131B1B5BC51E00D395E0 /* AVOSCloudIM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AVOSCloudIM.framework; sourceTree = "<group>"; };
+		8679131F1B5BE88000D395E0 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/usr/lib/libsqlite3.dylib; sourceTree = DEVELOPER_DIR; };
+		867913211B5BED7800D395E0 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/usr/lib/libc++.dylib"; sourceTree = DEVELOPER_DIR; };
 		86A1AC761B5A4089002569D0 /* WSTwitterComment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSTwitterComment.swift; sourceTree = "<group>"; };
 		99AEF786D0C0439F560DA32C /* Pods-PengYQ.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PengYQ.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PengYQ/Pods-PengYQ.debug.xcconfig"; sourceTree = "<group>"; };
 		AE826FC1854B0A699DF7DF19 /* Pods-PengYQ.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PengYQ.release.xcconfig"; path = "Pods/Target Support Files/Pods-PengYQ/Pods-PengYQ.release.xcconfig"; sourceTree = "<group>"; };
@@ -71,13 +77,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				867913221B5BED7800D395E0 /* libc++.dylib in Frameworks */,
+				867913201B5BE88000D395E0 /* libsqlite3.dylib in Frameworks */,
 				59A56D451B4D24B300253301 /* libicucore.dylib in Frameworks */,
+				59A56D3F1B4D249500253301 /* CoreTelephony.framework in Frameworks */,
 				59A56D431B4D24A700253301 /* CoreLocation.framework in Frameworks */,
 				59A56D411B4D249E00253301 /* MobileCoreServices.framework in Frameworks */,
-				59A56D3F1B4D249500253301 /* CoreTelephony.framework in Frameworks */,
 				59A56D3D1B4D248D00253301 /* SystemConfiguration.framework in Frameworks */,
 				1962340B18760BFFFD4F394A /* Pods_PengYQ.framework in Frameworks */,
 				59A56D3B1B4D243100253301 /* AVOSCloud.framework in Frameworks */,
+				8679131C1B5BC51E00D395E0 /* AVOSCloudIM.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,8 +105,9 @@
 		59A56D061B4D219500253301 = {
 			isa = PBXGroup;
 			children = (
-				59AA22C01B4D25BE0028409D /* Public */,
 				59A56D3A1B4D243100253301 /* AVOSCloud.framework */,
+				8679131B1B5BC51E00D395E0 /* AVOSCloudIM.framework */,
+				59AA22C01B4D25BE0028409D /* Public */,
 				59A56D131B4D21AC00253301 /* PengYQ */,
 				59A56D121B4D21AC00253301 /* Products */,
 				0DBC7453806406A415F4ED46 /* Pods */,
@@ -190,6 +200,8 @@
 		61DC5881E93DB7BA2420704E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				867913211B5BED7800D395E0 /* libc++.dylib */,
+				8679131F1B5BE88000D395E0 /* libsqlite3.dylib */,
 				59A56D441B4D24B300253301 /* libicucore.dylib */,
 				59A56D421B4D24A700253301 /* CoreLocation.framework */,
 				59A56D401B4D249E00253301 /* MobileCoreServices.framework */,
@@ -415,7 +427,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = PengYQ/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -423,6 +435,32 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"CTAssetsPickerController\"",
+					"-framework",
+					"\"DWTagList\"",
+					"-framework",
+					"\"Haneke\"",
+					"-framework",
+					"\"Kingfisher\"",
+					"-framework",
+					"\"LvModelWindow\"",
+					"-framework",
+					"\"MHPrettyDate\"",
+					"-framework",
+					"\"SVProgressHUD\"",
+					"-framework",
+					"\"TTTAttributedLabel\"",
+					"-framework",
+					"\"Toucan\"",
+					"-framework",
+					"\"UpLoadMoreControl\"",
+					"-framework",
+					"\"UpRefreshControl\"",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -467,13 +505,39 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = PengYQ/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/pengguangbo/Documents/githubProj/Dev-WukongSNS",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"CTAssetsPickerController\"",
+					"-framework",
+					"\"DWTagList\"",
+					"-framework",
+					"\"Haneke\"",
+					"-framework",
+					"\"Kingfisher\"",
+					"-framework",
+					"\"LvModelWindow\"",
+					"-framework",
+					"\"MHPrettyDate\"",
+					"-framework",
+					"\"SVProgressHUD\"",
+					"-framework",
+					"\"TTTAttributedLabel\"",
+					"-framework",
+					"\"Toucan\"",
+					"-framework",
+					"\"UpLoadMoreControl\"",
+					"-framework",
+					"\"UpRefreshControl\"",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

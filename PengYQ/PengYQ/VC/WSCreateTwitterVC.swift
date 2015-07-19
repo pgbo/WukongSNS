@@ -269,7 +269,7 @@ class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollect
             
             let selectedPhotoCount = assetsPickerController.selectedAssets.count
             let textEmpty = textView?.text.isEmpty
-            if selectedPhotoCount == 0 || textEmpty == true {
+            if selectedPhotoCount == 0 && textEmpty == true {
                 SVProgressHUD.showErrorWithStatus("没有填写动态信息或添加照片", maskType: SVProgressHUDMaskType.Black)
                 return
             }

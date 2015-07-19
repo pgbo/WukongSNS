@@ -10,6 +10,7 @@ import UIKit
 import Kingfisher
 import Toucan
 import AVOSCloud
+import AVOSCloudIM
 import SVProgressHUD
 import UpRefreshControl
 import UpLoadMoreControl
@@ -18,15 +19,25 @@ import LvModelWindow
 /**
 *  朋友圈VC
 */
-class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDelegate, TwitterCommentShowViewDelegate, LvModelWindowDelegate, UITextFieldDelegate {
+class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDelegate, TwitterCommentShowViewDelegate, LvModelWindowDelegate, UITextFieldDelegate, AVIMClientDelegate {
     
     /**
     *  header view
     */
     class PengYQHeaderView: UIView {
+        var receivedMessageCount: Int = 0 {
+            didSet {
+                receivedMessageCountContaintViewHeightConstraint?.constant = receivedMessageCount > 0 ?40:0
+                receivedMessageCountButton?.setTitle("收到 \(receivedMessageCount) 条新消息", forState: UIControlState.Normal)
+            }
+        }
         private(set) var backgroundImageView:UIImageView?
         private(set) var avatarView:UIImageView?
         private var avatarContaintView:UIView?
+        
+        private var receivedMessageCountContaintView: UIView?
+        private var receivedMessageCountButton: UIButton?
+        private var receivedMessageCountContaintViewHeightConstraint: NSLayoutConstraint?
         
         override init(frame: CGRect) {
             super.init(frame: frame)
@@ -46,16 +57,43 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
             avatarView?.clipsToBounds = true
             avatarView?.setTranslatesAutoresizingMaskIntoConstraints(false)
             
-            let views = ["backgroundImageView":backgroundImageView!, "avatarContaintView":avatarContaintView!, "avatarView":avatarView!]
+            receivedMessageCountContaintView = UIView()
+            self.addSubview(receivedMessageCountContaintView!)
+            receivedMessageCountContaintView?.setTranslatesAutoresizingMaskIntoConstraints(false)
+            receivedMessageCountContaintView?.clipsToBounds = true
+            
+            receivedMessageCountButton = UIButton.buttonWithType(UIButtonType.Custom) as? UIButton
+            receivedMessageCountContaintView?.addSubview(receivedMessageCountButton!)
+            receivedMessageCountButton?.setTranslatesAutoresizingMaskIntoConstraints(false)
+            receivedMessageCountButton?.setTitleColor(UIColor(red: 0.46, green: 0.53, blue: 0.71, alpha: 1), forState: UIControlState.Normal)
+            receivedMessageCountButton?.backgroundColor = UIColor.clearColor()
+            receivedMessageCountButton?.addTarget(self, action: "receivedMessageCountButtonClicked", forControlEvents: UIControlEvents.TouchUpInside)
+            
+            let views = ["backgroundImageView":backgroundImageView!, "avatarContaintView":avatarContaintView!, "avatarView":avatarView!, "receivedMessageCountContaintView":receivedMessageCountContaintView!, "receivedMessageCountButton":receivedMessageCountButton!]
+            
+            let constraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[backgroundImageView]-20-[receivedMessageCountContaintView(0)]|", options: NSLayoutFormatOptions.AlignAllLeading|NSLayoutFormatOptions.AlignAllTrailing, metrics: nil, views: views) as! [NSLayoutConstraint]
+            self.addConstraints(constraints)
+            for constraint in constraints {
+                if constraint.firstItem as? UIView == receivedMessageCountContaintView && constraint.firstAttribute == NSLayoutAttribute.Height {
+                    receivedMessageCountContaintViewHeightConstraint = constraint
+                    break
+                }
+            }
             
             self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[backgroundImageView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
-            self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[backgroundImageView]-20-|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
             
             self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[avatarContaintView(80)]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
-            self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[avatarContaintView(80)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+            self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[avatarContaintView(80)][receivedMessageCountContaintView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
             
             avatarContaintView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[avatarView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
             avatarContaintView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[avatarView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+            
+            receivedMessageCountContaintView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-4-[receivedMessageCountButton]-4-|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+            
+            receivedMessageCountContaintView?.addConstraint(NSLayoutConstraint(item: receivedMessageCountButton!, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: receivedMessageCountContaintView!, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0))
+            
+            receivedMessageCountButton?.addConstraint(NSLayoutConstraint(item: receivedMessageCountButton!, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 0, constant: 180))
+            
         }
 
         required init(coder aDecoder: NSCoder) {
@@ -66,6 +104,15 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
             super.layoutSubviews()
             avatarContaintView?.layer.borderColor = UIColor(white: 0.7, alpha: 1).CGColor
             avatarContaintView?.layer.borderWidth = 0.5
+            
+            receivedMessageCountButton?.layer.borderColor = UIColor(red: 0.46, green: 0.53, blue: 0.71, alpha: 1).CGColor
+            receivedMessageCountButton?.layer.borderWidth = 0.5
+            receivedMessageCountButton?.layer.cornerRadius = 4
+        }
+        
+        @objc private func receivedMessageCountButtonClicked() {
+            receivedMessageCount = 0
+            // TODO: 同时发布点击通知
         }
     }
     
@@ -97,7 +144,7 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
     }()
     
     lazy private var twitterOperateModelWindow: LvModelWindow = {
-        let modelWindow = LvModelWindow(preferStatusBarHidden: false, supportedOrientationPortrait: false, supportedOrientationPortraitUpsideDown: false, supportedOrientationLandscapeLeft: false, supportedOrientationLandscapeRight: false)
+        let modelWindow = LvModelWindow(preferStatusBarHidden: false, supportedOrientationPortrait: true, supportedOrientationPortraitUpsideDown: true, supportedOrientationLandscapeLeft: true, supportedOrientationLandscapeRight: true)
         
         modelWindow.windowRootView.userInteractionEnabled = true
         modelWindow.windowRootView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "dismissTwitterOperateModelWindow"))
@@ -152,6 +199,12 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
         return commentInputField
     }()
     
+    lazy private var imClient: AVIMClient = {
+        let client = AVIMClient()
+        client.delegate = self
+        return client
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.clearsSelectionOnViewWillAppear = false
@@ -181,8 +234,6 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
             if strongSelf == nil {
                 return
             }
-            
-            let query = strongSelf!.buildTwitterQueryWithSkip(skip: 0)
             
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)){
                 [weak strongSelf] in
@@ -263,6 +314,13 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
             showAvatarURL = NSURL(string: lastPlayedRoleAvatars!.first!)
         }
         updateAvatarRelativeViewWithAvatarURL(showAvatarURL)
+        
+        // 登录IM
+        if loginUser != nil {
+            imClient.openWithClientId(loginUser!.username, callback: { (success, error) -> Void in
+                println("success:\(success), error:\(error)")
+            })
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -281,6 +339,7 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
         let query = AVQuery(className: WSTwitter.parseClassName())
         query!.skip = skip
         query!.limit = limit
+        query.addDescendingOrder("updatedAt")
         
         let queryIncludeKeys = WSTwitter.PengYQTwitterQueryIncludeKeys()
         for key in queryIncludeKeys {
@@ -297,6 +356,7 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
     */
     private func buildTwitterCommentQuery() -> AVQuery {
         let query = AVQuery(className: WSTwitterComment.parseClassName())
+        query.addDescendingOrder("updatedAt")
         
         let queryIncludekeys = WSTwitterComment.PengYQTwitterCommentQueryIncludeKeys()
         for key in queryIncludekeys {
@@ -435,15 +495,19 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
             loginUser!.saveInBackgroundWithBlock({ (success, error) -> Void in
                 if success {
                     AVUser.changeCurrentUser(loginUser, save: true)
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                        if let strongSelf = self {
-                            strongSelf.loginUser = loginUser
-                            SVProgressHUD.showSuccessWithStatus("角色变换成功", maskType: SVProgressHUDMaskType.Black)
-                            let roleAvatarUrls = didSelectRole.FRoleAvatars
-                            let avatarURL = (roleAvatarUrls?.count > 0) ?NSURL(string: roleAvatarUrls![0]):nil
-                            strongSelf.updateAvatarRelativeViewWithAvatarURL(avatarURL)
-                        }
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.loginUser = loginUser
+                        SVProgressHUD.showSuccessWithStatus("角色变换成功", maskType: SVProgressHUDMaskType.Black)
+                        let roleAvatarUrls = didSelectRole.FRoleAvatars
+                        let avatarURL = (roleAvatarUrls?.count > 0) ?NSURL(string: roleAvatarUrls![0]):nil
+                        self.updateAvatarRelativeViewWithAvatarURL(avatarURL)
                     }
+                    
+                    // 登录IM
+                    self.imClient.openWithClientId(loginUser.username, callback: { (success, error) -> Void in
+                        
+                    })
+                    
                 } else {
                     dispatch_async(dispatch_get_main_queue()) {
                         SVProgressHUD.showErrorWithStatus("角色变换失败", maskType: SVProgressHUDMaskType.Black)
@@ -463,24 +527,24 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
             SVProgressHUD.showWithStatus("角色变换...", maskType: SVProgressHUDMaskType.Black)
             
             // 新建用户
-            newUser.signUpInBackgroundWithBlock({ [weak self] (success, error) -> Void in
-                if let strongSelf = self {
-                    if success {
-                        AVUser.changeCurrentUser(newUser, save: true)
-                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                            if let strongSelf = self {
-                                strongSelf.loginUser = newUser
-                                SVProgressHUD.showSuccessWithStatus("角色变换成功", maskType: SVProgressHUDMaskType.Black)
-                                let roleAvatarUrls = didSelectRole.FRoleAvatars
-                                let avatarURL = (roleAvatarUrls?.count > 0) ?NSURL(string: roleAvatarUrls![0]):nil
-                                strongSelf.updateAvatarRelativeViewWithAvatarURL(avatarURL)
-                            }
-                        }
-                    } else {
-                        println("New user save error:\(error?.localizedFailureReason)")
-                        dispatch_async(dispatch_get_main_queue()) {
-                            SVProgressHUD.showSuccessWithStatus("角色变换失败", maskType: SVProgressHUDMaskType.Black)
-                        }
+            newUser.signUpInBackgroundWithBlock({ (success, error) -> Void in
+                if success {
+                    AVUser.changeCurrentUser(newUser, save: true)
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.loginUser = newUser
+                        SVProgressHUD.showSuccessWithStatus("角色变换成功", maskType: SVProgressHUDMaskType.Black)
+                        let roleAvatarUrls = didSelectRole.FRoleAvatars
+                        let avatarURL = (roleAvatarUrls?.count > 0) ?NSURL(string: roleAvatarUrls![0]):nil
+                        self.updateAvatarRelativeViewWithAvatarURL(avatarURL)
+                    }
+                    // 登录IM
+                    self.imClient.openWithClientId(newUser.username, callback: { (success, error) -> Void in
+                        
+                    })
+                } else {
+                    println("New user save error:\(error?.localizedFailureReason)")
+                    dispatch_async(dispatch_get_main_queue()) {
+                        SVProgressHUD.showSuccessWithStatus("角色变换失败", maskType: SVProgressHUDMaskType.Black)
                     }
                 }
             })
@@ -606,9 +670,26 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
                     self.tableView.reloadRowsAtIndexPaths([twitterOperatingIndexPath!], withRowAnimation: UITableViewRowAnimation.None)
                 
                     // 发送评论到服务端
-                    newComment.saveInBackgroundWithBlock({ [weak operateTwitter] (success, error) -> Void in
-                        if let strongOperateTwitter = operateTwitter {
+                    newComment.saveInBackgroundWithBlock({ [weak operateTwitter, weak self] (success, error) -> Void in
+                        if let strongOperateTwitter = operateTwitter, strongSelf = self {
                             strongOperateTwitter.saveInBackground()
+                            
+                            // FIXME: 发送推送消息, 暂时用IM替代
+                            let imMessage = AVIMMessage(content: "评论ID:\(newComment.objectId)")
+                            if let twitterAuthorName = strongOperateTwitter.author?.username {
+                                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)){
+                                    strongSelf.getOrCreateConversationWithFreindUsername(twitterAuthorName)?.sendMessage(imMessage, callback: { (succ, err) -> Void in
+                                        println("succ: \(succ), err: \(err)")
+                                    })
+                                }
+                            }
+                            if let commentAtUserName = newComment.atUser?.username {
+                                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)){
+                                    strongSelf.getOrCreateConversationWithFreindUsername(commentAtUserName)?.sendMessage(imMessage, callback: { (succ, err) -> Void in
+                                        println("succ: \(succ), err: \(err)")
+                                    })
+                                }
+                            }
                         }
                     })
                     
@@ -617,6 +698,33 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
             }
         }
         return true
+    }
+    
+    lazy private var conversations = Set<AVIMConversation>()
+    lazy private var createConversationGroupDispatch: dispatch_group_t = dispatch_group_create()
+    
+    private func getOrCreateConversationWithFreindUsername(friendUserName: String) -> AVIMConversation? {
+        for conversation in conversations {
+            if conversation.name == friendUserName {
+                return conversation
+            }
+        }
+        
+        var newConversation: AVIMConversation?
+        dispatch_group_enter(createConversationGroupDispatch)
+       
+        imClient.createConversationWithName(friendUserName, clientIds: [friendUserName]) { [weak self] (conversation, error) -> Void in
+            if let strongSelf = self {
+                if conversation != nil {
+                    newConversation = conversation
+                    strongSelf.conversations.insert(newConversation!)
+                }
+                dispatch_group_leave(strongSelf.createConversationGroupDispatch)
+            }
+        }
+        
+        dispatch_group_wait(createConversationGroupDispatch, DISPATCH_TIME_FOREVER)
+        return newConversation
     }
         
     private func commentFiledResignFirstResponder() {
@@ -799,7 +907,20 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
             self.tableView.reloadRowsAtIndexPaths([twitterOperatingIndexPath!], withRowAnimation: UITableViewRowAnimation.None)
             
             // 发送赞到服务器端
-            operateTwitter.saveInBackground()
+            operateTwitter.saveInBackgroundWithBlock({ (success, error) -> Void in
+                if success {
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)){
+                        [weak self, weak operateTwitter] in
+                        if let strongSelf = self, let strongOperateTwitter = operateTwitter{
+                            if let twitterAuthorName = strongOperateTwitter.author?.username {
+                                strongSelf.getOrCreateConversationWithFreindUsername(twitterAuthorName)?.sendMessage(AVIMMessage(content: "赞"), callback: { (succ, err) -> Void in
+                                    println("succ: \(succ), err: \(err)")
+                                })
+                            }
+                        }
+                    }
+                }
+            })
         }
     }
     
@@ -826,6 +947,58 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
     @objc private func dismissTwitterOperateModelWindow() {
         twitterOperateModelWindow.dismissWithAnimated(true)
     }
+    
+    
+    // MARK: - AVIMClientDelegate
+    
+//    func imClientPaused(imClient: AVIMClient!) {
+//        
+//    }
+//    
+//    func imClientPaused(imClient: AVIMClient!, error: NSError!) {
+//        
+//    }
+//    
+//    func imClientResuming(imClient: AVIMClient!) {
+//        
+//    }
+//    
+//    func imClientResumed(imClient: AVIMClient!) {
+//        
+//    }
+    
+    // 接受到消息
+    func conversation(conversation: AVIMConversation!, didReceiveCommonMessage message: AVIMMessage!) {
+        // FIXME: 接受到消息
+        println("接收到消息")
+        pengYQHeader?.receivedMessageCount += 1
+//        self.tableView.tableHeaderView = pengYQHeader
+    }
+    
+//    func conversation(conversation: AVIMConversation!, didReceiveTypedMessage message: AVIMTypedMessage!) {
+//        
+//    }
+    
+    // 发送消息回调
+    func conversation(conversation: AVIMConversation!, messageDelivered message: AVIMMessage!) {
+        
+    }
+    
+//    func conversation(conversation: AVIMConversation!, membersAdded clientIds: [AnyObject]!, byClientId clientId: String!) {
+//        
+//    }
+//    
+//    func conversation(conversation: AVIMConversation!, membersRemoved clientIds: [AnyObject]!, byClientId clientId: String!) {
+//        
+//    }
+//    
+//    func conversation(conversation: AVIMConversation!, invitedByClientId clientId: String!) {
+//        
+//    }
+//    
+//    func conversation(conversation: AVIMConversation!, kickedByClientId clientId: String!) {
+//    
+//    }
 }
 
 let WSPengYQVCTwitterPageNumber = 5
