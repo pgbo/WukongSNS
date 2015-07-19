@@ -112,7 +112,7 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
     
     lazy var twitters = [WSTwitter]()
     
-    private var loginUser: WSUser?
+    private var loginUser: AVUser?
     
     private var firstAppear = false
     
@@ -175,98 +175,169 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
         pengYQHeader?.avatarView?.userInteractionEnabled = true
         pengYQHeader?.avatarView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "tapPengYQHeaderAvatarView"))
         
-        upRefreshControl = UpRefreshControl(scrollView: self.tableView, action: { (control) -> Void in
+        upRefreshControl = UpRefreshControl(scrollView: self.tableView, action: { [weak self] (control) -> Void in
             
-            let query = AVQuery(className: WSTwitter.parseClassName())
-            query?.limit = WSPEngYQVCTwitterPageNumber
-            query?.findObjectsInBackgroundWithBlock({ [weak self] (results, error) -> Void in
-                if let strongSelf = self {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        strongSelf.upRefreshControl?.finishedLoadingWithStatus("", delay: 0)
-                    }
-                    if error != nil {
-                        println(error?.localizedFailureReason)
-                    } else {
-                        dispatch_async(dispatch_get_main_queue()) {
-                            let twitterResults = results as? [WSTwitter]
-                            if twitterResults?.count > 0 {
-                                strongSelf.twitters = twitterResults!
-                            } else {
-                                strongSelf.twitters.removeAll(keepCapacity: false)
-                            }
-                            strongSelf.tableView.reloadData()
-                        }
-                    }
+            let strongSelf = self
+            if strongSelf == nil {
+                return
+            }
+            
+            let query = strongSelf!.buildTwitterQueryWithSkip(skip: 0)
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)){
+                [weak strongSelf] in
+                let stronggSelf = strongSelf
+                if stronggSelf == nil {
+                    return
                 }
-            })
+                let twitterResults = stronggSelf!.queryPengYQTwitterWithSkip(skip: 0)
+                if stronggSelf == nil {
+                    return
+                }
+                dispatch_async(dispatch_get_main_queue()) {
+                    stronggSelf!.upRefreshControl?.finishedLoadingWithStatus("", delay: 0)
+                }
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    if twitterResults?.count > 0 {
+                        stronggSelf!.twitters = twitterResults!
+                    } else {
+                        stronggSelf!.twitters.removeAll(keepCapacity: false)
+                    }
+                    stronggSelf!.tableView.reloadData()
+                }
+            }
         })
         tableView.addSubview(upRefreshControl!)
         
-        upLoadMoreControl = UpLoadMoreControl(scrollView: self.tableView, action: { [weak self] (control) -> Void in
-            if let strongSelf = self {
+        upLoadMoreControl = UpLoadMoreControl(scrollView: self.tableView, action: {
+            
+            [weak self] (control) -> Void in
+            
+            let strongSelf = self
+            if strongSelf == nil {
+                return
+            }
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)){
+                [weak strongSelf] in
+                let stronggSelf = strongSelf
+                if stronggSelf == nil {
+                    return
+                }
+                let twitterResults = stronggSelf!.queryPengYQTwitterWithSkip(skip: stronggSelf!.twitters.count)
+                if stronggSelf == nil {
+                    return
+                }
+                dispatch_async(dispatch_get_main_queue()) {
+                    stronggSelf!.upLoadMoreControl?.finishedLoadingWithStatus("", delay: 0)
+                }
                 
-                let query = AVQuery(className: WSTwitter.parseClassName())
-                query?.skip = strongSelf.twitters.count
-                query?.limit = WSPEngYQVCTwitterPageNumber
-                query?.findObjectsInBackgroundWithBlock({ [weak strongSelf] (results, error) -> Void in
-                    if let internalStrongSelf = strongSelf {
-                        dispatch_async(dispatch_get_main_queue()) {
-                            internalStrongSelf.upLoadMoreControl?.finishedLoadingWithStatus("", delay: 0)
+                if twitterResults?.count > 0 {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        let orginCount = stronggSelf!.twitters.count
+                        let newQueryCount = (twitterResults?.count)!
+                        var insetsIndexPaths = [NSIndexPath]()
+                        for index in 0...(newQueryCount - 1) {
+                            insetsIndexPaths.append(NSIndexPath(forRow: orginCount + index, inSection: 0))
                         }
                         
-                        if error != nil {
-                            println(error?.localizedFailureReason)
-                        } else {
-                            let twitterResults = results as? [WSTwitter]
-                            if twitterResults?.count > 0 {
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    
-                                    let orginCount = internalStrongSelf.twitters.count
-                                    let newQueryCount = (twitterResults?.count)!
-                                    var insetsIndexPaths = [NSIndexPath]()
-                                    for index in 0...(newQueryCount - 1) {
-                                        insetsIndexPaths.append(NSIndexPath(forRow: orginCount + index, inSection: 0))
-                                    }
-                                    
-                                    internalStrongSelf.twitters += twitterResults!
-                                    
-                                    internalStrongSelf.tableView.insertRowsAtIndexPaths(insetsIndexPaths, withRowAnimation: UITableViewRowAnimation.None);
-                                }
-                            }
-                        }
+                        stronggSelf!.twitters += twitterResults!
+                        
+                        stronggSelf!.tableView.insertRowsAtIndexPaths(insetsIndexPaths, withRowAnimation: UITableViewRowAnimation.None);
                     }
-                    })
+                }
             }
-            })
+        })
         tableView.addSubview(upLoadMoreControl!)
         
         // 添加fakeCommentInputField到视图
         tableView.addSubview(fakeCommentInputField)
         
+        loginUser = AVUser.currentUser()
         
-        updateAvatarRelativeViewWithAvatarURL(nil)
-        
-        loginUser = AVUser.currentUser() as? WSUser
-        if let loginUserRole = loginUser?.userCurrentRole {
-            let query = AVQuery(className: WSRole.parseClassName())
-            query.getObjectInBackgroundWithId(loginUserRole.objectId, block: { [weak self] (completeRole, error) -> Void in
-                if let strongSelf = self {
-                    if strongSelf.loginUser != nil && error == nil {
-                        strongSelf.loginUser!.userCurrentRole = completeRole as? WSRole
-                        var showAvatarURL: NSURL?
-                        let lastPlayedRoleAvatars = (completeRole as? WSRole)?.FRoleAvatars
-                        if lastPlayedRoleAvatars?.count > 0 {
-                            showAvatarURL = NSURL(string: lastPlayedRoleAvatars![0])
-                        }
-                        strongSelf.updateAvatarRelativeViewWithAvatarURL(showAvatarURL)
-                    }
-                }
-            })
+        var showAvatarURL: NSURL?
+        let lastPlayedRoleAvatars = loginUser?.getUserRoleAvatars()
+        if lastPlayedRoleAvatars?.count > 0 {
+            showAvatarURL = NSURL(string: lastPlayedRoleAvatars!.first!)
         }
+        updateAvatarRelativeViewWithAvatarURL(showAvatarURL)
     }
 
     override func didReceiveMemoryWarning() {
         twitters.removeAll(keepCapacity: false)
+    }
+    
+    /**
+    构建动态查新对象
+    
+    :param: skip
+    :param: limit
+    
+    :returns:
+    */
+    private func buildTwitterQueryWithSkip(skip: Int = 0, limit: Int = WSPengYQVCTwitterPageNumber) -> AVQuery {
+        let query = AVQuery(className: WSTwitter.parseClassName())
+        query!.skip = skip
+        query!.limit = limit
+        
+        let queryIncludeKeys = WSTwitter.PengYQTwitterQueryIncludeKeys()
+        for key in queryIncludeKeys {
+            query.includeKey(key)
+        }
+        
+        return query
+    }
+    
+    /**
+    构建动态评论的查询对象
+    
+    :returns:
+    */
+    private func buildTwitterCommentQuery() -> AVQuery {
+        let query = AVQuery(className: WSTwitterComment.parseClassName())
+        
+        let queryIncludekeys = WSTwitterComment.PengYQTwitterCommentQueryIncludeKeys()
+        for key in queryIncludekeys {
+            query.includeKey(key)
+        }
+        
+        return query
+    }
+    
+    /**
+    查询朋友圈动态
+    
+    :param: skip
+    :param: limit
+    
+    :returns:
+    */
+    private func queryPengYQTwitterWithSkip(skip: Int = 0, limit: Int = WSPengYQVCTwitterPageNumber) -> [WSTwitter]? {
+        
+        let query = buildTwitterQueryWithSkip(skip: skip, limit: limit)
+        let twitters = query.findObjects() as? [WSTwitter]
+        
+        if twitters?.count > 0 {
+            for twitter in twitters! {
+                // 查询评论的完整信息
+                if let twitterComments = twitter.comments {
+                    var completeComments = [WSTwitterComment]()
+                    for comment in twitterComments {
+                        let commentQuery = buildTwitterCommentQuery()
+                        if let completeComment = commentQuery.getObjectWithId(comment.objectId) as? WSTwitterComment {
+                            completeComments.append(completeComment)
+                        } else {
+                            completeComments.append(comment)
+                        }
+                    }
+                    twitter.comments = completeComments
+                }
+            }
+        }
+        
+        return twitters
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -274,29 +345,34 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
         
         if firstAppear == false {
             firstAppear = true
+            
             SVProgressHUD.showWithStatus("努力加载...", maskType: SVProgressHUDMaskType.Black)
-            let roleQuery = AVQuery(className: WSTwitter.parseClassName())
-            roleQuery?.limit = WSPEngYQVCTwitterPageNumber
-            roleQuery?.findObjectsInBackgroundWithBlock({ [weak self] (results, error) -> Void in
-                if let strongSelf = self {
-                    if error != nil {
-                        dispatch_async(dispatch_get_main_queue()) {
-                            SVProgressHUD.showErrorWithStatus(error?.localizedFailureReason, maskType: SVProgressHUDMaskType.Black)
-                        }
-                    } else {
-                        dispatch_async(dispatch_get_main_queue()) {
-                            let twitterResults = results as? [WSTwitter]
-                            if twitterResults?.count > 0 {
-                                strongSelf.twitters = twitterResults!
-                            } else {
-                                strongSelf.twitters.removeAll(keepCapacity: false)
-                            }
-                            strongSelf.tableView.reloadData()
-                            SVProgressHUD.dismiss()
-                        }
-                    }
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)){
+                [weak self] in
+                let strongSelf = self
+                if strongSelf == nil {
+                    return
                 }
-            })
+                let twitterResults = strongSelf!.queryPengYQTwitterWithSkip(skip: 0)
+                if strongSelf == nil {
+                    return
+                }
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    SVProgressHUD.dismiss()
+                }
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    if twitterResults?.count > 0 {
+                        strongSelf!.twitters = twitterResults!
+                    } else {
+                        strongSelf!.twitters.removeAll(keepCapacity: false)
+                    }
+                    strongSelf!.tableView.reloadData()
+                    SVProgressHUD.dismiss()
+                }
+            }
         }
     }
 
@@ -345,12 +421,17 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
         self.navigationController?.popViewControllerAnimated(true)
         println("didSelectRole:\(didSelectRole)")
         
-        let loginUser = AVUser.currentUser() as? WSUser
-        if loginUser?.objectId == didSelectRole.objectId {
+        let loginUser = AVUser.currentUser()
+        if loginUser != nil {
             // 更新资料
-            loginUser!.userCurrentRole = didSelectRole
+            loginUser.setUserRoleObjectId(didSelectRole.objectId)
+            loginUser.setUserRoleName(didSelectRole.FRoleName)
+            loginUser.setUserRoleDesp(didSelectRole.FRoleDesp)
+            loginUser.setUserRoleAvatars(didSelectRole.FRoleAvatars)
             
             SVProgressHUD.showWithStatus("角色变换...", maskType: SVProgressHUDMaskType.Black)
+            
+            // 更新用户信息
             loginUser!.saveInBackgroundWithBlock({ (success, error) -> Void in
                 if success {
                     AVUser.changeCurrentUser(loginUser, save: true)
@@ -358,7 +439,7 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
                         if let strongSelf = self {
                             strongSelf.loginUser = loginUser
                             SVProgressHUD.showSuccessWithStatus("角色变换成功", maskType: SVProgressHUDMaskType.Black)
-                            let roleAvatarUrls = loginUser!.userCurrentRole?.FRoleAvatars
+                            let roleAvatarUrls = didSelectRole.FRoleAvatars
                             let avatarURL = (roleAvatarUrls?.count > 0) ?NSURL(string: roleAvatarUrls![0]):nil
                             strongSelf.updateAvatarRelativeViewWithAvatarURL(avatarURL)
                         }
@@ -371,13 +452,17 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
             })
         } else {
             // 需要登录
-            let newUser = WSUser()
-            newUser.userCurrentRole = didSelectRole
+            let newUser = AVUser()
             newUser.username = NSUUID().UUIDString
             newUser.password = "simple password"
+            newUser.setUserRoleObjectId(didSelectRole.objectId)
+            newUser.setUserRoleName(didSelectRole.FRoleName)
+            newUser.setUserRoleDesp(didSelectRole.FRoleDesp)
+            newUser.setUserRoleAvatars(didSelectRole.FRoleAvatars)
             
             SVProgressHUD.showWithStatus("角色变换...", maskType: SVProgressHUDMaskType.Black)
             
+            // 新建用户
             newUser.signUpInBackgroundWithBlock({ [weak self] (success, error) -> Void in
                 if let strongSelf = self {
                     if success {
@@ -386,7 +471,7 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
                             if let strongSelf = self {
                                 strongSelf.loginUser = newUser
                                 SVProgressHUD.showSuccessWithStatus("角色变换成功", maskType: SVProgressHUDMaskType.Black)
-                                let roleAvatarUrls = newUser.userCurrentRole?.FRoleAvatars
+                                let roleAvatarUrls = didSelectRole.FRoleAvatars
                                 let avatarURL = (roleAvatarUrls?.count > 0) ?NSURL(string: roleAvatarUrls![0]):nil
                                 strongSelf.updateAvatarRelativeViewWithAvatarURL(avatarURL)
                             }
@@ -445,11 +530,11 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
             var placeholder = "回复"
             
             let operateTwitter = twitters[twitterIndexPath!.row]
-            let operateTwitterComments = operateTwitter.dtComments
+            let operateTwitterComments = operateTwitter.comments
             
             if operateTwitterComments?.count > didSelectCommentIndex {
                 let operateComment = operateTwitterComments![didSelectCommentIndex]
-                if let commentUserName = operateComment.dtAuthor?.userCurrentRole?.FRoleName {
+                if let commentUserName = operateComment.author?.getUserRoleName() {
                     placeholder += (" " + commentUserName)
                 }
             }
@@ -502,26 +587,32 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
                 
                 if twitterOperatingIndexPath != nil && twitters.count > twitterOperatingIndexPath!.row {
                     let operateTwitter = twitters[twitterOperatingIndexPath!.row]
-                    let newComment = WSTwitter()
-                    newComment.dtAuthor = loginUser
-                    newComment.dtContent = comment
+                    let newComment = WSTwitterComment()
+                    newComment.author = loginUser
+                    newComment.content = comment
+                    
+                    // 避免循环引用Pointer，使用AVOvject的init(withoutDataWithClassName:objectId:)初始化方法
+                    newComment.twitter = AVObject(withoutDataWithClassName:WSTwitter.parseClassName(), objectId:operateTwitter.objectId) as? WSTwitter
                     
                     if let twitterCommentingIndexPath = twitterOperatingIndexPaths?.operateCommentIndexPath {
-                        let operateTwitterComments = operateTwitter.dtComments
+                        let operateTwitterComments = operateTwitter.comments
                         if operateTwitterComments?.count > twitterCommentingIndexPath.row {
                             let operateComment = operateTwitterComments![twitterCommentingIndexPath.row]
-                            newComment.atUser = operateComment.dtAuthor
+                            newComment.atUser = operateComment.author
                         }
                     }
                     
-                    if operateTwitter.dtComments?.count > 0 {
-                        operateTwitter.dtComments!.append(newComment)
-                    } else {
-                        operateTwitter.dtComments = [newComment]
-                    }
+                    operateTwitter.addUniqueObject(newComment, forKey: WSTwitter.WSTwitterKey_comments)
                     self.tableView.reloadRowsAtIndexPaths([twitterOperatingIndexPath!], withRowAnimation: UITableViewRowAnimation.None)
                 
-                    // TODO:发送评论到服务端 
+                    // 发送评论到服务端
+                    newComment.saveInBackgroundWithBlock({ [weak operateTwitter] (success, error) -> Void in
+                        if let strongOperateTwitter = operateTwitter {
+                            strongOperateTwitter.saveInBackground()
+                        }
+                    })
+                    
+                    realCommentInputField.text = nil
                 }
             }
         }
@@ -547,16 +638,14 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
     */
     private func buildTwitterCellDataWithWSTwitter(twitter: WSTwitter) -> [String: AnyObject] {
 
-        // TODO: 也许所有的对象属性需要单独去获取
-        
         
         var cellData = [String: AnyObject]()
         
-        if let tContent = twitter.dtContent {
+        if let tContent = twitter.content {
             cellData[WSTwitterCellTwitterDataKey_textContent] = tContent
         }
         
-        if let tPictures = twitter.dtPictures {
+        if let tPictures = twitter.pictures {
             var photoURLs = [NSURL]()
             for url in tPictures {
                 if let URL = NSURL(string: url) {
@@ -566,12 +655,12 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
             cellData[WSTwitterCellTwitterDataKey_photoURLs] = photoURLs
         }
         
-        if let tAuthor = twitter.dtAuthor {
-            if let authorName = tAuthor.userCurrentRole?.FRoleName {
+        if let tAuthor = twitter.author {
+            if let authorName = tAuthor.getUserRoleName() {
                 cellData[WSTwitterCellTwitterDataKey_authorName] = authorName
             }
             
-            if let authorAvatars = tAuthor.userCurrentRole?.FRoleAvatars {
+            if let authorAvatars = tAuthor.getUserRoleAvatars() {
                 if authorAvatars.count > 0 {
                     if let avatarURL = NSURL(string: authorAvatars[0]) {
                         cellData[WSTwitterCellTwitterDataKey_avatarURL] = avatarURL
@@ -583,23 +672,21 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
         cellData[WSTwitterCellTwitterDataKey_createDate] = twitter.createdAt
         
         // 设置评论
-        if let comments = twitter.dtComments {
+        if let comments = twitter.comments {
             var commentsData = [[String: AnyObject]]()
             
             for comment in comments {
                 var commentData = [String: AnyObject]()
                 
-                let commentAuthorRole = comment.dtAuthor?.userCurrentRole
-                if let commentAuthorRoleName = commentAuthorRole?.FRoleName {
+                if let commentAuthorRoleName = comment.author?.getUserRoleName() {
                     commentData[WSTwitterCellCommentDataKey_authorName] = commentAuthorRoleName
                 }
                 
-                let commentAtUserRole = comment.atUser?.userCurrentRole
-                if let commentAtUserRoleName = commentAtUserRole?.FRoleName {
+                if let commentAtUserRoleName = comment.atUser?.getUserRoleName() {
                     commentData[WSTwitterCellCommentDataKey_atUserName] = commentAtUserRoleName
                 }
                 
-                if let commentText = comment.dtContent {
+                if let commentText = comment.content {
                     commentData[WSTwitterCellCommentDataKey_textContent] = commentText
                 }
                 
@@ -609,11 +696,11 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
             cellData[WSTwitterCellTwitterDataKey_comments] = commentsData
         }
         
-        if let tLikes = twitter.dtLikes {
+        if let tLikes = twitter.likes {
             var zanUserRoleNames = [String]()
             
             for tLike in tLikes {
-                if let roleName = tLike.lAuthor?.userCurrentRole?.FRoleName {
+                if let roleName = tLike.getUserRoleName() {
                     zanUserRoleNames.append(roleName)
                 }
             }
@@ -696,20 +783,23 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
         println("点击了赞按钮")
         
         twitterOperateModelWindow.dismissWithAnimated(true)
+        
+        if loginUser == nil {
+            SVProgressHUD.showErrorWithStatus("请登录后再点赞", maskType: SVProgressHUDMaskType.Black)
+            return
+        }
+        
         let twitterOperatingIndexPath = twitterOperatingIndexPaths?.operateTwitterIndexPath
         
         if twitterOperatingIndexPath != nil && twitters.count > twitterOperatingIndexPath!.row {
             let operateTwitter = twitters[twitterOperatingIndexPath!.row]
-            let newLike = WSLike()
-            newLike.lAuthor = loginUser
-            if operateTwitter.dtLikes?.count > 0 {
-                operateTwitter.dtLikes!.append(newLike)
-            } else {
-                operateTwitter.dtLikes = [newLike]
-            }
+
+            operateTwitter.addUniqueObject(loginUser, forKey: WSTwitter.WSTwitterKey_likes)
+            
             self.tableView.reloadRowsAtIndexPaths([twitterOperatingIndexPath!], withRowAnimation: UITableViewRowAnimation.None)
             
-            // TODO: 发送赞到服务器端
+            // 发送赞到服务器端
+            operateTwitter.saveInBackground()
         }
     }
     
@@ -718,6 +808,12 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
         println("点击了评论按钮")
         
         twitterOperateModelWindow.dismissWithAnimated(true)
+        
+        if loginUser == nil {
+            SVProgressHUD.showErrorWithStatus("请登录后再评论", maskType: SVProgressHUDMaskType.Black)
+            return
+        }
+        
         let twitterOperatingIndexPath = twitterOperatingIndexPaths?.operateTwitterIndexPath
         
         if twitterOperatingIndexPath != nil && twitters.count > twitterOperatingIndexPath!.row {
@@ -732,4 +828,4 @@ class WSPengYQVC: UITableViewController, WSRoleSelectVCDelegate, WSTwitterCellDe
     }
 }
 
-let WSPEngYQVCTwitterPageNumber = 5
+let WSPengYQVCTwitterPageNumber = 5

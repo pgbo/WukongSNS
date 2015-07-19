@@ -11,23 +11,21 @@ import AVOSCloud
 
 class WSTwitter: AVObject, AVSubclassing {
     
-    let DTCONETNT = "dtContent"
-    @NSManaged var dtContent: String?
+    @NSManaged var content: String?
     
-    let DTPICTURES = "dtPictures"
-    @NSManaged var dtPictures: [String]?
+    @NSManaged var pictures: [String]?
     
-    let DTAUTHOR = "dtAuthor"
-    @NSManaged var dtAuthor: WSUser?
+    static let WSTwitterKey_author = "author"
+    @NSManaged var author: AVUser?
     
-    let DTCOMMENTS = "dtComments"
-    @NSManaged var dtComments: [WSTwitter]?
+    static let WSTwitterKey_comments = "comments"
+    @NSManaged var comments: [WSTwitterComment]?
     
-    let DTLIKES = "dtLikes"
-    @NSManaged var dtLikes: [WSLike]?
+    static let WSTwitterKey_likes = "likes"
+    @NSManaged var likes: [AVUser]?
     
-    let ATUSER = "atUser"
-    @NSManaged var atUser: WSUser?
+    static let WSTwitterKey_atUser = "atUser"
+    @NSManaged var atUser: AVUser?
     
     class func parseClassName() -> String! {
         return "WSTwitter"
@@ -35,5 +33,14 @@ class WSTwitter: AVObject, AVSubclassing {
     
     override init() {
         super.init()
+    }
+    
+}
+
+extension WSTwitter {
+    
+    // 朋友圈动态信息查询includeKeys
+    static func PengYQTwitterQueryIncludeKeys() -> [String] {
+        return [WSTwitterKey_author, WSTwitterKey_comments, WSTwitterKey_likes, WSTwitterKey_atUser]
     }
 }

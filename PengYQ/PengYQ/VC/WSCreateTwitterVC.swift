@@ -306,9 +306,9 @@ class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollect
                     // 上传动态
                     var newTwitter = WSTwitter()
                     
-                    newTwitter.dtContent = strongSelf.textView?.text
-                    newTwitter.dtPictures = photoUrls
-                    newTwitter.dtAuthor = AVUser.currentUser() as? WSUser
+                    newTwitter.content = strongSelf.textView?.text
+                    newTwitter.pictures = photoUrls
+                    newTwitter.author = AVUser.currentUser()
                     
                     var error: NSError?
                     if newTwitter.save(&error) {
