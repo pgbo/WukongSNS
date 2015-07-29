@@ -1,0 +1,572 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1962340B18760BFFFD4F394A /* Pods_PengYQ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F24D8669F182A795C92911B5 /* Pods_PengYQ.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		59529E731B5363D300BF8582 /* TwitterOperateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59529E721B5363D300BF8582 /* TwitterOperateView.swift */; };
+		59A56D171B4D21AC00253301 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A56D161B4D21AC00253301 /* AppDelegate.swift */; };
+		59A56D1C1B4D21AC00253301 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59A56D1A1B4D21AC00253301 /* Main.storyboard */; };
+		59A56D1E1B4D21AC00253301 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59A56D1D1B4D21AC00253301 /* Images.xcassets */; };
+		59A56D211B4D21AC00253301 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59A56D1F1B4D21AC00253301 /* LaunchScreen.xib */; };
+		59A56D381B4D224C00253301 /* WSRoleSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A56D351B4D224C00253301 /* WSRoleSelectVC.swift */; };
+		59A56D391B4D224C00253301 /* WSSelectRoleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A56D371B4D224C00253301 /* WSSelectRoleCell.swift */; };
+		59A56D3B1B4D243100253301 /* AVOSCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59A56D3A1B4D243100253301 /* AVOSCloud.framework */; };
+		59A56D3D1B4D248D00253301 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59A56D3C1B4D248D00253301 /* SystemConfiguration.framework */; };
+		59A56D3F1B4D249500253301 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59A56D3E1B4D249500253301 /* CoreTelephony.framework */; };
+		59A56D411B4D249E00253301 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59A56D401B4D249E00253301 /* MobileCoreServices.framework */; };
+		59A56D431B4D24A700253301 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59A56D421B4D24A700253301 /* CoreLocation.framework */; };
+		59A56D451B4D24B300253301 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 59A56D441B4D24B300253301 /* libicucore.dylib */; };
+		59F3649B1B4E4A370093A6D1 /* WSPengYQVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F3649A1B4E4A370093A6D1 /* WSPengYQVC.swift */; };
+		59F3649E1B4E50B00093A6D1 /* WSUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F3649D1B4E50B00093A6D1 /* WSUserDefaults.swift */; };
+		865380D11B4EC55100FEDD02 /* WSTwitterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380D01B4EC55100FEDD02 /* WSTwitterCell.swift */; };
+		865380D51B4ECE8300FEDD02 /* TwitterCommentShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380D41B4ECE8300FEDD02 /* TwitterCommentShowView.swift */; };
+		865380D71B50B30300FEDD02 /* WSCreateTwitterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380D61B50B30300FEDD02 /* WSCreateTwitterVC.swift */; };
+		865380DB1B5144D000FEDD02 /* WSConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380DA1B5144D000FEDD02 /* WSConstants.swift */; };
+		865380DD1B516C6200FEDD02 /* WSTwitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380DC1B516C6200FEDD02 /* WSTwitter.swift */; };
+		865380DF1B516DB000FEDD02 /* AVUser+WS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380DE1B516DB000FEDD02 /* AVUser+WS.swift */; };
+		865380E11B516EC500FEDD02 /* WSRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380E01B516EC500FEDD02 /* WSRole.swift */; };
+		865380E31B516F4E00FEDD02 /* WSRoleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380E21B516F4E00FEDD02 /* WSRoleGroup.swift */; };
+		8679131C1B5BC51E00D395E0 /* AVOSCloudIM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8679131B1B5BC51E00D395E0 /* AVOSCloudIM.framework */; };
+		867913201B5BE88000D395E0 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8679131F1B5BE88000D395E0 /* libsqlite3.dylib */; };
+		867913221B5BED7800D395E0 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 867913211B5BED7800D395E0 /* libc++.dylib */; };
+		86A1AC771B5A4089002569D0 /* WSTwitterComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A1AC761B5A4089002569D0 /* WSTwitterComment.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		59529E721B5363D300BF8582 /* TwitterOperateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterOperateView.swift; sourceTree = "<group>"; };
+		59A56D111B4D21AC00253301 /* PengYQ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PengYQ.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		59A56D151B4D21AC00253301 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		59A56D161B4D21AC00253301 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		59A56D1B1B4D21AC00253301 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		59A56D1D1B4D21AC00253301 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		59A56D201B4D21AC00253301 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		59A56D351B4D224C00253301 /* WSRoleSelectVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSRoleSelectVC.swift; sourceTree = "<group>"; };
+		59A56D371B4D224C00253301 /* WSSelectRoleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSSelectRoleCell.swift; sourceTree = "<group>"; };
+		59A56D3A1B4D243100253301 /* AVOSCloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AVOSCloud.framework; sourceTree = "<group>"; };
+		59A56D3C1B4D248D00253301 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
+		59A56D3E1B4D249500253301 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
+		59A56D401B4D249E00253301 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
+		59A56D421B4D24A700253301 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
+		59A56D441B4D24B300253301 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/usr/lib/libicucore.dylib; sourceTree = DEVELOPER_DIR; };
+		59F3649A1B4E4A370093A6D1 /* WSPengYQVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSPengYQVC.swift; sourceTree = "<group>"; };
+		59F3649D1B4E50B00093A6D1 /* WSUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSUserDefaults.swift; sourceTree = "<group>"; };
+		865380D01B4EC55100FEDD02 /* WSTwitterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSTwitterCell.swift; sourceTree = "<group>"; };
+		865380D41B4ECE8300FEDD02 /* TwitterCommentShowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterCommentShowView.swift; sourceTree = "<group>"; };
+		865380D61B50B30300FEDD02 /* WSCreateTwitterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSCreateTwitterVC.swift; sourceTree = "<group>"; };
+		865380DA1B5144D000FEDD02 /* WSConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSConstants.swift; sourceTree = "<group>"; };
+		865380DC1B516C6200FEDD02 /* WSTwitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSTwitter.swift; sourceTree = "<group>"; };
+		865380DE1B516DB000FEDD02 /* AVUser+WS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVUser+WS.swift"; sourceTree = "<group>"; };
+		865380E01B516EC500FEDD02 /* WSRole.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSRole.swift; sourceTree = "<group>"; };
+		865380E21B516F4E00FEDD02 /* WSRoleGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSRoleGroup.swift; sourceTree = "<group>"; };
+		8679131B1B5BC51E00D395E0 /* AVOSCloudIM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AVOSCloudIM.framework; sourceTree = "<group>"; };
+		8679131F1B5BE88000D395E0 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/usr/lib/libsqlite3.dylib; sourceTree = DEVELOPER_DIR; };
+		867913211B5BED7800D395E0 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/usr/lib/libc++.dylib"; sourceTree = DEVELOPER_DIR; };
+		86A1AC761B5A4089002569D0 /* WSTwitterComment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSTwitterComment.swift; sourceTree = "<group>"; };
+		99AEF786D0C0439F560DA32C /* Pods-PengYQ.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PengYQ.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PengYQ/Pods-PengYQ.debug.xcconfig"; sourceTree = "<group>"; };
+		AE826FC1854B0A699DF7DF19 /* Pods-PengYQ.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PengYQ.release.xcconfig"; path = "Pods/Target Support Files/Pods-PengYQ/Pods-PengYQ.release.xcconfig"; sourceTree = "<group>"; };
+		F24D8669F182A795C92911B5 /* Pods_PengYQ.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PengYQ.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		59A56D0E1B4D21AC00253301 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				867913221B5BED7800D395E0 /* libc++.dylib in Frameworks */,
+				867913201B5BE88000D395E0 /* libsqlite3.dylib in Frameworks */,
+				59A56D451B4D24B300253301 /* libicucore.dylib in Frameworks */,
+				59A56D3F1B4D249500253301 /* CoreTelephony.framework in Frameworks */,
+				59A56D431B4D24A700253301 /* CoreLocation.framework in Frameworks */,
+				59A56D411B4D249E00253301 /* MobileCoreServices.framework in Frameworks */,
+				59A56D3D1B4D248D00253301 /* SystemConfiguration.framework in Frameworks */,
+				1962340B18760BFFFD4F394A /* Pods_PengYQ.framework in Frameworks */,
+				59A56D3B1B4D243100253301 /* AVOSCloud.framework in Frameworks */,
+				8679131C1B5BC51E00D395E0 /* AVOSCloudIM.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0DBC7453806406A415F4ED46 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				99AEF786D0C0439F560DA32C /* Pods-PengYQ.debug.xcconfig */,
+				AE826FC1854B0A699DF7DF19 /* Pods-PengYQ.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		59A56D061B4D219500253301 = {
+			isa = PBXGroup;
+			children = (
+				59A56D3A1B4D243100253301 /* AVOSCloud.framework */,
+				8679131B1B5BC51E00D395E0 /* AVOSCloudIM.framework */,
+				59AA22C01B4D25BE0028409D /* Public */,
+				59A56D131B4D21AC00253301 /* PengYQ */,
+				59A56D121B4D21AC00253301 /* Products */,
+				0DBC7453806406A415F4ED46 /* Pods */,
+				61DC5881E93DB7BA2420704E /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		59A56D121B4D21AC00253301 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				59A56D111B4D21AC00253301 /* PengYQ.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		59A56D131B4D21AC00253301 /* PengYQ */ = {
+			isa = PBXGroup;
+			children = (
+				59A56D341B4D224C00253301 /* VC */,
+				59A56D361B4D224C00253301 /* View */,
+				59A56D161B4D21AC00253301 /* AppDelegate.swift */,
+				59A56D1A1B4D21AC00253301 /* Main.storyboard */,
+				59A56D1D1B4D21AC00253301 /* Images.xcassets */,
+				59A56D1F1B4D21AC00253301 /* LaunchScreen.xib */,
+				59A56D141B4D21AC00253301 /* Supporting Files */,
+			);
+			path = PengYQ;
+			sourceTree = "<group>";
+		};
+		59A56D141B4D21AC00253301 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				59A56D151B4D21AC00253301 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		59A56D341B4D224C00253301 /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				59A56D351B4D224C00253301 /* WSRoleSelectVC.swift */,
+				59F3649A1B4E4A370093A6D1 /* WSPengYQVC.swift */,
+				865380D61B50B30300FEDD02 /* WSCreateTwitterVC.swift */,
+			);
+			path = VC;
+			sourceTree = "<group>";
+		};
+		59A56D361B4D224C00253301 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				59A56D371B4D224C00253301 /* WSSelectRoleCell.swift */,
+				865380D01B4EC55100FEDD02 /* WSTwitterCell.swift */,
+				865380D41B4ECE8300FEDD02 /* TwitterCommentShowView.swift */,
+				59529E721B5363D300BF8582 /* TwitterOperateView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		59AA22C01B4D25BE0028409D /* Public */ = {
+			isa = PBXGroup;
+			children = (
+				59F3649C1B4E507F0093A6D1 /* Util */,
+				59AA22C11B4D25BE0028409D /* Model */,
+			);
+			name = Public;
+			path = ../Public;
+			sourceTree = "<group>";
+		};
+		59AA22C11B4D25BE0028409D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				865380DC1B516C6200FEDD02 /* WSTwitter.swift */,
+				86A1AC761B5A4089002569D0 /* WSTwitterComment.swift */,
+				865380DE1B516DB000FEDD02 /* AVUser+WS.swift */,
+				865380E01B516EC500FEDD02 /* WSRole.swift */,
+				865380E21B516F4E00FEDD02 /* WSRoleGroup.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		59F3649C1B4E507F0093A6D1 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				59F3649D1B4E50B00093A6D1 /* WSUserDefaults.swift */,
+				865380DA1B5144D000FEDD02 /* WSConstants.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		61DC5881E93DB7BA2420704E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				867913211B5BED7800D395E0 /* libc++.dylib */,
+				8679131F1B5BE88000D395E0 /* libsqlite3.dylib */,
+				59A56D441B4D24B300253301 /* libicucore.dylib */,
+				59A56D421B4D24A700253301 /* CoreLocation.framework */,
+				59A56D401B4D249E00253301 /* MobileCoreServices.framework */,
+				59A56D3E1B4D249500253301 /* CoreTelephony.framework */,
+				59A56D3C1B4D248D00253301 /* SystemConfiguration.framework */,
+				F24D8669F182A795C92911B5 /* Pods_PengYQ.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		59A56D101B4D21AC00253301 /* PengYQ */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 59A56D2E1B4D21AC00253301 /* Build configuration list for PBXNativeTarget "PengYQ" */;
+			buildPhases = (
+				F6834394B17423255D03D7E2 /* Check Pods Manifest.lock */,
+				59A56D0D1B4D21AC00253301 /* Sources */,
+				59A56D0E1B4D21AC00253301 /* Frameworks */,
+				59A56D0F1B4D21AC00253301 /* Resources */,
+				00E2CA7506933AE4EA2B5B91 /* Embed Pods Frameworks */,
+				6E896D5AE3114D42E5FAC735 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PengYQ;
+			productName = PengYQ;
+			productReference = 59A56D111B4D21AC00253301 /* PengYQ.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		59A56D071B4D219500253301 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				TargetAttributes = {
+					59A56D101B4D21AC00253301 = {
+						CreatedOnToolsVersion = 6.3.2;
+					};
+				};
+			};
+			buildConfigurationList = 59A56D0A1B4D219500253301 /* Build configuration list for PBXProject "PengYQ" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 59A56D061B4D219500253301;
+			productRefGroup = 59A56D121B4D21AC00253301 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				59A56D101B4D21AC00253301 /* PengYQ */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		59A56D0F1B4D21AC00253301 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				59A56D1C1B4D21AC00253301 /* Main.storyboard in Resources */,
+				59A56D211B4D21AC00253301 /* LaunchScreen.xib in Resources */,
+				59A56D1E1B4D21AC00253301 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		00E2CA7506933AE4EA2B5B91 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PengYQ/Pods-PengYQ-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6E896D5AE3114D42E5FAC735 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PengYQ/Pods-PengYQ-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F6834394B17423255D03D7E2 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		59A56D0D1B4D21AC00253301 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				865380DD1B516C6200FEDD02 /* WSTwitter.swift in Sources */,
+				59F3649B1B4E4A370093A6D1 /* WSPengYQVC.swift in Sources */,
+				59A56D391B4D224C00253301 /* WSSelectRoleCell.swift in Sources */,
+				59529E731B5363D300BF8582 /* TwitterOperateView.swift in Sources */,
+				865380D51B4ECE8300FEDD02 /* TwitterCommentShowView.swift in Sources */,
+				865380D11B4EC55100FEDD02 /* WSTwitterCell.swift in Sources */,
+				59F3649E1B4E50B00093A6D1 /* WSUserDefaults.swift in Sources */,
+				86A1AC771B5A4089002569D0 /* WSTwitterComment.swift in Sources */,
+				865380E11B516EC500FEDD02 /* WSRole.swift in Sources */,
+				865380D71B50B30300FEDD02 /* WSCreateTwitterVC.swift in Sources */,
+				865380E31B516F4E00FEDD02 /* WSRoleGroup.swift in Sources */,
+				865380DF1B516DB000FEDD02 /* AVUser+WS.swift in Sources */,
+				59A56D171B4D21AC00253301 /* AppDelegate.swift in Sources */,
+				865380DB1B5144D000FEDD02 /* WSConstants.swift in Sources */,
+				59A56D381B4D224C00253301 /* WSRoleSelectVC.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		59A56D1A1B4D21AC00253301 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				59A56D1B1B4D21AC00253301 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		59A56D1F1B4D21AC00253301 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				59A56D201B4D21AC00253301 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		59A56D0B1B4D219500253301 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		59A56D0C1B4D219500253301 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		59A56D2F1B4D21AC00253301 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 99AEF786D0C0439F560DA32C /* Pods-PengYQ.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = PengYQ/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/pengguangbo/Documents/githubProj/Dev-WukongSNS",
+				);
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"CTAssetsPickerController\"",
+					"-framework",
+					"\"DWTagList\"",
+					"-framework",
+					"\"Haneke\"",
+					"-framework",
+					"\"Kingfisher\"",
+					"-framework",
+					"\"LvModelWindow\"",
+					"-framework",
+					"\"MHPrettyDate\"",
+					"-framework",
+					"\"SVProgressHUD\"",
+					"-framework",
+					"\"TTTAttributedLabel\"",
+					"-framework",
+					"\"Toucan\"",
+					"-framework",
+					"\"UpLoadMoreControl\"",
+					"-framework",
+					"\"UpRefreshControl\"",
+					"-ObjC",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		59A56D301B4D21AC00253301 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AE826FC1854B0A699DF7DF19 /* Pods-PengYQ.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = PengYQ/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/pengguangbo/Documents/githubProj/Dev-WukongSNS",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"CTAssetsPickerController\"",
+					"-framework",
+					"\"DWTagList\"",
+					"-framework",
+					"\"Haneke\"",
+					"-framework",
+					"\"Kingfisher\"",
+					"-framework",
+					"\"LvModelWindow\"",
+					"-framework",
+					"\"MHPrettyDate\"",
+					"-framework",
+					"\"SVProgressHUD\"",
+					"-framework",
+					"\"TTTAttributedLabel\"",
+					"-framework",
+					"\"Toucan\"",
+					"-framework",
+					"\"UpLoadMoreControl\"",
+					"-framework",
+					"\"UpRefreshControl\"",
+					"-ObjC",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		59A56D0A1B4D219500253301 /* Build configuration list for PBXProject "PengYQ" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				59A56D0B1B4D219500253301 /* Debug */,
+				59A56D0C1B4D219500253301 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		59A56D2E1B4D21AC00253301 /* Build configuration list for PBXNativeTarget "PengYQ" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				59A56D2F1B4D21AC00253301 /* Debug */,
+				59A56D301B4D21AC00253301 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 59A56D071B4D219500253301 /* Project object */;
+}

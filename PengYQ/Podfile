@@ -1,0 +1,16 @@
+platform :ios, '8.0'
+use_frameworks!
+
+target 'PengYQ', :exclusive => true do
+    pod 'HanekeSwift'
+    pod 'Kingfisher', '~> 1.4'
+    pod 'SVProgressHUD', '~> 1.1.2'
+    pod "UpRefreshControl"
+    pod "UpLoadMoreControl"
+    pod "LvModelWindow"
+    pod "DWTagList"
+    pod "TTTAttributedLabel"
+    pod "CTAssetsPickerController"
+    pod "Toucan"
+    pod "MHPrettyDate"
+end

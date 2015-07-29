@@ -1,0 +1,59 @@
+PODS:
+  - CTAssetsPickerController (2.9.5)
+  - DWTagList (0.0.7)
+  - HanekeSwift (0.9.1)
+  - Kingfisher (1.4.2)
+  - LvModelWindow (0.1.0)
+  - MHPrettyDate (1.1.1)
+  - SVProgressHUD (1.1.3)
+  - Toucan (0.2.0)
+  - TTTAttributedLabel (1.13.4)
+  - UpLoadMoreControl (0.1.0)
+  - UpRefreshControl (0.1.0)
+
+DEPENDENCIES:
+  - CTAssetsPickerController
+  - DWTagList
+  - HanekeSwift
+  - Kingfisher (~> 1.4)
+  - LvModelWindow (from `https://github.com/pgbo/LvModelWindow.git`)
+  - MHPrettyDate
+  - SVProgressHUD (~> 1.1.2)
+  - Toucan
+  - TTTAttributedLabel
+  - UpLoadMoreControl (from `https://github.com/pgbo/UpLoadMoreControl.git`)
+  - UpRefreshControl (from `https://github.com/pgbo/UpRefreshControl.git`)
+
+EXTERNAL SOURCES:
+  LvModelWindow:
+    :git: https://github.com/pgbo/LvModelWindow.git
+  UpLoadMoreControl:
+    :git: https://github.com/pgbo/UpLoadMoreControl.git
+  UpRefreshControl:
+    :git: https://github.com/pgbo/UpRefreshControl.git
+
+CHECKOUT OPTIONS:
+  LvModelWindow:
+    :commit: 33b12cc189b6d0b45b3258eb7a0f7431801c3c29
+    :git: https://github.com/pgbo/LvModelWindow.git
+  UpLoadMoreControl:
+    :commit: 977e5c2806459d8b5a58e8a4bebdc714fa12e23d
+    :git: https://github.com/pgbo/UpLoadMoreControl.git
+  UpRefreshControl:
+    :commit: 2f478b062f9ff0f199812c0dd1206846377083d8
+    :git: https://github.com/pgbo/UpRefreshControl.git
+
+SPEC CHECKSUMS:
+  CTAssetsPickerController: b413fece2194ae3dbf22fbc544cf6f2a6d516a4d
+  DWTagList: cdf3607a7c37850a0c437d63c981f643dc5904bb
+  HanekeSwift: 50d37bfbc4432edc649167e538c259feccb4a2bb
+  Kingfisher: 4446782a827abbe2e6048a1fa741924a10e6ad7c
+  LvModelWindow: f548da5703b7d14b4bc243c803c1af51abb3990c
+  MHPrettyDate: e0e5975041f0210c0542f4c5d7e3e44d1a8537be
+  SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
+  Toucan: 61d31928e7d75c401e1d51cd2b13d8275a7a579c
+  TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f
+  UpLoadMoreControl: 357a1fa72d6f717079e8cdcbab51a81f96d062b4
+  UpRefreshControl: 442379f120f0cb4deba7166d6514aac5ba0e6bc6
+
+COCOAPODS: 0.38.0.beta.2
