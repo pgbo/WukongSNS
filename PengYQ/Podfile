@@ -2,6 +2,8 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'PengYQ', :exclusive => true do
+    pod 'AVOSCloud', '3.1.2.8'
+    pod 'AVOSCloudIM', '3.1.2.8'
     pod 'HanekeSwift', '0.9.1'
     pod 'Kingfisher', '1.4.2'
     pod 'SVProgressHUD', '1.1.3'
