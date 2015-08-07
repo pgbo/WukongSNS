@@ -15,7 +15,6 @@
 		59A56D211B4D21AC00253301 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59A56D1F1B4D21AC00253301 /* LaunchScreen.xib */; };
 		59A56D381B4D224C00253301 /* WSRoleSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A56D351B4D224C00253301 /* WSRoleSelectVC.swift */; };
 		59A56D391B4D224C00253301 /* WSSelectRoleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A56D371B4D224C00253301 /* WSSelectRoleCell.swift */; };
-		59A56D3B1B4D243100253301 /* AVOSCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59A56D3A1B4D243100253301 /* AVOSCloud.framework */; };
 		59A56D3D1B4D248D00253301 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59A56D3C1B4D248D00253301 /* SystemConfiguration.framework */; };
 		59A56D3F1B4D249500253301 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59A56D3E1B4D249500253301 /* CoreTelephony.framework */; };
 		59A56D411B4D249E00253301 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59A56D401B4D249E00253301 /* MobileCoreServices.framework */; };
@@ -31,7 +30,6 @@
 		865380DF1B516DB000FEDD02 /* AVUser+WS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380DE1B516DB000FEDD02 /* AVUser+WS.swift */; };
 		865380E11B516EC500FEDD02 /* WSRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380E01B516EC500FEDD02 /* WSRole.swift */; };
 		865380E31B516F4E00FEDD02 /* WSRoleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865380E21B516F4E00FEDD02 /* WSRoleGroup.swift */; };
-		8679131C1B5BC51E00D395E0 /* AVOSCloudIM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8679131B1B5BC51E00D395E0 /* AVOSCloudIM.framework */; };
 		867913201B5BE88000D395E0 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8679131F1B5BE88000D395E0 /* libsqlite3.dylib */; };
 		867913221B5BED7800D395E0 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 867913211B5BED7800D395E0 /* libc++.dylib */; };
 		86A1AC771B5A4089002569D0 /* WSTwitterComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A1AC761B5A4089002569D0 /* WSTwitterComment.swift */; };
@@ -47,7 +45,6 @@
 		59A56D201B4D21AC00253301 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		59A56D351B4D224C00253301 /* WSRoleSelectVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSRoleSelectVC.swift; sourceTree = "<group>"; };
 		59A56D371B4D224C00253301 /* WSSelectRoleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSSelectRoleCell.swift; sourceTree = "<group>"; };
-		59A56D3A1B4D243100253301 /* AVOSCloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AVOSCloud.framework; sourceTree = "<group>"; };
 		59A56D3C1B4D248D00253301 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
 		59A56D3E1B4D249500253301 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
 		59A56D401B4D249E00253301 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
@@ -55,6 +52,7 @@
 		59A56D441B4D24B300253301 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/usr/lib/libicucore.dylib; sourceTree = DEVELOPER_DIR; };
 		59F3649A1B4E4A370093A6D1 /* WSPengYQVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSPengYQVC.swift; sourceTree = "<group>"; };
 		59F3649D1B4E50B00093A6D1 /* WSUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSUserDefaults.swift; sourceTree = "<group>"; };
+		70895B561B6A7E6800D7FF33 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/System/Library/Frameworks/Photos.framework; sourceTree = DEVELOPER_DIR; };
 		865380D01B4EC55100FEDD02 /* WSTwitterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSTwitterCell.swift; sourceTree = "<group>"; };
 		865380D41B4ECE8300FEDD02 /* TwitterCommentShowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterCommentShowView.swift; sourceTree = "<group>"; };
 		865380D61B50B30300FEDD02 /* WSCreateTwitterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSCreateTwitterVC.swift; sourceTree = "<group>"; };
@@ -63,7 +61,6 @@
 		865380DE1B516DB000FEDD02 /* AVUser+WS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVUser+WS.swift"; sourceTree = "<group>"; };
 		865380E01B516EC500FEDD02 /* WSRole.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSRole.swift; sourceTree = "<group>"; };
 		865380E21B516F4E00FEDD02 /* WSRoleGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSRoleGroup.swift; sourceTree = "<group>"; };
-		8679131B1B5BC51E00D395E0 /* AVOSCloudIM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AVOSCloudIM.framework; sourceTree = "<group>"; };
 		8679131F1B5BE88000D395E0 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/usr/lib/libsqlite3.dylib; sourceTree = DEVELOPER_DIR; };
 		867913211B5BED7800D395E0 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/usr/lib/libc++.dylib"; sourceTree = DEVELOPER_DIR; };
 		86A1AC761B5A4089002569D0 /* WSTwitterComment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSTwitterComment.swift; sourceTree = "<group>"; };
@@ -85,8 +82,6 @@
 				59A56D411B4D249E00253301 /* MobileCoreServices.framework in Frameworks */,
 				59A56D3D1B4D248D00253301 /* SystemConfiguration.framework in Frameworks */,
 				1962340B18760BFFFD4F394A /* Pods_PengYQ.framework in Frameworks */,
-				59A56D3B1B4D243100253301 /* AVOSCloud.framework in Frameworks */,
-				8679131C1B5BC51E00D395E0 /* AVOSCloudIM.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,8 +100,6 @@
 		59A56D061B4D219500253301 = {
 			isa = PBXGroup;
 			children = (
-				59A56D3A1B4D243100253301 /* AVOSCloud.framework */,
-				8679131B1B5BC51E00D395E0 /* AVOSCloudIM.framework */,
 				59AA22C01B4D25BE0028409D /* Public */,
 				59A56D131B4D21AC00253301 /* PengYQ */,
 				59A56D121B4D21AC00253301 /* Products */,
@@ -200,6 +193,7 @@
 		61DC5881E93DB7BA2420704E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				70895B561B6A7E6800D7FF33 /* Photos.framework */,
 				867913211B5BED7800D395E0 /* libc++.dylib */,
 				8679131F1B5BE88000D395E0 /* libsqlite3.dylib */,
 				59A56D441B4D24B300253301 /* libicucore.dylib */,
