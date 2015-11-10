@@ -159,7 +159,7 @@ class WSTwitterCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
         if let photoCount = photoURLs?.count {
             photosCollectionViewTopConstraint?.constant = WSTwitterPhotosCollectionViewTopMargin
             
-            photosCollectionViewHeightConstraint?.constant = WSTwitterCell.caculatePhtotosCollectionViewHeightWithPhotoNumber(photoNumber: photoCount, collectionViewWidth: twitterTextViewWidth)
+            photosCollectionViewHeightConstraint?.constant = WSTwitterCell.caculatePhtotosCollectionViewHeightWithPhotoNumber(photoCount, collectionViewWidth: twitterTextViewWidth)
         } else {
             photosCollectionViewTopConstraint?.constant = 0
             photosCollectionViewHeightConstraint?.constant = 0
@@ -186,11 +186,11 @@ class WSTwitterCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
             commentShowViewData[TwitterCommentShowViewTwitterDataKey_comments] = commentShowViewComments
         }
         
-        commentShowView?.configWithData(data: commentShowViewData, viewWidth: twitterTextViewWidth)
+        commentShowView?.configWithData(commentShowViewData, viewWidth: twitterTextViewWidth)
         
         if commentShowViewData.count > 0 {
             commentShowViewTopConstraint?.constant = WSTwitterCommentShowViewTopMargin
-            commentShowViewHeightConstraint?.constant = TwitterCommentShowView.caculateHeightWithData(data: commentShowViewData, viewWidth: twitterTextViewWidth)
+            commentShowViewHeightConstraint?.constant = TwitterCommentShowView.caculateHeightWithData(commentShowViewData, viewWidth: twitterTextViewWidth)
         } else {
             commentShowViewTopConstraint?.constant = 0
             commentShowViewHeightConstraint?.constant = 0
@@ -239,7 +239,7 @@ class WSTwitterCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
         // 计算图片显示视图高度
         if let photoCount = photoURLs?.count {
             cellHeight += (WSTwitterPhotosCollectionViewTopMargin +
-            caculatePhtotosCollectionViewHeightWithPhotoNumber(photoNumber: photoCount, collectionViewWidth: twitterTextViewWidth))
+            caculatePhtotosCollectionViewHeightWithPhotoNumber(photoCount, collectionViewWidth: twitterTextViewWidth))
         }
         
         // 计算时间视图高度
@@ -260,7 +260,7 @@ class WSTwitterCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
         }
         
         if commentShowViewData.count > 0 {
-            cellHeight += (WSTwitterCommentShowViewTopMargin + TwitterCommentShowView.caculateHeightWithData(data: commentShowViewData, viewWidth: twitterTextViewWidth))
+            cellHeight += (WSTwitterCommentShowViewTopMargin + TwitterCommentShowView.caculateHeightWithData(commentShowViewData, viewWidth: twitterTextViewWidth))
         }
         
         // 计算cell底部padding
@@ -347,7 +347,7 @@ class WSTwitterCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
             setupTwitterPhotoCell()
         }
 
-        required init(coder aDecoder: NSCoder) {
+        required init?(coder aDecoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
         
@@ -364,16 +364,16 @@ class WSTwitterCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
             photoView = UIImageView()
             self.contentView.addSubview(photoView!)
             
-            photoView?.setTranslatesAutoresizingMaskIntoConstraints(false)
+            photoView?.translatesAutoresizingMaskIntoConstraints = false
             photoView?.contentMode = UIViewContentMode.ScaleAspectFill
             photoView?.clipsToBounds = true
             
             // 设置约束
             let views = ["photoView":photoView!]
            
-            self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[photoView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+            self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[photoView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
             
-            self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[photoView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+            self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[photoView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
         }
     }
 }

@@ -46,7 +46,7 @@ class WSSelectRoleCell: UITableViewCell {
         roleTextView?.scrollEnabled = false
         roleTextView?.showsHorizontalScrollIndicator = false
         roleTextView?.showsVerticalScrollIndicator = false
-        roleTextView?.autoresizingMask = UIViewAutoresizing.FlexibleWidth|UIViewAutoresizing.FlexibleBottomMargin
+        roleTextView?.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleBottomMargin]
         
         // 设置选择按钮
         let bgImg = UIImage(named: "WhiteButnBg")?.resizableImageWithCapInsets(UIEdgeInsetsMake(12.0, 12.0, 12.0, 12.0))
@@ -67,7 +67,7 @@ class WSSelectRoleCell: UITableViewCell {
     /**
     设置数据，配置cell
     
-    :param: data 数据
+    - parameter data: 数据
     */
     func configWithData(data:[String:AnyObject]!, cellWidth:CGFloat!) {
         let roleName = data[WSSelectRoleCellDataKey_roleName] as? String
@@ -89,10 +89,10 @@ class WSSelectRoleCell: UITableViewCell {
     /**
     计算cell高度
     
-    :param: data      数据
-    :param: cellWidth cell的宽度
+    - parameter data:      数据
+    - parameter cellWidth: cell的宽度
     
-    :returns:
+    - returns:
     */
     static func cellHeightWithData(data:[String:AnyObject]!, cellWidth:CGFloat?) ->CGFloat {
         let roleName: AnyObject? = data?[WSSelectRoleCellDataKey_roleName]
@@ -114,8 +114,8 @@ class WSSelectRoleCell: UITableViewCell {
     /**
     获取roleTextView的高度
     
-    :param: attributedText      内容
-    :param: roleTextViewWidth   视图宽度
+    - parameter attributedText:      内容
+    - parameter roleTextViewWidth:   视图宽度
     */
     static private func roleTextViewHeightWithAttributedText(attributedText:NSAttributedString?, roleTextViewWidth:CGFloat? = 0) ->CGFloat {
         
@@ -140,8 +140,8 @@ class WSSelectRoleCell: UITableViewCell {
     /**
     构建角色textView的attributed内容
     
-    :param: name        role名称
-    :param: description role描述
+    - parameter name:        role名称
+    - parameter description: role描述
     */
     static private func buildRoleTextViewAttributedTextWithName(name:String?, description:String?) -> NSAttributedString {
         

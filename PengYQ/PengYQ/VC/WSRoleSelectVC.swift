@@ -44,7 +44,7 @@ class WSRoleSelectVC: UITableViewController {
                         strongSelf.upRefreshControl?.finishedLoadingWithStatus("", delay: 0)
                     }
                     if error != nil {
-                        println(error?.localizedFailureReason)
+                        print(error?.localizedFailureReason)
                     } else {
                         dispatch_async(dispatch_get_main_queue()) {
                             let roleResults = results as? [WSRole]
@@ -73,7 +73,7 @@ class WSRoleSelectVC: UITableViewController {
                             internalStrongSelf.upLoadMoreControl?.finishedLoadingWithStatus("", delay: 0)
                         }
                         if error != nil {
-                            println(error?.localizedFailureReason)
+                            print(error?.localizedFailureReason)
                         } else {
                             let roleResults = results as? [WSRole]
                             if roleResults?.count > 0 {
@@ -186,13 +186,13 @@ class WSRoleSelectVC: UITableViewController {
     }
     
     @objc private func recvRoleSelectButtonClickNote(notification:NSNotification!) {
-        println("recvRoleSelectButtonClickNote.")
+        print("recvRoleSelectButtonClickNote.")
         
         let selectedButton = notification.userInfo?[kWSSelectRoleCellSelectButton] as? UIButton
         if selectedButton != nil {
             let p = tableView.convertPoint(CGPoint(x: 0, y: 0), fromView: selectedButton)
             if let clickIndexPath = tableView.indexPathForRowAtPoint(p) {
-                println("clickIndexPath.row: \(clickIndexPath.row)")
+                print("clickIndexPath.row: \(clickIndexPath.row)")
                 let selectRole = roles[clickIndexPath.row]
                 delegate?.roleSelectVC?(self, didSelectRole:selectRole)
             }

@@ -45,7 +45,7 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
         setupTwitterCommentShowView()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupTwitterCommentShowView()
     }
@@ -60,7 +60,7 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return TwitterCommentCell.cellHeightWithData(data: comments![indexPath.row], cellWidth: CGRectGetWidth(tableView.bounds))
+        return TwitterCommentCell.cellHeightWithData(comments![indexPath.row], cellWidth: CGRectGetWidth(tableView.bounds))
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -68,7 +68,7 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
         let cell = tableView.dequeueReusableCellWithIdentifier(TwitterCommentCellReuseIdentifer, forIndexPath: indexPath) as! TwitterCommentCell
         
         cell.delegate = self
-        cell.configWithData(data: comments![indexPath.row], cellWidth: CGRectGetWidth(tableView.bounds))
+        cell.configWithData(comments![indexPath.row], cellWidth: CGRectGetWidth(tableView.bounds))
         
         return cell
     }
@@ -90,13 +90,13 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
     // MARK: - DWTagListDelegate
     
     func selectedTag(tagName: String!, tagIndex: Int) {
-        println("selectedTag:\(tagName), tagIndex:\(tagIndex)")
+        print("selectedTag:\(tagName), tagIndex:\(tagIndex)")
         if tagName != TwitterLikeTagSeperatorString && zanUserNames != nil {
             
             // FIXME: 获取真正的index，升级到swift2.0 使用indexOf方法
             var realIndex = 0
             
-            for (index, value) in enumerate(zanUserNames!) {
+            for (index, value) in (zanUserNames!).enumerate() {
                 if value == tagName {
                     realIndex = index
                     delegate?.twitterCommentShowView?(self, didSelectZanUserName: tagName, atIndex:realIndex)
@@ -122,7 +122,7 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
             likeIconView?.hidden = true
         } else {
             likesTagView?.setTags(builedTags)
-            likesTagViewHeightConstraint?.constant = TwitterCommentShowView.caculateLikesTagViewHeightWithZanUserNames(names: zanUserNames, likesTagViewWidth: (viewWidth - TwitterCommentShowView_likesTagViewLittleThanShowView))
+            likesTagViewHeightConstraint?.constant = TwitterCommentShowView.caculateLikesTagViewHeightWithZanUserNames(zanUserNames, likesTagViewWidth: (viewWidth - TwitterCommentShowView_likesTagViewLittleThanShowView))
             likeIconView?.hidden = false
         }
         
@@ -141,7 +141,7 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
         commentsTable?.reloadData()
         
         if comments?.count > 0 {
-            let commentsTableHeight = TwitterCommentShowView.caculateCommentsTableHeightWithComments(comments: comments!, commentsTableWidth: viewWidth)
+            let commentsTableHeight = TwitterCommentShowView.caculateCommentsTableHeightWithComments(comments!, commentsTableWidth: viewWidth)
             commentsTableHeightConstraint?.constant = commentsTableHeight
             if commentsTableHeight > 0 {
                 commentsTableTopConstraint?.constant = TwitterCommentShowView_commentsTableTopMargin
@@ -156,10 +156,10 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
     /**
     计算视图高度
     
-    :param: data
-    :param: viewWidth
+    - parameter data:
+    - parameter viewWidth:
     
-    :returns: 计算出的高度
+    - returns: 计算出的高度
     */
     static func caculateHeightWithData(data: [String: AnyObject]? = nil, viewWidth: CGFloat = 0) -> CGFloat {
         
@@ -175,7 +175,7 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
         
         // 计算赞相关视图的高度
         if zanUserNames?.count > 0 {
-            let likesTagViewHeight = caculateLikesTagViewHeightWithZanUserNames(names: zanUserNames, likesTagViewWidth: (viewWidth - TwitterCommentShowView_likesTagViewLittleThanShowView))
+            let likesTagViewHeight = caculateLikesTagViewHeightWithZanUserNames(zanUserNames, likesTagViewWidth: (viewWidth - TwitterCommentShowView_likesTagViewLittleThanShowView))
             height += likesTagViewHeight
         }
         
@@ -186,7 +186,7 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
         
         // 计算评论相关的高度
         if comments?.count > 0 {
-            let commentsTableHeight = caculateCommentsTableHeightWithComments(comments: comments!, commentsTableWidth: viewWidth)
+            let commentsTableHeight = caculateCommentsTableHeightWithComments(comments!, commentsTableWidth: viewWidth)
             if commentsTableHeight > 0 {
                 height += (TwitterCommentShowView_commentsTableTopMargin + commentsTableHeight)
             }
@@ -217,10 +217,10 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
     /**
     构建赞视图需要的tag集合
     
-    :param: tagView
-    :param: placeZanNames
-    :param: seperateString 各个tag的分割字符
-    :returns: 返回创建的
+    - parameter tagView:
+    - parameter placeZanNames:
+    - parameter seperateString: 各个tag的分割字符
+    - returns: 返回创建的
     */
     static private func buildTagsWithZanNames(zanNames: [String]?, seperateString: String? = ",") -> [String]? {
         
@@ -245,10 +245,10 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
     /**
     计算liketagView的高度
     
-    :param: names             赞的用户名称列表
-    :param: likesTagViewWidth 赞的视图的宽度
+    - parameter names:             赞的用户名称列表
+    - parameter likesTagViewWidth: 赞的视图的宽度
     
-    :returns: 计算结果
+    - returns: 计算结果
     */
     static private func caculateLikesTagViewHeightWithZanUserNames(names: [String]? = nil, likesTagViewWidth: CGFloat? = 0) -> CGFloat {
         if names?.count > 0 {
@@ -282,10 +282,10 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
     /**
     计算评论表格的高度
     
-    :param: comments           评论列表
-    :param: commentsTableWidth 评论表格的宽度
+    - parameter comments:           评论列表
+    - parameter commentsTableWidth: 评论表格的宽度
     
-    :returns: 计算结果
+    - returns: 计算结果
     */
     static private func caculateCommentsTableHeightWithComments(comments: [[String: AnyObject]!]? = nil, commentsTableWidth: CGFloat = 0) -> CGFloat {
         
@@ -293,7 +293,7 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
             var height: CGFloat = 0
             
             for comment in comments! {
-                height += TwitterCommentCell.cellHeightWithData(data: comment, cellWidth: commentsTableWidth)
+                height += TwitterCommentCell.cellHeightWithData(comment, cellWidth: commentsTableWidth)
             }
             
             return height
@@ -305,30 +305,30 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
         
         backgroudBoxImageView = UIImageView()
         self.addSubview(backgroudBoxImageView!)
-        backgroudBoxImageView?.setTranslatesAutoresizingMaskIntoConstraints(false)
+        backgroudBoxImageView?.translatesAutoresizingMaskIntoConstraints = false
         backgroudBoxImageView?.image = UIImage(named: "Album_likes_comments_background")?.resizableImageWithCapInsets(UIEdgeInsetsMake(6, 15, 1, 1))
         
         likeIconView = UIImageView(image: UIImage(named: "AlbumLikeDarkGray"))
         self.addSubview(likeIconView!)
-        likeIconView?.setTranslatesAutoresizingMaskIntoConstraints(false)
+        likeIconView?.translatesAutoresizingMaskIntoConstraints = false
         
         likesTagView = DWTagList(frame: CGRectMake(0, 0, 100, 13))
         self.addSubview(likesTagView!)
-        likesTagView?.setTranslatesAutoresizingMaskIntoConstraints(false)
+        likesTagView!.translatesAutoresizingMaskIntoConstraints = false
         TwitterCommentShowView.customLikesTagView(likesTagView!)
         likesTagView?.tagDelegate = self
         
         likesCommentsSeperatorView = UIView()
         self.addSubview(likesCommentsSeperatorView!)
         
-        likesCommentsSeperatorView?.setTranslatesAutoresizingMaskIntoConstraints(false)
+        likesCommentsSeperatorView?.translatesAutoresizingMaskIntoConstraints = false
         likesCommentsSeperatorView?.backgroundColor = UIColor(white: 0.9, alpha: 1)
         
         commentsTable = UITableView(frame: CGRectZero, style: UITableViewStyle.Plain)
         self.addSubview(commentsTable!)
         
         commentsTable?.backgroundColor = UIColor.clearColor()
-        commentsTable?.setTranslatesAutoresizingMaskIntoConstraints(false)
+        commentsTable?.translatesAutoresizingMaskIntoConstraints = false
         commentsTable?.separatorStyle = UITableViewCellSeparatorStyle.None
         commentsTable?.showsVerticalScrollIndicator = false
         commentsTable?.scrollEnabled = false
@@ -340,11 +340,11 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
         let views = ["backgroudBoxImageView":backgroudBoxImageView!, "likeIconView":likeIconView!, "likesTagView":likesTagView!, "likesCommentsSeperatorView":likesCommentsSeperatorView!, "commentsTable":commentsTable!]
         
         // 设置backgroudBoxImageView的约束
-        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[backgroudBoxImageView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
-        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[backgroudBoxImageView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[backgroudBoxImageView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
+        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[backgroudBoxImageView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
         
         // 设置likeIconView和likesTagView的约束
-        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-4-[likeIconView]-2-[likesTagView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-4-[likeIconView]-2-[likesTagView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
        
         self.addConstraint(NSLayoutConstraint(item: likeIconView!, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Top, multiplier: 1, constant: TwitterCommentShowView_likeIconTopMargin))
         
@@ -355,7 +355,7 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
         
         
         // 设置likesCommentsSeperatorView的约束
-        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-4-[likesCommentsSeperatorView]-4-|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-4-[likesCommentsSeperatorView]-4-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
         
         likesCommentsSeperatorViewTopConstraint = NSLayoutConstraint(item: likesCommentsSeperatorView!, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: likesTagView!, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: 0)
         self.addConstraint(likesCommentsSeperatorViewTopConstraint!)
@@ -364,7 +364,7 @@ class TwitterCommentShowView: UIView, UITableViewDelegate, UITableViewDataSource
         likesCommentsSeperatorView?.addConstraint(likesCommentsSeperatorViewHeightConstraint!)
         
         // 设置commentsTable的约束
-        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[commentsTable]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[commentsTable]|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
         
         commentsTableTopConstraint = NSLayoutConstraint(item: commentsTable!, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: likesCommentsSeperatorView!, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: 2)
         self.addConstraint(commentsTableTopConstraint!)
@@ -399,8 +399,8 @@ let TwitterCommentCellReuseIdentifer = "TwitterCommentCell"
     /**
     选中用户名字
     
-    :param: cell
-    :param: didSelectUserName
+    - parameter cell:
+    - parameter didSelectUserName:
     */
     optional func twitterCommentCell(cell: TwitterCommentCell!, didSelectUserName: String!)
 }
@@ -422,21 +422,20 @@ class TwitterCommentCell: UITableViewCell, TTTAttributedLabelDelegate {
         setupTwitterCommentCell()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
     /**
     配置视图
     
-    :param: data        数据
-    :param: cellWidth   cell宽度
+    - parameter data:        数据
+    - parameter cellWidth:   cell宽度
     */
     func configWithData(data: [String: AnyObject]? = nil, cellWidth: CGFloat? = 0) {
         
         let authorName = data?[TwitterCommentShowViewCommentDataKey_authorName] as? String
         let atUserName = data?[TwitterCommentShowViewCommentDataKey_atUserName] as? String
-        let textContent = data?[TwitterCommentShowViewCommentDataKey_textContent] as? String
         
         let buildResult = TwitterCommentCell.buildCommentTextWithData(data)
         let authorNameRange = buildResult.authorNameRange
@@ -444,7 +443,7 @@ class TwitterCommentCell: UITableViewCell, TTTAttributedLabelDelegate {
         let builedCommentText = buildResult.builedCommentText
         
         if builedCommentText.isEmpty == false {
-            var attributedText = NSMutableAttributedString(string: builedCommentText, attributes: nil)
+            let attributedText = NSMutableAttributedString(string: builedCommentText, attributes: nil)
             attributedText.setAttributes([NSForegroundColorAttributeName: UIColor.blueColor()], range: authorNameRange)
             attributedText.setAttributes([NSForegroundColorAttributeName: UIColor.blueColor()], range: atUserNameRange)
             commentLabel?.setText(attributedText, afterInheritingLabelAttributesAndConfiguringWithBlock: { (mutableAttributedString) -> NSMutableAttributedString! in
@@ -452,7 +451,7 @@ class TwitterCommentCell: UITableViewCell, TTTAttributedLabelDelegate {
             })
             
             if authorNameRange.location != NSNotFound {
-                var linkUrl = (CustomDetectUserNameURLProtocol + authorName!).stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
+                let linkUrl = (CustomDetectUserNameURLProtocol + authorName!).stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())
                 let link = NSURL(string:linkUrl!)
                 commentLabel?.addLinkToURL(link!, withRange: authorNameRange)
             }
@@ -477,13 +476,13 @@ class TwitterCommentCell: UITableViewCell, TTTAttributedLabelDelegate {
     /**
     计算高度
     
-    :param: data      评论数据
-    :param: cellWidth cell宽度
+    - parameter data:      评论数据
+    - parameter cellWidth: cell宽度
     */
     static func cellHeightWithData(data: [String: AnyObject]? = nil, cellWidth: CGFloat = 0) -> CGFloat {
         
         var height: CGFloat = 0
-        var commentLabelWidth = cellWidth - TwitterCommentCellLeftpadding - TwitterCommentCellRightpadding
+        let commentLabelWidth = cellWidth - TwitterCommentCellLeftpadding - TwitterCommentCellRightpadding
         
         struct Static {
             static var onceToken : dispatch_once_t = 0
@@ -516,9 +515,9 @@ class TwitterCommentCell: UITableViewCell, TTTAttributedLabelDelegate {
     /**
     构建评论内容，返回包含评论者名字的range、@用户名字的range和构建的内容的元组
     
-    :param: data
+    - parameter data:
     
-    :returns: 包含评论者名字的range、@用户名字的range和构建的内容的元组
+    - returns: 包含评论者名字的range、@用户名字的range和构建的内容的元组
     */
     static private func buildCommentTextWithData(data: [String: AnyObject]?) -> (authorNameRange:NSRange, atUserNameRange:NSRange, builedCommentText:String) {
         
@@ -532,15 +531,15 @@ class TwitterCommentCell: UITableViewCell, TTTAttributedLabelDelegate {
         if authorName?.isEmpty == false {
             builedCommentText += authorName!
             authorNameRange.location = 0
-            authorNameRange.length = count(authorName!)
+            authorNameRange.length = (authorName!).characters.count
         }
         
         var atUserNameRange = NSMakeRange(NSNotFound, 0)
         if atUserName?.isEmpty == false {
             builedCommentText += "回复"
             
-            atUserNameRange.location = count(builedCommentText)
-            atUserNameRange.length = count(atUserName!)
+            atUserNameRange.location = builedCommentText.characters.count
+            atUserNameRange.length = (atUserName!).characters.count
            
             builedCommentText += atUserName!
         }
@@ -570,18 +569,18 @@ class TwitterCommentCell: UITableViewCell, TTTAttributedLabelDelegate {
         commentLabel?.linkAttributes = [NSUnderlineStyleAttributeName:false, kCTForegroundColorAttributeName: UIColor(red: 0.46, green: 0.53, blue: 0.71, alpha: 1).CGColor]
         commentLabel?.activeLinkAttributes = [kTTTBackgroundFillColorAttributeName:UIColor(white: 0.7, alpha: 1).CGColor, NSUnderlineStyleAttributeName:false]
         
-        commentLabel?.setTranslatesAutoresizingMaskIntoConstraints(false)
+        commentLabel!.translatesAutoresizingMaskIntoConstraints = false
         
         let views = ["commentLabel":commentLabel!]
-        self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-4-[commentLabel]-4-|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
-        self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[commentLabel]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-4-[commentLabel]-4-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+        self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[commentLabel]|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
     }
     
     // MARK: - TTTAttributedLabelDelegate
     
     func attributedLabel(label: TTTAttributedLabel!, didSelectLinkWithURL url: NSURL!) {
-        if let urlString = url.absoluteString?.stringByReplacingPercentEscapesUsingEncoding(NSUTF8StringEncoding) {
-            let selectUserName = urlString.substringFromIndex(advance(urlString.startIndex, count(CustomDetectUserNameURLProtocol)))
+        if let urlString = url.absoluteString.stringByRemovingPercentEncoding {
+            let selectUserName = urlString.substringFromIndex(urlString.startIndex.advancedBy(CustomDetectUserNameURLProtocol.characters.count))
             if selectUserName.isEmpty == false {
                 delegate?.twitterCommentCell?(self, didSelectUserName: selectUserName)
             }

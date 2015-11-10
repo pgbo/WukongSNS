@@ -20,7 +20,7 @@ class TwitterOperateView: UIView {
         setupTwitterOperateView()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupTwitterOperateView()
     }
@@ -35,17 +35,17 @@ class TwitterOperateView: UIView {
         bkgImageView = UIImageView(image: UIImage(named: "AlbumOperateViewBkg")?.resizableImageWithCapInsets(UIEdgeInsetsMake(6, 6, 6, 6)))
         self.addSubview(bkgImageView!)
         
-        bkgImageView?.setTranslatesAutoresizingMaskIntoConstraints(false)
+        bkgImageView?.translatesAutoresizingMaskIntoConstraints = false
         var views: [String: UIView] = ["bkgImageView":bkgImageView!]
-        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[bkgImageView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
-        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[bkgImageView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[bkgImageView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
+        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[bkgImageView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
         
         
-        zanButton = UIButton.buttonWithType(UIButtonType.Custom) as? UIButton
+        zanButton = UIButton(type: UIButtonType.Custom) as? UIButton
         self.addSubview(zanButton!)
         
         let likeIcon = UIImage(named: "AlbumLikeWhite")
-        zanButton?.setTranslatesAutoresizingMaskIntoConstraints(false)
+        zanButton?.translatesAutoresizingMaskIntoConstraints = false
         zanButton?.setImage(likeIcon, forState: UIControlState.Normal)
         zanButton?.setImage(likeIcon, forState: UIControlState.Highlighted)
         zanButton?.setTitle("赞", forState: UIControlState.Normal)
@@ -55,15 +55,15 @@ class TwitterOperateView: UIView {
         seperatorView = UIView()
         self.addSubview(seperatorView!)
         
-        seperatorView?.setTranslatesAutoresizingMaskIntoConstraints(false)
+        seperatorView?.translatesAutoresizingMaskIntoConstraints = false
         seperatorView?.backgroundColor = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.8)
         
         
-        commentButton = UIButton.buttonWithType(UIButtonType.Custom) as? UIButton
+        commentButton = UIButton(type: UIButtonType.Custom) as? UIButton
         self.addSubview(commentButton!)
         
         let commentIcon = UIImage(named: "AlbumCommentWhite")
-        commentButton?.setTranslatesAutoresizingMaskIntoConstraints(false)
+        commentButton?.translatesAutoresizingMaskIntoConstraints = false
         commentButton?.setImage(commentIcon, forState: UIControlState.Normal)
         commentButton?.setImage(commentIcon, forState: UIControlState.Highlighted)
         commentButton?.setTitle("评论", forState: UIControlState.Normal)
@@ -71,9 +71,9 @@ class TwitterOperateView: UIView {
         
         
         views = ["zanButton": zanButton!, "seperatorView": seperatorView!, "commentButton": commentButton!]
-        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-6-[zanButton(54)]-3-[seperatorView(0.5)]-3-[commentButton(60)]-6-|", options: NSLayoutFormatOptions.AlignAllTop|NSLayoutFormatOptions.AlignAllBottom, metrics: nil, views: views))
+        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-6-[zanButton(54)]-3-[seperatorView(0.5)]-3-[commentButton(60)]-6-|", options: [NSLayoutFormatOptions.AlignAllTop, NSLayoutFormatOptions.AlignAllBottom], metrics: nil, views: views))
         
-        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-6-[zanButton]-6-|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-6-[zanButton]-6-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
         
     }
 }

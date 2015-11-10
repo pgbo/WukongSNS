@@ -36,11 +36,11 @@ class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollect
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if hasSetupSubviewConstraints == false {
-            controlBackgroud?.setTranslatesAutoresizingMaskIntoConstraints(false)
-            contentView?.setTranslatesAutoresizingMaskIntoConstraints(false)
-            textView?.setTranslatesAutoresizingMaskIntoConstraints(false)
-            collectionView?.setTranslatesAutoresizingMaskIntoConstraints(false)
-            stateLabel?.setTranslatesAutoresizingMaskIntoConstraints(false)
+            controlBackgroud?.translatesAutoresizingMaskIntoConstraints = false
+            contentView?.translatesAutoresizingMaskIntoConstraints = false
+            textView?.translatesAutoresizingMaskIntoConstraints = false
+            collectionView?.translatesAutoresizingMaskIntoConstraints = false
+            stateLabel?.translatesAutoresizingMaskIntoConstraints = false
             
             // 设置约束
             let views = ["controlBackgroud":controlBackgroud!, "contentView": contentView!, "textView": textView!, "collectionView": collectionView!, "stateLabel": stateLabel!]
@@ -48,20 +48,20 @@ class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollect
             let metrics = ["photoHeight": albumAddBtnImage.size.height]
             
             // 设置controlBackgroud的约束
-            self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[controlBackgroud]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
-            self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[controlBackgroud]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+            self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[controlBackgroud]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
+            self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[controlBackgroud]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
             
             // 设置contentView的约束
             self.view.addConstraint(NSLayoutConstraint(item: contentView!, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: self.topLayoutGuide, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: 0))
             
-            self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[contentView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+            self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[contentView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
             
             // 设置textView的约束
-            contentView!.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[textView(120)]-8-[collectionView(photoHeight)]-16-[stateLabel(20)]-20-|", options: NSLayoutFormatOptions.AlignAllLeading|NSLayoutFormatOptions.AlignAllTrailing, metrics: metrics, views: views))
+            contentView!.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[textView(120)]-8-[collectionView(photoHeight)]-16-[stateLabel(20)]-20-|", options: [NSLayoutFormatOptions.AlignAllLeading, NSLayoutFormatOptions.AlignAllTrailing], metrics: metrics, views: views))
             
-            contentView!.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[textView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+            contentView!.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[textView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
             
-            contentView!.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-16-[collectionView]-16-|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+            contentView!.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-16-[collectionView]-16-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
             
             
             hasSetupSubviewConstraints = true
@@ -78,20 +78,20 @@ class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollect
         if indexPath.row == assetsPickerController.selectedAssets.count {
             // 添加图片按钮cell
             
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(AddPhotoButtonCellReusableIdentifier, forIndexPath: indexPath) as! UICollectionViewCell
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(AddPhotoButtonCellReusableIdentifier, forIndexPath: indexPath) 
             
             if cell.contentView.viewWithTag(AddPhotoButtonCellButtonTag) == nil {
-                let addPhotoButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+                let addPhotoButton = UIButton(type: UIButtonType.Custom)
                 cell.contentView.addSubview(addPhotoButton)
                 
                 addPhotoButton.tag = AddPhotoButtonCellButtonTag
                 addPhotoButton.setImage(albumAddBtnImage, forState: UIControlState.Normal)
                 addPhotoButton.setImage(albumAddBtnHLImage, forState: UIControlState.Highlighted)
-                addPhotoButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+                addPhotoButton.translatesAutoresizingMaskIntoConstraints = false
                 let views = ["addPhotoButton": addPhotoButton]
                 
-                cell.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[addPhotoButton]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
-                cell.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[addPhotoButton]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+                cell.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[addPhotoButton]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
+                cell.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[addPhotoButton]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
                 
                 addPhotoButton.addTarget(self, action:"clickAddPhotoButn", forControlEvents:UIControlEvents.TouchUpInside)
                 
@@ -101,7 +101,7 @@ class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollect
             
         } else {
             
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(AttachTwitterPhotoCellReusableIdentifier, forIndexPath: indexPath) as! UICollectionViewCell
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(AttachTwitterPhotoCellReusableIdentifier, forIndexPath: indexPath) 
             
             var attachImageView = cell.contentView.viewWithTag(AttachTwitterPhotoCellImageViewTag) as? UIImageView
             
@@ -109,15 +109,15 @@ class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollect
                 attachImageView = UIImageView()
                 cell.contentView.addSubview(attachImageView!)
                 
-                attachImageView?.setTranslatesAutoresizingMaskIntoConstraints(false)
+                attachImageView!.translatesAutoresizingMaskIntoConstraints = false
                 attachImageView?.clipsToBounds = true
                 attachImageView?.tag = AttachTwitterPhotoCellImageViewTag
                 attachImageView?.contentMode = UIViewContentMode.ScaleAspectFill
                 
                 let views = ["attachImageView": attachImageView!]
                 
-                cell.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[attachImageView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
-                cell.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[attachImageView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+                cell.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[attachImageView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
+                cell.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[attachImageView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
             }
             
             let asset:ALAsset = assetsPickerController.selectedAssets[indexPath.row] as! ALAsset
@@ -285,42 +285,44 @@ class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollect
                     let selectedAssets = strongSelf.assetsPickerController.selectedAssets
                     if selectedAssets?.count > 0 {
                         for asset in selectedAssets {
-                            if let image = UIImage(CGImage: asset.defaultRepresentation().fullScreenImage().takeUnretainedValue(), scale: 1, orientation: UIImageOrientation.Up) {
-                                
-                                let uploadImageSize = suitableSizeForTwitterUploadImageSize(image.size)
-                                var uploadImage = Toucan(image: image).resize(uploadImageSize, fitMode: Toucan.Resize.FitMode.Clip).image
-                                let uploadFile = AVFile.fileWithData(uploadImage.asData()) as! AVFile
-                                
-                                var error: NSError?
-                                if uploadFile.save(&error) {
-                                    if uploadFile.url != nil {
-                                        photoUrls.append(uploadFile.url)
-                                    }
-                                } else {
-                                    println("Upload twitter photo error:\(error?.localizedFailureReason)")
+                            let image = UIImage(CGImage: asset.defaultRepresentation().fullScreenImage().takeUnretainedValue(), scale: 1, orientation: UIImageOrientation.Up)
+                            let uploadImageSize = suitableSizeForTwitterUploadImageSize(image.size)
+                            let uploadImage = Toucan(image: image).resize(uploadImageSize, fitMode: Toucan.Resize.FitMode.Clip).image
+                            let uploadFile = AVFile.fileWithData(uploadImage.asData()) as! AVFile
+                            
+                            var error: NSError?
+                            if uploadFile.save(&error) {
+                                if uploadFile.url != nil {
+                                    photoUrls.append(uploadFile.url)
                                 }
+                            } else {
+                                print("Upload twitter photo error:\(error?.localizedFailureReason)")
                             }
                         }
                     }
                     
                     // 上传动态
-                    var newTwitter = WSTwitter()
+                    let newTwitter = WSTwitter()
                     
                     newTwitter.content = strongSelf.textView?.text
                     newTwitter.pictures = photoUrls
                     newTwitter.author = AVUser.currentUser()
                     
                     var error: NSError?
-                    if newTwitter.save(&error) {
+                    do {
+                        try newTwitter.save()
                         dispatch_async(dispatch_get_main_queue()) {
                             SVProgressHUD.showSuccessWithStatus("发表成功", maskType: SVProgressHUDMaskType.Black)
                             strongSelf.cancelCreateTwitter()
                         }
-                    } else {
-                        println("Upload twitter photo error:\(error?.localizedFailureReason)")
+                    } catch let error1 as NSError {
+                        error = error1
+                        print("Upload twitter photo error:\(error?.localizedFailureReason)")
                         dispatch_async(dispatch_get_main_queue()) {
                             SVProgressHUD.showErrorWithStatus("发表失败，请稍后再试", maskType: SVProgressHUDMaskType.Black)
                         }
+                    } catch {
+                        fatalError()
                     }
                 }
             }
