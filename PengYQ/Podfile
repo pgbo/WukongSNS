@@ -1,22 +1,11 @@
 platform :ios, '8.0'
 use_frameworks!
 
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
 target 'PengYQ', :exclusive => true do
     pod 'HanekeSwift', '0.10.0'
     pod 'Kingfisher', '1.8.0'
     pod 'AVOSCloudDynamic', '3.1.3.4'
     pod 'AVOSCloudIMDynamic', '3.1.3.4'
-=======
->>>>>>> Stashed changes
-target 'PengYQ' do
-    pod 'AVOSCloudDynamic', '3.1.3.4'
-    pod 'AVOSCloudIMDynamic', '3.1.3.4'
-    pod 'HanekeSwift', '0.9.1'
-    pod 'Kingfisher', '1.4.2'
->>>>>>> origin/master
     pod 'SVProgressHUD', '1.1.3'
     pod 'UpRefreshControl','0.1.0'
     pod 'UpLoadMoreControl', '0.1.0'
