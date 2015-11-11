@@ -288,7 +288,7 @@ class WSCreateTwitterVC: UIViewController, UICollectionViewDataSource, UICollect
                             let image = UIImage(CGImage: asset.defaultRepresentation().fullScreenImage().takeUnretainedValue(), scale: 1, orientation: UIImageOrientation.Up)
                             let uploadImageSize = suitableSizeForTwitterUploadImageSize(image.size)
                             let uploadImage = Toucan(image: image).resize(uploadImageSize, fitMode: Toucan.Resize.FitMode.Clip).image
-                            let uploadFile = AVFile.fileWithData(uploadImage.asData()) as! AVFile
+                            let uploadFile = AVFile(data: uploadImage.asData())
                             
                             var error: NSError?
                             if uploadFile.save(&error) {
